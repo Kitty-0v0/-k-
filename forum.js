@@ -768,8 +768,30 @@ ${worldviewContext}
     const allChars = getAvailableCharacters();
     const char1Data = allChars.find(c => c.name === char1Name);
     const char2Data = allChars.find(c => c.name === char2Name);
-    const char1Persona = state.chats[char1Data.id]?.settings.aiPersona || '一个普通人';
-    const char2Persona = state.chats[char2Data.id]?.settings.aiPersona || '一个普通人';
+
+    // updated by lrq 251103
+    // 如果选择的角色名是用户昵称，则默认使用微博人设
+    // （圈子目前只有同人文与user人设强关联，预设选择待更新，也可以考虑做分组人设绑定（画饼））
+
+    let char1Persona = '';
+    let char2Persona = '';
+
+    if (char1Name === state.qzoneSettings.nickname) {
+      char1Persona = state.qzoneSettings.weiboUserPersona || '一个普通人';
+    } else {
+      char1Persona = state.chats[char1Data.id]?.settings.aiPersona || '一个普通人';
+    }
+
+    if (char2Name === state.qzoneSettings.nickname) {
+      char2Persona = state.qzoneSettings.weiboUserPersona || '一个普通人';
+    } else {
+      char2Persona = state.chats[char2Data.id]?.settings.aiPersona || '一个普通人';
+    }
+
+    console.log('Character 1 Persona:', char1Persona);
+
+    // const char1Persona = (state.chats[char1Data.id]?.settings.aiPersona || '一个普通人');
+    // const char2Persona = (state.chats[char2Data.id]?.settings.aiPersona || '一个普通人');
 
     let worldviewContext = worldviewPreference ? `世界观设定：${worldviewPreference}` : '';
 
@@ -864,7 +886,6 @@ ${worldviewContext}
     }
   }
   // ▲▲▲ 替换结束 ▲▲▲
-
   // ▼▼▼ 用这个【V2版】替换旧的 openCreateForumPostModal 函数 ▼▼▼
   /**
    * 打开创建帖子的模态框

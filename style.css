@@ -18520,3 +18520,43 @@ body {
 }
 
 /* ▲▲▲ 样式添加结束 ▲▲▲ */
+/* 【全新】每日足迹 - 顶部样式 */
+.ls-activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  margin: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(5px);
+}
+
+.ls-activity-date-display {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+#ls-activity-calendar-icon {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#ls-activity-calendar-icon:hover {
+  transform: scale(1.1);
+}
+
+/* 【全新】每日足迹 - 日历弹窗专属样式 */
+.ls-calendar-day.has-activity {
+  background-color: #fff0f5; /* 有足迹的日期，给一个淡淡的粉色背景 */
+  border-radius: 8px;
+  position: relative;
+}
+.activity-dot {
+  font-size: 12px; /* 可爱的小爪印 🐾 */
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  line-height: 1;
+}

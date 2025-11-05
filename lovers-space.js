@@ -396,51 +396,222 @@ function switchLoversSpaceTab(viewId) {
 /* === 【全新】情侣空间 - 今日足迹功能核心函数 === */
 /* =================================================================== */
 
+// ▼▼▼ 用下面这一整块代码，替换掉你旧的 renderLSDailyActivity 函数 ▼▼▼
+
 /**
- * 渲染“今日足迹”的主界面
+ * 【入口函数-已重构】当“今日足迹”页签被点击时，默认显示当天的足迹
  * @param {object} chat - 当前角色的聊天对象
  */
 function renderLSDailyActivity(chat) {
+  // 每次切换到这个页签，都重置为查看“今天”
+  currentActivityDate = new Date();
+  renderLSDailyActivityForDate(chat, currentActivityDate);
+}
+
+/**
+ * 【核心渲染函数-全新】根据指定的日期，渲染“每日足迹”界面
+ * @param {object} chat - 当前角色的聊天对象
+ * @param {Date} date - 要查看的日期对象
+ */
+function renderLSDailyActivityForDate(chat, date) {
   const viewEl = document.getElementById('ls-activity-view');
   viewEl.innerHTML = ''; // 每次渲染都清空
 
   if (!chat || !chat.loversSpaceData) {
-    viewEl.innerHTML = '<p class="ls-empty-placeholder">数据错误，无法加载今日足迹。</p>';
+    viewEl.innerHTML = '<p class="ls-empty-placeholder">数据错误，无法加载足迹。</p>';
     return;
   }
 
-  const todayStr = new Date().toISOString().split('T')[0];
-  const todayActivities = chat.loversSpaceData.dailyActivity?.[todayStr];
+  // --- 1. 创建全新的顶部栏，包含日期和可爱的日历图标 ---
+  const header = document.createElement('div');
+  header.className = 'ls-activity-header';
+  const dateStr = date.toISOString().split('T')[0];
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
 
-  if (!todayActivities) {
-    // 如果今天还没有生成过，就显示“生成”按钮
-    viewEl.innerHTML = `
-            <div class="ls-activity-generate-container">
-                <p>今天的足迹还是空白的...</p>
-                <button id="ls-generate-activity-btn">生成今天的足迹</button>
-                <p class="hint">（此操作每天只能进行一次）</p>
-            </div>
-        `;
-    document.getElementById('ls-generate-activity-btn').onclick = () => handleGenerateDailyActivity(chat);
+  let dateDisplay = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+  if (dateStr === todayStr) {
+    dateDisplay += ' (今天)';
+  }
+
+  const calendarIconSvg = `
+    <svg id="ls-activity-calendar-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 2V5" stroke="#4A4A4A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 2V5" stroke="#4A4A4A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3.5 9.08997H20.5" stroke="#4A4A4A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="#4A4A4A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15.6947 13.7H15.7037" stroke="#ff8fab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15.6947 16.7H15.7037" stroke="#ff8fab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.9955 13.7H12.0045" stroke="#ff8fab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.9955 16.7H12.0045" stroke="#ff8fab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.29431 13.7H8.30331" stroke="#ff8fab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.29431 16.7H8.30331" stroke="#ff8fab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+
+  header.innerHTML = `
+    <span class="ls-activity-date-display">${dateDisplay}</span>
+    ${calendarIconSvg}
+  `;
+  viewEl.appendChild(header);
+  header.querySelector('#ls-activity-calendar-icon').onclick = openActivityCalendar;
+
+  // --- 2. 根据日期显示对应的内容 ---
+  const activitiesForDate = chat.loversSpaceData.dailyActivity?.[dateStr];
+  const contentContainer = document.createElement('div');
+  viewEl.appendChild(contentContainer);
+
+  if (!activitiesForDate) {
+    if (dateStr === todayStr) {
+      contentContainer.innerHTML = `
+        <div class="ls-activity-generate-container">
+            <p>今天的足迹还是空白的...</p>
+            <button id="ls-generate-activity-btn">生成今天的足迹</button>
+            <p class="hint">（此操作每天只能进行一次）</p>
+        </div>
+      `;
+      contentContainer.querySelector('#ls-generate-activity-btn').onclick = () => handleGenerateDailyActivity(chat);
+    } else {
+      contentContainer.innerHTML = `<p class="ls-empty-placeholder" style="margin-top: 50px;">这一天没有留下任何足迹哦~</p>`;
+    }
   } else {
-    // 如果已经生成了，就显示活动列表并启动定时器
     const listContainer = document.createElement('div');
     listContainer.id = 'ls-activity-list';
-    viewEl.appendChild(listContainer);
+    contentContainer.appendChild(listContainer);
 
-    displayDailyActivities(todayActivities); // 先显示一次当前时间前的记录
+    // 清理旧的定时器
+    if (lsActivityTimer) clearInterval(lsActivityTimer);
+    lsActivityTimer = null;
 
-    // 启动定时器，每分钟刷新一次列表，以解锁新记录
-    lsActivityTimer = setInterval(() => {
-      const hasAllDisplayed = displayDailyActivities(todayActivities);
-      if (hasAllDisplayed) {
-        clearInterval(lsActivityTimer);
-        lsActivityTimer = null;
-        console.log('今日足迹已全部显示，定时器已停止。');
+    // 先显示一次所有内容
+    displayDailyActivities(activitiesForDate);
+
+    // 如果是今天，且内容还没显示全，才启动定时器
+    if (dateStr === todayStr) {
+      const hasAllDisplayed = displayDailyActivities(activitiesForDate);
+      if (!hasAllDisplayed) {
+        lsActivityTimer = setInterval(() => {
+          const allDone = displayDailyActivities(activitiesForDate);
+          if (allDone) {
+            clearInterval(lsActivityTimer);
+            lsActivityTimer = null;
+          }
+        }, 60 * 1000);
       }
-    }, 60 * 1000); // 每60秒检查一次
+    }
   }
 }
+
+// ▼▼▼ 用下面这块【修正版】的代码，替换掉旧的 openActivityCalendar 和 renderActivityCalendar 两个函数 ▼▼▼
+
+/**
+ * 【日历核心-已修正】打开每日足迹的专属日历弹窗
+ */
+function openActivityCalendar() {
+  const modal = document.getElementById('ls-activity-calendar-modal');
+  // 【核心修正】现在我们把日历内容填充到 .modal-body 里面
+  const body = document.getElementById('ls-activity-calendar-body');
+  const chat = state.chats[activeLoversSpaceCharId];
+
+  const year = currentActivityDate.getFullYear();
+  const month = currentActivityDate.getMonth() + 1;
+  body.innerHTML = renderActivityCalendar(year, month, chat.loversSpaceData.dailyActivity || {});
+
+  // 使用事件委托来处理弹窗内的所有点击
+  body.onclick = e => {
+    const target = e.target;
+
+    // 点击月份切换按钮
+    if (target.closest('#ls-activity-cal-prev-btn') || target.closest('#ls-activity-cal-next-btn')) {
+      const currentDisplay = body.querySelector('#ls-activity-cal-month-display').textContent;
+      const [y, m] = currentDisplay.match(/\d+/g).map(Number);
+      let newDate = new Date(y, m - 1, 1);
+
+      if (target.closest('#ls-activity-cal-prev-btn')) {
+        newDate.setMonth(newDate.getMonth() - 1);
+      } else {
+        newDate.setMonth(newDate.getMonth() + 1);
+      }
+      body.innerHTML = renderActivityCalendar(
+        newDate.getFullYear(),
+        newDate.getMonth() + 1,
+        chat.loversSpaceData.dailyActivity || {},
+      );
+      return;
+    }
+
+    // 点击日历格子
+    const dayCell = target.closest('.ls-calendar-day:not(.empty)');
+    if (dayCell && dayCell.dataset.date) {
+      const [y, m, d] = dayCell.dataset.date.split('-').map(Number);
+      currentActivityDate = new Date(y, m - 1, d);
+      renderLSDailyActivityForDate(chat, currentActivityDate);
+      modal.classList.remove('visible'); // 点击日期后关闭弹窗
+      return;
+    }
+
+    // 点击关闭按钮
+    if (target.closest('#ls-activity-cal-close-btn')) {
+      modal.classList.remove('visible');
+    }
+  };
+
+  // 显示弹窗
+  modal.classList.add('visible');
+}
+
+/**
+ * 【日历核心-已修正】生成足迹日历的HTML，和心情日记的日历分开
+ */
+function renderActivityCalendar(year, month, activityData) {
+  const date = new Date(year, month - 1, 1);
+  const firstDay = date.getDay();
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const todayStr = new Date().toISOString().split('T')[0];
+
+  // 【核心修正】移除了 h3 标题，并把关闭按钮改成了和你项目风格一致的按钮
+  let calendarHtml = `
+    <div class="ls-calendar-wrapper">
+        <div class="ls-calendar-header">
+            <button id="ls-activity-cal-prev-btn">‹</button>
+            <span id="ls-activity-cal-month-display">${year}年 ${month}月</span>
+            <button id="ls-activity-cal-next-btn">›</button>
+        </div>
+        <div class="ls-calendar-weekdays">
+            <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+        </div>
+        <div class="ls-calendar-grid">
+  `;
+
+  for (let i = 0; i < firstDay; i++) {
+    calendarHtml += '<div class="ls-calendar-day empty"></div>';
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const hasActivity = !!activityData[dateStr];
+    const isToday = dateStr === todayStr;
+
+    let classes = 'ls-calendar-day';
+    if (isToday) classes += ' today';
+    if (hasActivity) classes += ' has-activity';
+
+    calendarHtml += `
+      <div class="${classes}" data-date="${dateStr}" style="cursor: pointer;">
+          <div class="day-number">${day}</div>
+          ${hasActivity ? '<span class="activity-dot">🐾</span>' : ''}
+      </div>
+    `;
+  }
+  calendarHtml += `</div></div>
+    <div class="modal-footer" style="padding-top: 15px;">
+        <button class="save" id="ls-activity-cal-close-btn" style="width: 100%;">关闭</button>
+    </div>
+  `;
+  return calendarHtml;
+}
+
+// ▲▲▲ 替换到这里结束 ▲▲▲
 
 // ▼▼▼ 用这块【已添加HTML小剧场渲染】的代码，替换旧的 displayDailyActivities 函数 ▼▼▼
 /**
@@ -545,7 +716,7 @@ async function handleGenerateDailyActivity(chat) {
 ${chat.settings.aiPersona}
 
 # 核心规则
-1.  **时间连贯性**: 你的活动记录必须按时间顺序排列，覆盖全天。
+1.  **时间连贯性**: 你的活动记录必须按时间顺序排列，覆盖全天，禁止时间过渡过于死板。
 2.  **内容多样性**: 活动类型应丰富多样，包括但不限于应用使用、手机状态、其他（设置闹钟、查看天气等）。
 3.  **符合人设**: 所有活动都必须与角色的性格、职业和兴趣爱好高度相关。
 4.  **【【【全新功能：HTML小剧场】】】**:

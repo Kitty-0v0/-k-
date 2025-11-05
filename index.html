@@ -708,6 +708,15 @@
         <div class="qzone-header">
             <span class="back-btn" id="qzone-back-btn">‹</span> <!-- 这个按钮现在只负责从动态返回 -->
             <span>好友动态</span>
+    <!-- ★★★ 这就是我们新增的清空图标 ★★★ -->
+    <div class="header-actions">
+        <span class="action-btn" id="clear-qzone-posts-btn" title="清空动态">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+        </span>
+    </div>
+    <!-- ▲▲▲ 新增结束 ▲▲▲ -->
         </div>
         <div class="qzone-content">
             <div class="qzone-profile-header">
@@ -884,7 +893,7 @@
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                 </svg>
             </span>
-            <span class="action-btn" id="listen-together-btn" title="一起听"><img src="https://i.postimg.cc/dV8sdNcx/210-20250618115221.png" alt="一起听"></span>
+            <span class="action-btn" id="listen-together-btn" title="一起听"><img src="https://chatbotcos.weixin.qq.com/chatbot/30-openaiassets_63e04c67410237fa43bf6fcce542dbff_469401762321466866.png" alt="一起听"></span>
             <span class="action-btn" id="chat-settings-btn" title="聊天设置"><img src="https://i.postimg.cc/bvPq64cv/CCA834-BA-5-A90-408-D-94-FA-7-EE156-B6-A765.png" alt="设置"></span>
         </div>
     </div>
@@ -1340,6 +1349,9 @@
     <span style="width: 30px;"></span> <!-- 保留这个占位符，让标题能完美居中 -->
 </div>
     <div class="form-container" style="gap: 20px;">
+      <p style="font-size: 13px; color: #ff6b6b; background-color: rgba(255, 107, 107, 0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 107, 107, 0.2); text-align: center; width: 100%; box-sizing: border-box;">
+            字体太大了导入本地字体会闪退！最好用url。
+        </p>
         <!-- 字体预设卡槽的容器 -->
         <div id="font-preset-container">
             <!-- 5个卡槽将由JavaScript动态生成在这里 -->
@@ -5618,6 +5630,19 @@
     </div>
 </div>
 <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】情侣空间 - 每日足迹日历弹窗 (修正版) ▼▼▼ -->
+<div id="ls-activity-calendar-modal" class="modal">
+    <div class="modal-content" style="max-width: 380px;">
+        <div class="modal-header">
+            <span id="ls-activity-calendar-title">💕 足迹日历 💕</span>
+        </div>
+        <div class="modal-body" id="ls-activity-calendar-body">
+            <!-- 日历内容会由JavaScript动态生成在这里 -->
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 每日足迹日历弹窗结束 ▲▲▲ -->
+
 <!-- ▼▼▼ 用这整块代码替换旧的 summary-viewer-modal ▼▼▼ -->
 <div id="summary-viewer-modal" class="modal">
     <div class="modal-content" style="height: 80%;">
@@ -8800,10 +8825,8 @@ async function loadAllFontPresetsOnStartup() {
     }
 }
 
-// ▼▼▼ 【全新】字体预设功能核心函数 ▼▼▼
-
 /**
- * 渲染字体预设的5个卡槽
+ * 【已修改】渲染字体预设的10个卡槽
  */
 async function renderFontPresets() {
     const container = document.getElementById('font-preset-container');
@@ -8812,8 +8835,10 @@ async function renderFontPresets() {
     // 从数据库读取所有已保存的预设
     const presets = await db.fontPresets.toArray();
 
-    // 循环5次，创建5个卡槽的HTML
-    for (let i = 0; i < 5; i++) {
+    // ▼▼▼ 核心修改在这里！▼▼▼
+    // 循环10次，创建10个卡槽的HTML
+    for (let i = 0; i < 10; i++) {
+    // ▲▲▲ 修改结束 ▲▲▲
         const slot = document.createElement('div');
         slot.className = 'font-preset-slot';
         
@@ -8843,16 +8868,12 @@ async function renderFontPresets() {
         container.appendChild(slot);
     }
     
-    // ▼▼▼ 【核心修复】在这里，我们等所有HTML都创建好后，再统一加载预览字体 ▼▼▼
     presets.forEach(preset => {
         if (preset) {
-            // 为每一个有数据的预设，调用加载预览函数
             loadFontForPreview(preset);
         }
     });
-    // ▲▲▲ 修复结束 ▲▲▲
 
-    // 为所有新生成的按钮绑定事件
     addFontPresetButtonListeners();
 }
 
@@ -13556,7 +13577,7 @@ return wrapper;
 
 const loadMoreBtn = document.getElementById('load-more-btn'); if (loadMoreBtn) { messagesContainer.insertBefore(messageEl, loadMoreBtn.nextSibling); } else { messagesContainer.prepend(messageEl); } }
 
-// ▼▼▼ 用这个【带动画的版本】替换你原来的 appendMessage 函数 ▼▼▼
+// ▼▼▼ 请将你的 appendMessage 函数恢复成这个样子 ▼▼▼
 function appendMessage(msg, chat, isInitialLoad = false) {
     const messagesContainer = document.getElementById('chat-messages');
     const messageEl = createMessageElement(msg, chat);
@@ -13576,7 +13597,8 @@ function appendMessage(msg, chat, isInitialLoad = false) {
         currentRenderedCount++;
     }
 }
-// ▲▲▲ 替换结束 ▲▲▲
+// ▲▲▲ 恢复结束 ▲▲▲
+
 
 async function openChat(chatId) {
     state.activeChatId = chatId;
@@ -13637,7 +13659,10 @@ function formatMessageForContext(msg, chat) {
         contentText = String(msg.content || '');
     }
     
-    return `${senderName}: ${contentText}`;
+    // added by lrq 251029 在每条消息记录前添加发送日期时间
+    const date = new Date(msg.timestamp);
+    const formattedDate = date.toLocaleString(); // 格式化为本地时间字符串
+    return `${formattedDate} ${senderName}: ${contentText}`;
 }
 
 async function triggerAiResponse() {
@@ -14433,11 +14458,13 @@ if (announcement.trim()) {
 - "${announcement}"
 `;
 }
-// ▲▲▲ 【修改结束】 ▲▲▲
-            systemPrompt =     systemPrompt = `
+// updated by lrq 251027
+      systemPrompt = `
 # 角色
 你是一个群聊AI，负责扮演【除了用户以外】的所有角色。
-
+# 【对话节奏铁律 (至关重要！)】
+你的回复【必须】模拟真人的打字和思考习惯。**绝对不要一次性发送一大段文字！** 每条消息最好不要超过30个字。这会让对话看起来更自然、更真实。
+**角色回复顺序不固定，可以交叉回复，例如角色A、角色B、角色B、角色A、角色C这样的交叉顺序。不一定要一个人全部说完了才轮到下一个人。角色之间【必须】有互动对话。**
 # 【【【身份铁律：这是最高指令，必须严格遵守】】】
 1.  **核心任务**: 你的唯一任务是扮演且仅能扮演下方“群成员列表”中明确列出的角色。
 2.  **用户识别**: 用户的身份是【${myNickname}】。你【绝对、永远、在任何情况下都不能】生成 \`name\` 字段为 **"${myNickname}"** 的消息。
@@ -17920,11 +17947,10 @@ case 'forum_comment': { // 使用大括号创建块级作用域
                 alert('无人接听群聊邀请。');
             }
         }
-        
+        playNotificationSound();
         await db.chats.put(chat);
 checkAndTriggerSummary(chatId);
-// ▼▼▼ 在这里粘贴下面的新代码 ▼▼▼
-// ▼▼▼ 用这块新代码替换旧的火花逻辑 ▼▼▼
+
 // --- 【全新】续火花逻辑 ---
 if (await updateStreak(chatId)) {
     // 如果火花天数发生了变化，就刷新聊天列表
@@ -18087,7 +18113,7 @@ function returnToChat() {
     });
 }
 
-        function updateListenTogetherIcon(chatId, forceReset = false) { const iconImg = document.querySelector('#listen-together-btn img'); if(!iconImg) return; if(forceReset || !musicState.isActive || musicState.activeChatId !== chatId) { iconImg.src = 'https://i.postimg.cc/8kYShvrJ/90-UI-2.png'; iconImg.className = ''; return; } iconImg.src = 'https://i.postimg.cc/D0pq6qS2/E30078-DC-8-B99-4-C01-AFDA-74728-DBF7-BEA.png'; iconImg.classList.add('rotating'); if (musicState.isPlaying) iconImg.classList.remove('paused'); else iconImg.classList.add('paused'); }
+        function updateListenTogetherIcon(chatId, forceReset = false) { const iconImg = document.querySelector('#listen-together-btn img'); if(!iconImg) return; if(forceReset || !musicState.isActive || musicState.activeChatId !== chatId) { iconImg.src = 'https://chatbotcos.weixin.qq.com/chatbot/30-openaiassets_63e04c67410237fa43bf6fcce542dbff_469401762321466866.png'; iconImg.className = ''; return; } iconImg.src = 'https://chatbotcos.weixin.qq.com/chatbot/30-openaiassets_63e04c67410237fa43bf6fcce542dbff_469401762321466866.png'; iconImg.classList.add('rotating'); if (musicState.isPlaying) iconImg.classList.remove('paused'); else iconImg.classList.add('paused'); }
         window.updateListenTogetherIconProxy = updateListenTogetherIcon;
 
         function updatePlayerUI() {
@@ -18814,6 +18840,18 @@ function runBackgroundSimulationTick() {
             const frequency = config[chat.id]; // 获取当前角色的频率设置
             const probability = frequencyProbabilities[frequency]; // 获取对应的概率
 
+            // added by lrq 251028
+            // 添加最后一条聊天记录时间的检查，避免频繁行动
+            const lastMessage = chat.history.slice(-1)[0];
+            if (lastMessage) {
+                const timeSinceLastMessage = lastMessage ? (Date.now() - lastMessage.timestamp) : Infinity;
+                const minInterval = (state.globalSettings.backgroundActivityInterval || 10) * 1000;
+                if (timeSinceLastMessage < minInterval) {
+                    console.log(`角色 "${chat.name}" 距离上次消息发送时间不足，跳过本次行动。`);
+                    return; // 跳过本次行动
+                }
+            }
+
             // 如果这个角色设置了频率，并且随机数小于它的行动概率，就触发行动
             if (probability && Math.random() < probability) {
                 console.log(`角色 "${chat.name}" (频率: ${frequency}) 被唤醒，准备独立行动...`);
@@ -18823,7 +18861,6 @@ function runBackgroundSimulationTick() {
             // 这就完美地实现了“分组设置”和“不会同时行动”的需求！
         }
     });
-
 }
 // ▲▲▲ 替换结束 ▲▲▲
 /**
@@ -19000,8 +19037,9 @@ async function triggerInactiveAiAction(chatId) {
 
     // --- ▼▼▼ 核心修改从这里开始 ▼▼▼ ---
 
-    // 1. 获取最近的10条聊天记录作为思考的上下文
-    const historySlice = chat.history.filter(msg => !msg.isHidden).slice(-10);
+    // updated by lrq 251027 当前聊天获取用户设置的记忆条数作为上下文
+    const maxMemory = chat.settings.maxMemory || 10;
+    const historySlice = chat.history.filter(msg => !msg.isHidden).slice(-maxMemory);
 
     // 2. 格式化这些记录，让AI能看懂
     const recentContextSummary = historySlice.map(msg => {
@@ -19020,11 +19058,41 @@ async function triggerInactiveAiAction(chatId) {
             contentText = String(msg.content);
         }
         
-        return `${sender}: ${contentText}`;
+        // updated by lrq 251029 给每条消息记录添加发送日期时间
+        const messageDate = new Date(msg.timestamp);
+        const formattedDate = messageDate.toLocaleDateString();
+
+        return `[${formattedDate}] ${sender}: ${contentText}`;
+
     }).join('\n');
 
     // --- ▲▲▲ 核心修改到这里结束 ▲▲▲ ---
 
+    // added by lrq 251027 获取记忆互通的聊天记录
+    let linkedMemoryContext = '';
+    if (chat.settings.linkedMemories && chat.settings.linkedMemories.length > 0) {
+    
+        const contextPromises = chat.settings.linkedMemories.map(async (link) => {
+            const linkedChat = state.chats[link.chatId];
+            if (!linkedChat) return '';
+
+            const freshLinkedChat = await db.chats.get(link.chatId);
+            if (!freshLinkedChat) return '';
+
+            const recentHistory = freshLinkedChat.history
+                .filter(msg => !msg.isHidden)
+                .slice(-link.depth); 
+
+            if (recentHistory.length === 0) return '';
+
+            const formattedMessages = recentHistory.map(msg => `  - ${formatMessageForContext(msg, freshLinkedChat)}`).join('\n');
+
+            return `\n## 附加上下文：来自与“${linkedChat.name}”的最近对话内容 (仅你可见)\n${formattedMessages}`;
+        });
+
+        const allContexts = await Promise.all(contextPromises);
+        linkedMemoryContext = allContexts.filter(Boolean).join('\n');
+    }
     const now = new Date();
     const currentTime = now.toLocaleTimeString('zh-CN', { hour: 'numeric', minute: 'numeric', hour12: true });
     const userNickname = state.qzoneSettings.nickname;
@@ -19084,7 +19152,9 @@ async function triggerInactiveAiAction(chatId) {
     } catch (e) {
         console.error("生成微博后台活动上下文时出错:", e);
     }
-
+    // add by lrq 251029 添加聊天间隔时间
+    const lastMessage = chat.history.slice(-1)[0];
+    const timeSinceLastMessage = lastMessage ? Math.floor((Date.now() - lastMessage.timestamp) / 60000) : infinity;
     const systemPrompt = `
 # 任务
 你现在【就是】角色 "${chat.name}"。这是一个秘密的、后台的独立行动。你的所有思考和决策都必须以 "${chat.name}" 的第一人称视角进行。
@@ -19327,6 +19397,23 @@ ${postsContext}
                     showIncomingCallModal(chatId);
                     console.log(`后台活动: 角色 "${chat.name}" 发起了视频通话请求`);
                 }
+            }
+                    // added by lrq 251104 添加心声记录
+            if (action.type === 'innervoice') {
+                const innerVoiceData = action;
+                console.log("解析成功：已成功捕获到心声(innerVoice)数据。", innerVoiceData);
+                const newInnerVoice = innerVoiceData;
+                newInnerVoice.timestamp = Date.now();
+                chat.latestInnerVoice = newInnerVoice;
+                if (!chat.innerVoiceHistory) {
+                    chat.innerVoiceHistory = [];
+                }
+                chat.latestInnerVoice.clothing = chat.latestInnerVoice.clothing || '...';
+                chat.latestInnerVoice.behavior = chat.latestInnerVoice.behavior || '...';
+                chat.latestInnerVoice.thoughts = chat.latestInnerVoice.thoughts || '...';
+                chat.latestInnerVoice.naughtyThoughts = chat.latestInnerVoice.naughtyThoughts || '...';
+
+                chat.innerVoiceHistory.push(newInnerVoice);
             }
         }
     } catch (error) {
@@ -22430,6 +22517,62 @@ async function triggerGroupAiAction(chatId) {
         console.warn(`群聊 "${chat.name}" 后台活动失败：API未配置。`);
         return;
     }
+    
+    // added by lrq 251027
+    const maxMemory = chat.settings.maxMemory || 10;
+    const historySlice = chat.history.filter(msg => !msg.isHidden).slice(-maxMemory);
+
+    // 2. 格式化这些记录，让AI能看懂
+    const recentContextSummary = historySlice.map(msg => {
+        // 判断是谁说的话
+        const sender = msg.role === 'user' ? (chat.isGroup ? (chat.settings.myNickname || '我') : '我') : (msg.senderName || chat.name);
+        
+        // 处理不同类型的消息内容
+        let contentText = '';
+        if (typeof msg.content === 'string' && STICKER_REGEX.test(msg.content)) {
+            contentText = `[发送了一个表情: ${msg.meaning || '无描述'}]`;
+        } else if (Array.isArray(msg.content)) {
+            contentText = '[发送了一张图片]';
+        } else if (typeof msg.content === 'object' && msg.content !== null) {
+            contentText = `[发送了一条特殊消息: ${msg.type || '未知类型'}]`;
+        } else {
+            contentText = String(msg.content);
+        }
+        
+        // updated by lrq 251029 给每条消息记录添加发送日期时间
+        const messageDate = new Date(msg.timestamp);
+        const formattedDate = messageDate.toLocaleDateString();
+
+        return `[${formattedDate}] ${sender}: ${contentText}`;
+    }).join('\n');
+
+    // --- ▲▲▲ 核心修改到这里结束 ▲▲▲ ---
+
+    // added by lrq 251027 获取记忆互通的聊天记录
+    let linkedMemoryContext = '';
+    if (chat.settings.linkedMemories && chat.settings.linkedMemories.length > 0) {
+    
+        const contextPromises = chat.settings.linkedMemories.map(async (link) => {
+            const linkedChat = state.chats[link.chatId];
+            if (!linkedChat) return '';
+
+            const freshLinkedChat = await db.chats.get(link.chatId);
+            if (!freshLinkedChat) return '';
+
+            const recentHistory = freshLinkedChat.history
+                .filter(msg => !msg.isHidden)
+                .slice(-link.depth); 
+
+            if (recentHistory.length === 0) return '';
+
+            const formattedMessages = recentHistory.map(msg => `  - ${formatMessageForContext(msg, freshLinkedChat)}`).join('\n');
+
+            return `\n## 附加上下文：来自与“${linkedChat.name}”的最近对话内容 (仅你可见)\n${formattedMessages}`;
+        });
+
+        const allContexts = await Promise.all(contextPromises);
+        linkedMemoryContext = allContexts.filter(Boolean).join('\n');
+    }
 
     try {
         const lastMessage = chat.history.slice(-1)[0];
@@ -22458,13 +22601,18 @@ async function triggerGroupAiAction(chatId) {
     // 后台群聊活动中不存在用户分享聊天记录的上下文，因此这里为空。
 
 // ▼▼▼ 从这里开始完整替换 ▼▼▼
+
+// updated by lrq 251027
     const systemPrompt = `
 # 任务
 你是一个群聊后台模拟器。当前群聊 "${chat.name}" 已经沉寂了 ${Math.round(timeSinceLastMessage)} 分钟，用户(昵称: "${chat.settings.myNickname || '我'}")不在线。
-你的任务是根据下方每个角色的人设，在他们之间【自发地】生成一段简短、自然的对话。
-
+你的任务是根据下方每个角色的人设，在他们之间【自发地】生成一段自然的对话。
+# 【对话节奏铁律 (至关重要！)】
+你的回复【必须】模拟真人的打字和思考习惯。**绝对不要一次性发送一大段文字！** 每条消息最好不要超过30个字，这会让对话看起来更自然、更真实。
 # 核心规则
-1.  **【【【身份铁律】】】**: 用户【绝对不在场】。你【绝对不能】生成任何提及用户或与用户对话的内容。整段对话必须是AI角色之间的互动。你的唯一任务是扮演且仅能扮演下方“群成员列表”中明确列出的角色。
+1.  **【【【身份铁律】】】**: 用户【绝对不在场】。你【绝对不能】生成与用户对话的内容。整段对话必须是AI角色之间的互动。你的唯一任务是扮演【且仅能扮演】下方“群成员列表”中明确列出的角色。【绝对禁止】扮演任何未在“群成员列表”中出现的角色。
+    # 群成员列表及人设 (name字段是你要使用的【本名】)
+    ${chat.members.map(m => `- **${m.originalName}**: (群昵称为: ${m.groupNickname}) 人设: ${m.persona}`).join('\n')}
 2.  **【【【输出格式】】】**: 你的回复【必须】是一个JSON数组格式的字符串。数组中的【每一个元素都必须是一个带有 "type" 和 "name" 字段的JSON对象】。
 3.  **角色扮演**: 严格遵守下方“群成员列表及人设”中的每一个角色的设定。
 4.  **禁止出戏**: 绝不能透露你是AI、模型，或提及“扮演”、“生成”等词语。
@@ -22494,8 +22642,9 @@ ${sharedContext}
 ${membersList}
 # 用户的角色
 - **${myNickname}**: ${chat.settings.myPersona}
-# 对话历史参考 (最近5条)
-${chat.history.slice(-5).map(m => `${m.senderName || '用户'}: ${m.content}`).join('\n')}
+# 对话历史参考
+${recentContextSummary}
+${linkedMemoryContext}
 
 现在，请严格遵守以上所有规则，开始你的模拟。`;
         
@@ -22594,7 +22743,6 @@ async function handleEditImage(element) {
 // ▼▼▼ 【全新】群聊专属后台活动时钟 ▼▼▼
 
 let groupSimulationIntervalId = null; // 用于存储群聊主时钟的ID
-
 /**
  * 启动群聊的后台“主时钟”。这个时钟会一直运行，定期检查所有群聊。
  */
@@ -22603,8 +22751,11 @@ function startGroupSimulation() {
     
     // 我们设置一个相对较短的间隔（比如30秒）来作为“主时钟”的频率
     // 它不是具体某个群聊的活动间隔，而是检查所有群聊的频率
-    groupSimulationIntervalId = setInterval(runGroupSimulationTick, 30000); // 30秒检查一次
-    console.log("群聊后台活动主时钟已启动，每30秒检查一次所有群聊。");
+
+    // updated by lrq 251028
+    // 加长检查间隔，防止已经触发自动回复但api未返回时重复触发导致多次回复。60秒间隔大于一般API返回数据时间的平均值，且不会过长影响使用体验。
+    groupSimulationIntervalId = setInterval(runGroupSimulationTick, 60000); // 60秒检查一次
+    console.log("群聊后台活动主时钟已启动，每60秒检查一次所有群聊。");
 }
 
 /**
@@ -22629,9 +22780,15 @@ function runGroupSimulationTick() {
         // 检查1：该群聊自己的开关是否开启
         if (bgSettings && bgSettings.enabled) {
             const now = Date.now();
+
             // 检查2：使用该群聊自己设置的间隔期
             const intervalMs = (bgSettings.interval || 120) * 1000;
-            const lastActivity = bgSettings.lastActivityTimestamp || 0;
+            //const lastActivity = bgSettings.lastActivityTimestamp || 0;
+
+            // updated by lrq 251028
+            // 使用当前群聊最后一条消息时间作为最后活动时间
+            const lastMessage = chat.history.slice(-1)[0];
+            const lastActivity = lastMessage ? lastMessage.timestamp : 0;
 
             // 检查3：是否到达了该群聊的行动时间
             if (now - lastActivity > intervalMs) {
@@ -25514,10 +25671,38 @@ async function generateCharacterPhoneDataSegment(dataType) {
     try {
         const userNickname = state.qzoneSettings.nickname || '我';
         const persona = (chat.settings.aiPersona || '').substring(0, 4000);
-        const recentHistory = chat.history.slice(-20).map(msg => {
+        // updated by lrq 251028 修改最大记忆条数
+        const maxMemory = chat.settings.maxMemory || 20;
+        const recentHistory = chat.history.slice(-maxMemory).map(msg => {
             const sender = msg.role === 'user' ? userNickname : chat.name;
             return `${sender}: ${msg.content}`;
         }).join('\n');
+        
+        // added by lrq 251028 添加记忆互通的聊天记录作为参考
+        let linkedMemoryContext = '';
+        if (chat.settings.linkedMemories && chat.settings.linkedMemories.length > 0) {
+    
+            const contextPromises = chat.settings.linkedMemories.map(async (link) => {
+                const linkedChat = state.chats[link.chatId];
+                if (!linkedChat) return '';
+
+                const freshLinkedChat = await db.chats.get(link.chatId);
+                if (!freshLinkedChat) return '';
+
+                const recentHistory = freshLinkedChat.history
+                    .filter(msg => !msg.isHidden)
+                    .slice(-link.depth); 
+
+                if (recentHistory.length === 0) return '';
+
+                const formattedMessages = recentHistory.map(msg => `  - ${formatMessageForContext(msg, freshLinkedChat)}`).join('\n');
+
+                return `\n## 附加上下文：来自与“${linkedChat.name}”的最近对话内容 (仅你可见)\n${formattedMessages}`;
+            });
+
+            const allContexts = await Promise.all(contextPromises);
+            linkedMemoryContext = allContexts.filter(Boolean).join('\n');
+        }
         
         let worldBookContext = '';
         if (chat.settings.linkedWorldBookIds && chat.settings.linkedWorldBookIds.length > 0) {
@@ -25800,7 +25985,34 @@ async function generateCharacterPhoneData() {
             return `${sender}: ${msg.content}`;
         }).join('\n');
         // ▲▲▲ 修改结束 ▲▲▲
-        
+                // ▲▲▲ 修改结束 ▲▲▲
+        console.log("用于生成手机数据的最近聊天记录:", recentHistory);
+        // added by lrq 251028 添加记忆互通的聊天记录作为参考
+        let linkedMemoryContext = '';
+        if (chat.settings.linkedMemories && chat.settings.linkedMemories.length > 0) {
+    
+            const contextPromises = chat.settings.linkedMemories.map(async (link) => {
+                const linkedChat = state.chats[link.chatId];
+                if (!linkedChat) return '';
+
+                const freshLinkedChat = await db.chats.get(link.chatId);
+                if (!freshLinkedChat) return '';
+
+                const recentHistory = freshLinkedChat.history
+                    .filter(msg => !msg.isHidden)
+                    .slice(-link.depth); 
+
+                if (recentHistory.length === 0) return '';
+
+                const formattedMessages = recentHistory.map(msg => `  - ${formatMessageForContext(msg, freshLinkedChat)}`).join('\n');
+
+                return `\n## 附加上下文：来自与“${linkedChat.name}”的最近对话内容 (仅你可见)\n${formattedMessages}`;
+            });
+
+            const allContexts = await Promise.all(contextPromises);
+            linkedMemoryContext = allContexts.filter(Boolean).join('\n');
+        }
+        console.log("用于生成手机数据的互通聊天记录上下文:", linkedMemoryContext);
         let worldBookContext = '';
         if (chat.settings.linkedWorldBookIds && chat.settings.linkedWorldBookIds.length > 0) {
             worldBookContext = '--- 世界观设定 (必须严格遵守) ---\n' +
@@ -37560,6 +37772,55 @@ function generatePinFromDeviceCode(deviceCode) {
     // 算法：将设备码反转，取前6位，转大写
     return deviceCode.split('').reverse().join('').substring(0, 6).toUpperCase();
 }
+/**
+ * 【全新】清空所有好友动态（不包括微博和圈子）
+ */
+async function clearAllQzonePosts() {
+    // 1. 弹出确认框，防止用户误操作
+    const confirmed = await showCustomConfirm(
+        '确认清空',
+        '此操作将永久删除所有好友动态（不包括微博和圈子），且无法恢复。确定要继续吗？',
+        { confirmButtonClass: 'btn-danger' } // 使用红色按钮警示
+    );
+
+    if (!confirmed) {
+        return; // 如果用户点击“取消”，则不执行任何操作
+    }
+
+    try {
+        // 2. 清空数据库中的 `qzonePosts` 表，这是存储所有动态的地方
+        await db.qzonePosts.clear();
+        console.log('`qzonePosts` table has been cleared.');
+
+        // 3. 清理所有角色的历史记录，移除与动态相关的系统通知，保持数据一致性
+        const allChats = Object.values(state.chats);
+        const chatsToUpdate = [];
+        for(const chat of allChats) {
+            const originalHistoryLength = chat.history.length;
+            // 筛选掉内容包含“发布了”的系统消息
+            chat.history = chat.history.filter(msg => 
+                !(msg.role === 'system' && msg.content && msg.content.includes('发布了'))
+            );
+            if (chat.history.length < originalHistoryLength) {
+                chatsToUpdate.push(chat);
+            }
+        }
+        if (chatsToUpdate.length > 0) {
+            await db.chats.bulkPut(chatsToUpdate);
+            console.log(`已从 ${chatsToUpdate.length} 个角色的历史记录中移除动态通知。`);
+        }
+
+        // 4. 重新渲染动态列表，界面会显示为空
+        await renderQzonePosts();
+        
+        // 5. 给出成功提示
+        alert('所有好友动态已清空！');
+
+    } catch (error) {
+        console.error("清空好友动态时出错:", error);
+        await showCustomAlert('操作失败', `清空动态时发生错误: ${error.message}`);
+    }
+}
 
         // ===================================================================
         // 4. 初始化函数 init()
@@ -44028,6 +44289,17 @@ document.getElementById('close-intimacy-panel').addEventListener('click', () => 
 // ▼▼▼ 在 init() 函数中，用这行代码替换旧的 open-intimacy-panel-btn 监听器 ▼▼▼
 document.getElementById('open-intimacy-panel-btn').addEventListener('click', () => openIntimacyPanel(state.activeChatId));
 // ▲▲▲ 替换结束 ▲▲▲
+    // 使用事件委托，为动态页面的头部按钮绑定事件
+    document.getElementById('qzone-screen').addEventListener('click', (e) => {
+        // 检查点击的是否是清空按钮
+        const clearBtn = e.target.closest('#clear-qzone-posts-btn');
+        if (clearBtn) {
+            clearAllQzonePosts(); // 如果是，就调用我们刚刚创建的函数
+            return; 
+        }
+    });
+
+    // ▲▲▲ 新代码粘贴结束 ▲▲▲
 
 
 initLoversSpace();
