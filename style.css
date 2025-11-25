@@ -18561,14 +18561,1790 @@ body {
   line-height: 1;
 }
 #character-chat-list.list-container {
-  flex-grow: 1;      /* 让它占据所有剩余的垂直空间 */
-  overflow-y: auto;  /* 当内容超出时，自动显示垂直滚动条 */
-  min-height: 0;     /* 解决Flex布局下的滚动兼容性问题，这是这次修复最关键的一行！ */
-  padding: 0;        /* 保持你的内联样式，移除内边距 */
+  flex-grow: 1; /* 让它占据所有剩余的垂直空间 */
+  overflow-y: auto; /* 当内容超出时，自动显示垂直滚动条 */
+  min-height: 0; /* 解决Flex布局下的滚动兼容性问题，这是这次修复最关键的一行！ */
+  padding: 0; /* 保持你的内联样式，移除内边距 */
   background-color: var(--secondary-bg); /* 添加一个背景色，与页面统一 */
 }
 
 /* 夜间模式适配，确保滚动区域的背景色在夜间模式下也正确 */
 #phone-screen.dark-mode #character-chat-list.list-container {
-    background-color: #000000;
+  background-color: #000000;
+}
+/* ▼▼▼ 【全新】兔k记账 App 样式 ▼▼▼ */
+#tukey-accounting-screen {
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f2f5;
+}
+
+.tukey-content {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.tukey-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: none; /* 默认所有视图都隐藏 */
+}
+
+.tukey-view.active {
+  display: block; /* 带有 .active 类的视图才会显示 */
+}
+
+#tukey-bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--border-color);
+  background-color: rgba(249, 249, 249, 0.95);
+  padding: 5px 0;
+  flex-shrink: 0; /* 防止被压缩 */
+}
+
+.tukey-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.tukey-nav-item svg {
+  margin-bottom: 3px;
+}
+
+.tukey-nav-item.active {
+  color: var(--accent-color);
+}
+
+/* 夜间模式适配 */
+.dark-mode #tukey-accounting-screen {
+  background-color: #000;
+}
+.dark-mode #tukey-bottom-nav {
+  background-color: rgba(28, 28, 30, 0.85);
+  border-top-color: #38383a;
+}
+/* ▲▲▲ “兔k记账” App 样式结束 ▲▲▲ */
+/* ▼▼▼ 【全新】兔k记账 App 样式 ▼▼▼ */
+#tukey-accounting-screen .tukey-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+#tukey-accounting-screen .tukey-view {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+  gap: 15px;
+}
+#tukey-accounting-screen .tukey-view.active {
+  display: flex;
+}
+#tukey-bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  background-color: rgba(247, 247, 247, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+.tukey-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.tukey-nav-item.active {
+  color: var(--accent-color);
+}
+.tukey-nav-item svg {
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+/* --- 钱包页面专属样式 --- */
+#wallet-summary-card {
+  background-color: var(--secondary-bg);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+#wallet-summary-card .summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#wallet-summary-card .summary-item .label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+#wallet-summary-card .summary-item .value {
+  font-size: 16px;
+  font-weight: 500;
+}
+#wallet-summary-card .net-assets {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+#wallet-summary-card .net-assets .label {
+  font-size: 16px;
+}
+#wallet-summary-card .net-assets .value {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+#wallet-summary-card .summary-details {
+  padding-top: 12px;
+  display: flex;
+  gap: 20px;
+}
+#wallet-summary-card .summary-details .summary-item {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+#wallet-accounts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.tukey-account-category-card {
+  background-color: var(--secondary-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.tukey-account-category-card .category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+.tukey-account-category-card .category-icon {
+  width: 36px;
+  height: 36px;
+}
+.tukey-account-category-card .category-title {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.tukey-account-category-card .category-title .name {
+  font-weight: 500;
+}
+.tukey-account-category-card .category-title .total {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.category-accounts-list .tukey-account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.category-accounts-list .tukey-account-item:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+.category-accounts-list .tukey-account-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+.tukey-account-item .account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tukey-account-item .account-name {
+  font-size: 15px;
+}
+.tukey-account-item .account-remarks {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.tukey-account-item .account-balance {
+  font-weight: 500;
+}
+#add-new-account-fab {
+  position: absolute;
+  bottom: 80px; /* 放在底部导航栏上方 */
+  right: 25px;
+  z-index: 100;
+}
+#account-editor-modal select,
+#account-editor-modal input,
+#account-editor-modal textarea {
+  width: 100%;
+}
+/* ▲▲▲ 兔k记账样式结束 ▲▲▲ */
+#account-type-selection-view .category-group {
+  margin-bottom: 20px;
+}
+#account-type-selection-view .category-group-title {
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-color);
+}
+#account-type-selection-view .type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 15px;
+}
+#account-type-selection-view .type-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: var(--secondary-bg, #f0f2f5);
+}
+#account-type-selection-view .type-item:hover {
+  background-color: var(--border-color, #e0e2e5);
+}
+#account-type-selection-view .type-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+#account-type-selection-view .type-name {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+/* 账户列表项的新样式 */
+.tukey-account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  cursor: pointer;
+}
+.tukey-account-item .account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+/* 这就是你想要的账户类型名称的样式 */
+.tukey-account-item .account-type-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background-color: var(--secondary-bg, #f0f2f5);
+  padding: 2px 6px;
+  border-radius: 4px;
+  align-self: flex-start; /* 让标签宽度自适应内容 */
+}
+/* style.css */
+
+/* ▼▼▼ 【全新】兔k记账-记账群聊功能样式 ▼▼▼ */
+
+/* 整体布局 */
+#tukey-group-chat-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 没有群聊时的占位符 */
+#tukey-no-group-placeholder {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: var(--text-secondary);
+}
+#tukey-no-group-placeholder .form-button {
+  width: auto;
+  padding: 12px 24px;
+}
+
+/* 群聊主容器 */
+#tukey-group-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 群聊头部 */
+#tukey-group-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  flex-shrink: 0;
+}
+#tukey-group-name {
+  font-weight: 600;
+  font-size: 17px;
+}
+#tukey-group-settings-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* 记账记录列表 */
+#tukey-records-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: var(--secondary-bg);
+}
+
+/* 单条记账卡片 */
+.tukey-record-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 12px 15px;
+  border-left: 5px solid;
+}
+.tukey-record-card.expense {
+  border-color: #4caf50;
+}
+.tukey-record-card.income {
+  border-color: #ffc107;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.record-category {
+  font-weight: 500;
+  font-size: 15px;
+}
+.record-time {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.record-body {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.record-amount {
+  font-size: 24px;
+  font-weight: bold;
+}
+.tukey-record-card.expense .record-amount {
+  color: #4caf50;
+}
+.tukey-record-card.income .record-amount {
+  color: #ffc107;
+}
+
+.record-remarks {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.record-footer {
+  font-size: 12px;
+  color: #aaa;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+/* AI回复区域 */
+.tukey-replies-container {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dark-mode .tukey-replies-container {
+  border-top-color: #333;
+}
+
+.tukey-reply-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.reply-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.reply-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.reply-sender-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.reply-bubble {
+  background-color: var(--secondary-bg);
+  padding: 8px 12px;
+  border-radius: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 250px;
+  word-break: break-word;
+}
+
+/* 记账按钮 */
+#tukey-record-input-area {
+  position: relative;
+  padding: 10px;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--background-color);
+}
+#tukey-add-record-btn {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  font-size: 30px;
+  font-weight: 300;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+}
+
+/* 记一笔弹窗内的类型选择按钮 */
+.tukey-type-selector {
+  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tukey-type-selector .type-btn {
+  flex: 1;
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tukey-type-selector .type-btn:not(:last-child) {
+  border-right: 1px solid var(--border-color);
+}
+.tukey-type-selector .type-btn.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+/* 群聊管理/成员选择弹窗的列表样式 */
+.contact-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 40vh;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+}
+.contact-picker-list label {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.contact-picker-list label:hover {
+  background-color: var(--secondary-bg);
+}
+.contact-picker-list input[type='checkbox'] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+/* ▲▲▲ 兔k记账样式结束 ▲▲▲ */
+/* ▼▼▼ 【兔k记账】新版聊天式UI的CSS样式 ▼▼▼ */
+
+#tukey-group-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#tukey-records-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 气泡之间的间距 */
+}
+
+#tukey-record-input-area {
+  padding: 8px 15px;
+  background-color: var(--secondary-bg, #f7f7f7);
+  border-top: 1px solid var(--border-color, #e0e0e0);
+  display: flex;
+  align-items: center;
+}
+
+#tukey-add-record-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--accent-color, #007bff);
+  color: white;
+  border: none;
+  font-size: 24px;
+  line-height: 36px;
+  cursor: pointer;
+}
+
+/* 记账记录气泡 */
+.tukey-record-bubble {
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 80%;
+  align-self: flex-end; /* 用户发的，靠右 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+  border: 1px solid #e5e5e5;
+}
+
+.dark-mode .tukey-record-bubble {
+  background-color: #2c2c2e;
+  border-color: #3a3a3c;
+}
+
+.tukey-record-bubble .record-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.dark-mode .tukey-record-bubble .record-header {
+  border-bottom-color: #3a3a3c;
+}
+
+.tukey-record-bubble .record-category-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.tukey-record-bubble .record-category-name {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.tukey-record-bubble .record-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 15px;
+  margin-bottom: 5px;
+}
+.tukey-record-bubble .record-remarks {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+.tukey-record-bubble .record-amount {
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.tukey-record-bubble.expense .record-amount {
+  color: #4caf50; /* 支出绿色 */
+}
+.tukey-record-bubble.income .record-amount {
+  color: #f44336; /* 收入红色 */
+}
+
+.tukey-record-bubble .record-footer {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: right;
+  margin-top: 5px;
+}
+
+/* AI回复气泡 */
+.tukey-replies-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tukey-reply-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.tukey-reply-item .reply-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tukey-reply-item .reply-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.tukey-reply-item .reply-sender-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+  margin-left: 8px;
+}
+.tukey-reply-item .reply-bubble {
+  background-color: #f0f2f5;
+  padding: 8px 12px;
+  border-radius: 18px;
+  font-size: 14px;
+  max-width: 220px;
+  word-wrap: break-word;
+}
+.dark-mode .tukey-reply-item .reply-bubble {
+  background-color: #3a3a3c;
+}
+
+/* 记账输入气泡 (分类选择) */
+.tukey-input-bubble {
+  background-color: var(--secondary-bg, #f7f7f7);
+  padding: 15px;
+  border-radius: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tukey-input-bubble .input-header {
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.tukey-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+  gap: 15px;
+}
+.tukey-category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+.tukey-category-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.tukey-category-item img {
+  width: 40px;
+  height: 40px;
+}
+.tukey-category-item span {
+  font-size: 12px;
+}
+
+.tukey-input-bubble .input-actions {
+  margin-top: 15px;
+  text-align: center;
+}
+#tukey-income-switch-btn {
+  background: none;
+  border: 1px solid var(--border-color, #ccc);
+  padding: 5px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+/* ▲▲▲ CSS样式结束 ▲▲▲ */
+/* ▼▼▼ 【兔k记账】V2版记账卡片CSS样式 ▼▼▼ */
+#tukey-record-input-card {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-top: 1px solid #e0e0e0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+#tukey-record-input-card.visible {
+  transform: translateY(0);
+}
+.dark-mode #tukey-record-input-card {
+  background-color: #1c1c1e;
+  border-top-color: #38383a;
+}
+#tukey-record-input-card .card-header {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.dark-mode #tukey-record-input-card .card-header {
+  border-bottom-color: #38383a;
+}
+#tukey-record-input-card .close-card-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 0 10px;
+}
+#tukey-record-input-card .type-selector {
+  display: flex;
+  margin: 0 auto;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  padding: 2px;
+}
+.dark-mode #tukey-record-input-card .type-selector {
+  background-color: #3a3a3c;
+}
+#tukey-record-input-card .type-selector .type-btn {
+  background-color: transparent;
+  border: none;
+  padding: 6px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #495057;
+  font-weight: 500;
+}
+.dark-mode #tukey-record-input-card .type-selector .type-btn {
+  color: #adb5bd;
+}
+#tukey-record-input-card .type-selector .type-btn.active {
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.dark-mode #tukey-record-input-card .type-selector .type-btn.active {
+  background-color: #525252;
+  color: #fff;
+}
+#tukey-record-input-card .card-body {
+  padding: 15px;
+}
+#tukey-record-input-card .category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 15px;
+}
+#tukey-record-input-card .category-grid .tukey-category-item.selected {
+  background-color: var(--accent-color-light, #eaf2ff);
+  border-radius: 8px;
+}
+.dark-mode #tukey-record-input-card .category-grid .tukey-category-item.selected {
+  background-color: rgba(var(--accent-color-rgb), 0.2);
+}
+
+#tukey-record-input-card .input-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 15px;
+}
+.dark-mode #tukey-record-input-card .input-fields {
+  border-top-color: #3a3a3c;
+}
+#tukey-record-input-card .amount-input-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  font-weight: bold;
+}
+#tukey-record-input-card #tukey-card-amount-input {
+  border: none;
+  background: none;
+  font-size: 28px;
+  font-weight: bold;
+  width: 100%;
+  outline: none;
+  padding-left: 5px;
+}
+#tukey-record-input-card #tukey-card-remarks-input {
+  width: 100%;
+  border: none;
+  background: none;
+  font-size: 14px;
+  padding: 5px 0;
+  outline: none;
+  border-bottom: 1px solid #e0e0e0;
+}
+.dark-mode #tukey-record-input-card #tukey-card-remarks-input {
+  border-bottom-color: #444;
+}
+
+#tukey-record-input-card .card-footer {
+  padding: 10px 15px;
+}
+#tukey-save-from-card-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* ▲▲▲ CSS样式结束 ▲▲▲ */
+/* ▼▼▼ 【兔k记账】V3版记账卡片新增/修改的CSS样式 ▼▼▼ */
+
+#tukey-record-input-card .card-body {
+  padding: 10px 15px; /* 调整内边距 */
+}
+
+#tukey-record-input-card .input-fields {
+  padding-top: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0; /* 将分割线移到金额区域下方 */
+  margin-bottom: 15px;
+}
+.dark-mode #tukey-record-input-card .input-fields {
+  border-bottom-color: #38383a;
+}
+
+#tukey-record-input-card .amount-input-wrapper {
+  align-items: center; /* 垂直居中 */
+}
+
+#tukey-card-amount-input {
+  border-bottom: none; /* 移除金额输入框的下划线 */
+}
+
+#tukey-card-remarks-input {
+  padding: 8px 0; /* 增加备注输入框的上下内边距 */
+}
+
+/* 【新增】已选分类显示区 */
+#tukey-card-selected-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 15px;
+  padding: 6px 12px;
+  background-color: #f0f2f5;
+  border-radius: 16px;
+  font-size: 14px;
+}
+.dark-mode #tukey-card-selected-category {
+  background-color: #3a3a3c;
+}
+#tukey-card-selected-category img {
+  width: 20px;
+  height: 20px;
+}
+
+/* 【新增】账户和时间选择器区域 */
+.additional-options {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 10px 15px 10px;
+}
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.option-item select,
+.option-item input {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: var(--text-primary);
+  max-width: 120px; /* 限制宽度防止过长 */
+}
+
+/* 【修改】卡片底部按钮 */
+#tukey-record-input-card .card-footer {
+  padding: 10px 15px;
+  border-top: 1px solid #f0f0f0;
+}
+.dark-mode #tukey-record-input-card .card-footer {
+  border-top-color: #38383a;
+}
+
+/* ▲▲▲ CSS样式结束 ▲▲▲ */
+/* --- 兔k记账 - 报表功能专属样式 --- */
+#tukey-reports-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f7f7f7;
+}
+.report-controls {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+.report-controls select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+}
+#report-display-area {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+.report-view {
+  display: none;
+}
+.report-view.active {
+  display: block;
+}
+.report-day-group {
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 15px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+.day-header .date {
+  font-weight: 500;
+}
+.day-header .day-summary {
+  font-size: 13px;
+  color: #666;
+}
+.day-header .day-summary .income {
+  color: #4caf50;
+  margin-left: 8px;
+}
+.day-header .day-summary .expense {
+  color: #f44336;
+}
+.transaction-list .tukey-record-bubble {
+  margin: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.transaction-list .tukey-record-bubble:last-child {
+  border-bottom: none;
+}
+.report-placeholder {
+  text-align: center;
+  color: #999;
+  padding-top: 50px;
+}
+#monthly-summary-card {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+#monthly-summary-card .summary-item {
+  display: flex;
+  flex-direction: column;
+}
+#monthly-summary-card .summary-item .label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+#monthly-summary-card .summary-item .value {
+  font-size: 20px;
+  font-weight: 600;
+}
+#monthly-summary-card .summary-item .value.income {
+  color: #4caf50;
+}
+#monthly-summary-card .summary-item .value.expense {
+  color: #f44336;
+}
+.chart-container {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+.chart-container h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+/* --- 兔k记账 - 用户记账气泡样式 (V2版) --- */
+
+/* 这是新的外层包裹容器，负责布局 */
+.tukey-record-wrapper.user-record {
+  display: flex;
+  justify-content: flex-end; /* 整体靠右 */
+  align-items: flex-start; /* 顶部对齐 */
+  gap: 10px;
+  margin: 10px 0;
+  width: 100%;
+}
+
+/* 这是用户的气泡本体 */
+.tukey-record-wrapper.user-record .tukey-record-bubble {
+  background-color: #a9e87a; /* 用户的气泡颜色 */
+  max-width: 75%;
+  order: 1; /* 让气泡在flex布局中排在第1位 */
+}
+
+/* 这是用户的头像 */
+.tukey-record-wrapper.user-record .record-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  order: 2; /* 让头像在flex布局中排在第2位 */
+}
+
+/* 旧的AI回复容器也需要调整，以保持对齐 */
+.tukey-replies-container {
+  align-self: flex-start;
+  max-width: 85%;
+}
+/* ▼▼▼ 请将这段新CSS添加到你的样式文件中 ▼▼▼ */
+.tukey-account-item .account-info {
+  display: flex;
+  align-items: center; /* 垂直居中对齐 */
+  gap: 12px; /* 图标和文字之间的间距 */
+}
+
+.tukey-account-item .account-icon {
+  width: 32px; /* 图标宽度 */
+  height: 32px; /* 图标高度 */
+  border-radius: 50%; /* 让它变成圆形 */
+  object-fit: cover; /* 确保图片不变形 */
+}
+/* ▲▲▲ 添加结束 ▲▲▲ */
+/* ▼▼▼ 【全新】“kk查岗”功能样式 ▼▼▼ */
+
+/* 房屋总览 */
+#kk-house-view-screen {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+#kk-house-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px) brightness(0.7);
+  transform: scale(1.1);
+}
+#kk-house-info-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  text-align: center;
+}
+#kk-house-location {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+#kk-house-description {
+  margin: 0 0 20px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+#kk-house-areas {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.kk-area-button {
+  padding: 12px 25px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+}
+
+/* 区域探索 */
+#kk-area-view-screen {
+  display: flex;
+  flex-direction: column;
+}
+#kk-area-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.6);
+}
+.kk-item-list-container {
+  position: relative;
+  z-index: 1;
+  margin-top: 60px;
+  padding: 20px;
+  color: white;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+#kk-area-description {
+  font-size: 18px;
+  margin: 0 0 10px;
+  font-weight: 500;
+}
+.kk-instruction-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+}
+#kk-area-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+}
+.kk-item-button {
+  padding: 20px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  backdrop-filter: blur(3px);
+  transition: background-color 0.2s;
+}
+.kk-item-button:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* 电脑界面 */
+#kk-computer-desktop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  align-content: flex-start;
+}
+.kk-desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 70px;
+  cursor: pointer;
+  text-align: center;
+}
+.kk-desktop-icon img {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.kk-desktop-icon span {
+  font-size: 13px;
+  color: #333;
+}
+
+/* Bilibili 搜索结果 */
+#bilibili-results-container {
+  margin-top: 10px;
+  max-height: calc(100% - 60px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bilibili-video-card {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+}
+.bilibili-video-card:hover {
+  background-color: #f0f0f0;
+}
+.bilibili-video-card .thumbnail {
+  width: 120px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.bilibili-video-card .info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow: hidden;
+}
+.bilibili-video-card .title {
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bilibili-video-card .user {
+  font-size: 12px;
+  color: #888;
+}
+
+/* 文件浏览器 */
+#kk-file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.kk-file-item {
+  padding: 12px 15px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: monospace;
+}
+.kk-file-item:hover {
+  background-color: #e9e9e9;
+}
+
+/* ▼▼▼ "kk查岗" V2 新增样式 ▼▼▼ */
+
+.kk-search-history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+.kk-history-item {
+  background-color: #f0f2f5;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.kk-history-item:hover {
+  background-color: #e4e6e9;
+}
+
+/* ▲▲▲ 样式结束 ▲▲▲ */
+/* --- “kk查岗” 电脑功能专属样式 --- */
+#kk-computer-desktop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 25px;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.kk-desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  width: 60px;
+}
+
+.kk-desktop-icon img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.kk-desktop-icon span {
+  font-size: 13px;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* Bilibili 搜索结果卡片 */
+#bilibili-results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bilibili-video-card {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+.bilibili-video-card:last-child {
+  border-bottom: none;
+}
+.bilibili-video-card .thumbnail {
+  width: 120px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.bilibili-video-card .info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bilibili-video-card .title {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bilibili-video-card .user {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 私人文件列表 */
+#kk-file-list {
+  display: flex;
+  flex-direction: column;
+}
+.kk-file-item {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  font-size: 15px;
+  position: relative;
+  padding-left: 40px;
+}
+.kk-file-item::before {
+  content: '📄'; /* 文件图标 */
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.kk-file-item:hover {
+  background-color: var(--secondary-bg-hover);
+}
+/* ▼▼▼ 把下面这段新代码粘贴到这里 ▼▼▼ */
+#kk-area-description {
+  background-color: rgba(0, 0, 0, 0.45); /* 半透明黑色背景 */
+  -webkit-backdrop-filter: blur(8px); /* 针对Safari的毛玻璃效果 */
+  backdrop-filter: blur(8px); /* 标准的毛玻璃效果 */
+  color: #ffffff; /* 保证文字在毛玻璃上清晰可见 */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6); /* 给文字加一点阴影，更易读 */
+  padding: 10px 15px; /* 增加一些内边距，让它更好看 */
+  border-radius: 12px; /* 圆角效果 */
+  margin: 0 15px 10px; /* 增加一些外边距，与其他元素分隔开 */
+  font-size: 14px; /* 调整一下字体大小，让它更协调 */
+  line-height: 1.6; /* 增加行高，提升可读性 */
+}
+/* ▲▲▲ 粘贴结束 ▲▲▲ */
+/* 在你的 CSS 中添加这行 */
+.kk-file-item {
+  cursor: pointer;
+}
+/* --- ▼▼▼ 【增强版 V2】kk查岗-监控功能样式 ▼▼▼ --- */
+
+/* 1. 左上角的监控图标 (保持不变) */
+#kk-surveillance-icon {
+  position: absolute;
+  top: 60px;
+  left: 50px;
+  z-index: 10;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: transform 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+#kk-surveillance-icon:hover {
+  transform: scale(1.1);
+}
+
+/* 2. 监控画面的网格布局 (保持不变) */
+#kk-monitor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 15px;
+  align-content: start;
+}
+
+/* 3. 单个监控画面的样式 (增加点击效果) */
+.monitor-feed {
+  background-color: black;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px;
+  color: #00ff41;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+  transition: all 0.2s ease-in-out; /* 新增：平滑过渡效果 */
+  cursor: pointer; /* 新增：鼠标悬浮时显示为小手 */
+}
+.monitor-feed:hover {
+  transform: scale(1.05); /* 新增：悬浮时放大一点 */
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.5); /* 新增：悬浮时辉光更强 */
+}
+
+/* ★★★★★ 这就是我们本次最核心的新增样式！ ★★★★★ */
+/* 4. 角色所在区域的【高亮】样式 */
+.monitor-feed.active-character-location {
+  border-color: #ff5722; /* 边框变为醒目的橙色 */
+  color: #ff9800; /* 文字颜色也变为橙色 */
+  box-shadow: 0 0 15px rgba(255, 87, 34, 0.7); /* 橙色辉光 */
+  animation: pulse-orange 2s infinite; /* 添加脉冲动画 */
+}
+.monitor-feed.active-character-location:hover {
+  box-shadow: 0 0 25px rgba(255, 87, 34, 1);
+}
+.monitor-feed.active-character-location .monitor-feed-header {
+  text-shadow: 0 0 5px #ff9800;
+  border-bottom-color: #583424;
+}
+
+/* 5. 监控画面头部 (保持不变) */
+.monitor-feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 5px;
+  margin-bottom: 8px;
+  text-shadow: 0 0 3px #00ff41;
+}
+.monitor-feed-header .rec-dot {
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+  animation: blink 1.5s infinite;
+  box-shadow: 0 0 5px red;
+}
+
+/* 6. 监控画面内容区域 (保持不变) */
+.monitor-feed-content {
+  flex-grow: 1;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+.monitor-feed-content::-webkit-scrollbar {
+  width: 4px;
+}
+.monitor-feed-content::-webkit-scrollbar-track {
+  background: #111;
+}
+.monitor-feed-content::-webkit-scrollbar-thumb {
+  background: #00ff41;
+  border-radius: 2px;
+}
+
+/* 7. 动画定义 */
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+/* ★★★★★ 新增的橙色脉冲动画 ★★★★★ */
+@keyframes pulse-orange {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 87, 34, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
+  }
+}
+
+/* --- ▲▲▲ 样式添加结束 ▲▲▲ --- */
+/* --- kk查岗 监控界面全新样式 --- */
+
+#kk-monitor-grid {
+  display: grid;
+  /* 让监控画面自动排列，每行放一个或多个，取决于屏幕宽度 */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 15px;
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.kk-monitor-item {
+  position: relative;
+  height: 450px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer; /* <-- 新增这一行，增加点击提示 */
+}
+
+/* 监控画面顶部的区域名和REC红点 */
+.kk-monitor-item .monitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  text-shadow: 0 1px 3px black;
+}
+
+.kk-monitor-item .rec-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #ff3b30;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite; /* 呼吸灯动画 */
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 5px #ff3b30;
+  }
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 15px #ff3b30;
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 5px #ff3b30;
+  }
+}
+
+/* 关键的毛玻璃面板 */
+.frosted-glass-panel {
+  margin: 15px;
+  background-color: rgba(0, 0, 0, 0.25); /* 半透明黑色背景 */
+  backdrop-filter: blur(20px); /* 这是实现毛玻璃效果的核心 */
+  -webkit-backdrop-filter: blur(20px); /* 兼容Safari浏览器 */
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.monitor-content-text {
+  font-size: 14px;
+  line-height: 1.7;
+  max-height: 120px; /* 限制文本高度，留出空间给按钮 */
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+/* 互动按钮的容器 */
+.monitor-interaction-controls {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 12px;
+}
+
+/* 圆形按钮统一样式 */
+.monitor-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.monitor-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 如果角色在该区域，给一个特殊的高亮边框 */
+.kk-monitor-item.active-character-location {
+  border: 2px solid #00ff80;
+  box-shadow: 0 0 20px rgba(0, 255, 128, 0.5);
+}
+
+/* ▲▲▲ “kk查岗”样式结束 ▲▲▲ */
+/*
+ * ========================================
+ * == 全新：世界书编辑模式样式
+ * ========================================
+ */
+/* 世界书删除按钮在禁用时的样式 */
+#world-book-delete-selected-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 编辑模式激活时，操作栏从下方滑入 */
+#world-book-screen.selection-mode #world-book-action-bar {
+  transform: translateY(0);
+}
+
+/* 编辑模式下，为列表项左侧留出空间 */
+#world-book-list.selection-mode .list-item {
+  cursor: pointer;
+  padding-left: 55px;
+  position: relative;
+}
+
+/* 复选框的外圈 */
+#world-book-list.selection-mode .list-item::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--text-secondary);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 选中状态下，复选框的背景和边框 */
+#world-book-list.selection-mode .list-item.selected::before {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+/* 选中状态下，复选框中间的“√” */
+#world-book-list.selection-mode .list-item.selected::after {
+  content: '✔';
+  position: absolute;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
 }

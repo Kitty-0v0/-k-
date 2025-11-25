@@ -1,4 +1,4 @@
-  
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -45,6 +45,9 @@
     <script src="lovers-space.js" defer></script>
     <script src="taobao.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.84/darkreader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="tukey-accounting.js" defer></script> 
 
 
 
@@ -226,27 +229,30 @@
     <div class="new-widget-divider"></div>
     <div id="new-widget-text-3" class="new-widget-text editable-text" contenteditable="true">可编辑文字</div>
 </div>
-<!-- ▲▲▲ 替换结束 ▲▲▲ -->
-<!-- ▼▼▼ 把下面这一整块【全新的代码】，粘贴到第二个 <div class="home-page"> 的【内部】最底部 ▼▼▼ -->
-<!-- 这是我们新增的“桃宝”App图标 -->
-<div style="position: absolute; bottom: 75px; left: 35px;">
+<div style="position: absolute; bottom: 105px; left: 35px;">
     <div class="desktop-app-icon" id="taobao-app-icon">
         <div class="icon-bg-desktop"><img id="icon-img-taobao" src="https://i.postimg.cc/k47tXg1j/taologo.png" alt="桃宝"></div>
         <span class="label" style="color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">桃宝</span>
     </div>
 </div>
-<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
-<!-- ▼▼▼ 在这里粘贴下面这块新代码 ▼▼▼ -->
-<!-- 这是我们新增的“约会大作战”App图标 -->
-<div style="position: absolute; bottom: 75px; left: 120px;">
+<div style="position: absolute; bottom: 105px; left: 120px;">
     <div class="desktop-app-icon" id="date-a-live-app-icon">
         <div class="icon-bg-desktop"><img id="icon-img-date-a-live" src="https://i.postimg.cc/W36mYgP5/DAL-icon.jpg" alt="约会大作战"></div>
         <span class="label" style="color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">约会大作战</span>
     </div>
 </div>
-<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
-
-<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<div style="position: absolute; bottom: 15px; left: 120px;">
+    <div class="desktop-app-icon" id="kk-checkin-app-icon">
+        <div class="icon-bg-desktop"><img id="icon-img-kk-checkin" src="https://i.postimg.cc/d11WvjYd/IMG-0504.png" alt="kk查岗"></div>
+        <span class="label" style="color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">kk查岗</span>
+    </div>
+</div>
+<div style="position: absolute; bottom: 15px; left: 35px;">
+    <div class="desktop-app-icon" id="tukey-accounting-app-icon">
+        <div class="icon-bg-desktop"><img id="icon-img-tukey-accounting" src="https://i.postimg.cc/pT1W3bZ8/accounting-icon.png" alt="兔兔记账"></div>
+        <span class="label" style="color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">兔兔记账</span>
+    </div>
+</div>
 </div>
     </div>
     
@@ -403,17 +409,13 @@
         <div class="weibo-nav-item active" data-view="weibo-my-profile-view">我的微博</div>
     </div>
 </div>
-<!-- ▲▲▲ HTML 替换结束 ▲▲▲ -->
-   
-<!-- ▼▼▼ 请用这整块【最终版】代码，完整替换掉你旧的 id="world-book-screen" 的 div ▼▼▼ -->
+<!-- ▼▼▼ 用这整块【最新版】的代码，完整替换掉你旧的 id="world-book-screen" 的 div ▼▼▼ -->
 <div id="world-book-screen" class="screen">
     <div class="header">
         <span class="back-btn" onclick="showScreen('home-screen')">‹</span>
         <span>世界书</span>
         <div class="header-actions">
             
-            <!-- ★★★ 核心修改就在这里 ★★★ -->
-            <!-- 我们把 "导入" 两个字，换成了一段SVG代码，并加上了 title 提示 -->
             <span class="action-btn" id="import-world-book-btn" title="导入世界书">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -421,15 +423,30 @@
                     <line x1="12" y1="3" x2="12" y2="15"></line>
                 </svg>
             </span>
-            <!-- ▲▲▲ 修改结束 ▲▲▲ -->
+            
+            <span class="action-btn" id="manage-categories-in-edit-mode-btn" style="display: none;" title="管理分类">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </span>
+            
+            <!-- 【核心修改1】将“删除已选”按钮移动到这里，并给它一个垃圾桶图标 -->
+            <span class="action-btn btn-danger" id="world-book-delete-selected-btn" style="display: none;" title="删除已选">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                <span id="world-book-delete-count" style="font-size: 12px; margin-left: 2px;"></span> <!-- 用于显示数量 -->
+            </span>
 
-            <span class="action-btn" id="manage-world-book-categories-btn">管理分类</span>
+            <span class="action-btn" id="toggle-world-book-edit-mode-btn">编辑模式</span>
+            
             <span class="action-btn" id="add-world-book-btn">+</span>
         </div>
     </div>
     <div id="world-book-list"></div>
 </div>
 <!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
+
 
 
             <div id="world-book-editor-screen" class="screen">
@@ -1740,14 +1757,18 @@
 <!-- ▲▲▲ HTML 替换结束 ▲▲▲ -->
 
 
-<!-- 加载动画遮罩层 (保持不变) -->
+<!-- ▼▼▼ 请用这整块【已添加ID】的代码替换旧的 ▼▼▼ -->
+<!-- 加载动画遮罩层 -->
 <div id="generation-overlay" class="modal" style="background-color: rgba(0,0,0,0.6); z-index: 2000;">
     <div style="text-align: center; color: white;">
         <div id="loading-spinner" style="width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
-        <p>正在同步Ta的手机数据...</p>
+        <!-- ★★★ 核心修改：我们给这行文字加了一个 id="generation-text" ★★★ -->
+        <p id="generation-text">正在同步Ta的手机数据...</p>
         <p style="font-size: 12px; opacity: 0.7;">（这可能需要一些时间，并会消耗API额度）</p>
     </div>
 </div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
 
 <!-- ▲▲▲ “查角色手机”功能HTML结束 ▲▲▲ -->
 
@@ -6220,8 +6241,400 @@
 
 <!-- ▼▼▼ 【全新】这是为约会结算卡片分享功能新增的HTML ▼▼▼ -->
 <input type="file" id="dating-summary-image-upload" accept="image/*" hidden>
+<!-- ▼▼▼ 用这整块代码替换旧的 #tukey-accounting-screen ▼▼▼ -->
+<div id="tukey-accounting-screen" class="screen">
+    <!-- 1. 页面头部 (保持不变) -->
+    <div class="header">
+        <span class="back-btn" onclick="showScreen('home-screen')">‹</span>
+        <span id="tukey-header-title">记账群聊</span>
+        <span style="width: 30px;"></span>
+    </div>
+
+    <!-- 2. 页面内容容器 (保持不变) -->
+    <div class="tukey-content">
+        <!-- 视图1: 钱包 (这是我们要修改的核心) -->
+        <div id="tukey-wallet-view" class="tukey-view">
+            <div id="wallet-summary-card">
+                <div class="summary-item net-assets">
+                    <span class="label">净资产</span>
+                    <span class="value" id="net-assets-value">¥ 0.00</span>
+                </div>
+                <div class="summary-details">
+                    <div class="summary-item">
+                        <span class="label">总资产</span>
+                        <span class="value" id="total-assets-value">¥ 0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">总负债</span>
+                        <span class="value" id="total-liabilities-value">¥ 0.00</span>
+                    </div>
+                </div>
+            </div>
+            <div id="wallet-accounts-list">
+                <!-- 账户列表将由JS动态生成在这里 -->
+            </div>
+            <button id="add-new-account-fab" class="ls-fab-btn" title="添加新账户">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+
+<!-- ▼▼▼ 用下面这整块代码，替换掉你旧的 id="tukey-reports-view" 的 div ▼▼▼ -->
+<div id="tukey-reports-view" class="tukey-view">
+    <!-- 1. 报表控制/筛选区域 -->
+    <div class="report-controls">
+        <select id="report-account-filter">
+            <!-- 账户选项将由JS动态生成 -->
+        </select>
+        <select id="report-month-filter">
+            <!-- 月份选项将由JS动态生成 -->
+        </select>
+        <select id="report-type-filter">
+            <option value="daily_details">每日明细</option>
+            <option value="monthly_summary">月度统计</option>
+        </select>
+    </div>
+
+    <!-- 2. 报表内容显示区域 -->
+    <div id="report-display-area">
+        <!-- 视图切换容器 -->
+        <div id="daily-report-view" class="report-view active">
+            <!-- 每日明细将由JS动态生成在这里 -->
+            <p class="report-placeholder">正在加载报表...</p>
+        </div>
+        <div id="monthly-report-view" class="report-view">
+            <!-- 月度统计将由JS动态生成在这里 -->
+            <div id="monthly-summary-card">
+                <!-- 月度总收支 -->
+            </div>
+            <div class="chart-container">
+                <h3>支出分类占比</h3>
+                <canvas id="category-pie-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>月度支出趋势</h3>
+                <canvas id="expenditure-line-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
+<!-- ▼▼▼ 用这整块代码替换旧的 tukey-group-chat-view ▼▼▼ -->
+<div id="tukey-group-chat-view" class="tukey-view active">
+    <!-- 这个容器会在没有群聊时显示 -->
+    <div id="tukey-no-group-placeholder">
+        <p>你还没有创建记账群聊哦</p>
+        <button id="tukey-create-group-btn" class="form-button">立即创建</button>
+    </div>
+
+<!-- ▼▼▼ 【兔k记账】用这整块代码替换旧的 tukey-group-chat-container ▼▼▼ -->
+<div id="tukey-group-chat-container" style="display: none;">
+    <div id="tukey-group-chat-header">
+        <span id="tukey-group-name">群聊名称</span>
+        <button id="tukey-group-settings-btn" title="群聊设置">⚙️</button>
+    </div>
+    
+    <!-- 记账和回复历史记录 -->
+    <div id="tukey-records-list">
+        <!-- JS会在这里渲染内容 -->
+    </div>
+
+    <!-- 记账输入区域 -->
+    <div id="tukey-record-input-area">
+        <button id="tukey-add-record-btn">+</button>
+    </div>
+
+<!-- ▼▼▼ 【兔k记账】用这整块【V3版】代码替换旧的 tukey-record-input-card ▼▼▼ -->
+<div id="tukey-record-input-card">
+    <div class="card-header">
+        <button class="close-card-btn">×</button>
+        <div class="type-selector">
+            <button class="type-btn active" data-type="expense">支出</button>
+            <button class="type-btn" data-type="income">收入</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- 金额和备注输入区域 -->
+        <div class="input-fields">
+            <div class="amount-input-wrapper">
+                <span class="currency-symbol">¥</span>
+                <input type="number" id="tukey-card-amount-input" placeholder="0.00">
+                <!-- 【新增】已选分类显示区 -->
+                <div id="tukey-card-selected-category">
+                    <img src="" alt="">
+                    <span>请选择分类</span>
+                </div>
+            </div>
+            <input type="text" id="tukey-card-remarks-input" placeholder="点击输入备注...">
+        </div>
+        <!-- 分类网格 -->
+        <div class="category-grid">
+            <!-- 分类将由JS动态生成 -->
+        </div>
+    </div>
+    <div class="card-footer">
+        <!-- 【新增】账户和时间选择器 -->
+        <div class="additional-options">
+            <div class="option-item">
+                <label for="tukey-card-account-select">账户</label>
+                <select id="tukey-card-account-select">
+                    <!-- 账户将由JS动态生成 -->
+                </select>
+            </div>
+            <div class="option-item">
+                <label for="tukey-card-time-input">时间</label>
+                <input type="datetime-local" id="tukey-card-time-input">
+            </div>
+        </div>
+        <button id="tukey-save-from-card-btn">保 存</button>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
+<!-- ▼▼▼ 用这整块代码替换旧的 id="tukey-settings-view" ▼▼▼ -->
+<div id="tukey-settings-view" class="tukey-view">
+    <div class="form-container" style="padding-top: 20px;">
+        
+        <!-- 1. 个人资料设置 -->
+        <div class="form-group">
+            <label>我的个人资料</label>
+            <div class="avatar-upload">
+                <img id="tukey-user-avatar-preview" src="https://i.postimg.cc/PxZrFFFL/o-o-1.jpg">
+                <button onclick="document.getElementById('tukey-user-avatar-input').click()">上传我的头像</button>
+                <input type="file" id="tukey-user-avatar-input" accept="image/*" hidden>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tukey-user-name-input">用户名</label>
+            <input type="text" id="tukey-user-name-input" placeholder="输入你在群聊中显示的昵称">
+        </div>
+        <div class="form-group">
+            <label for="tukey-user-profession-input">职业 (选填)</label>
+            <input type="text" id="tukey-user-profession-input" placeholder="你的职业，会展示给群友">
+        </div>
+
+        <hr style="opacity: 0.2; margin: 20px 0;">
+        
+        <!-- 2. 同步设置 -->
+        <div class="form-group">
+            <label for="sync-to-taobao-toggle" class="toggle-switch-label">
+                <span class="toggle-switch-text">
+                    同步至桃宝余额
+                    <p style="font-size: 12px; font-weight: normal; color: #999; margin-top: 5px;">
+                        开启后，所有记账记录将同步影响桃宝的余额和收支明细。
+                    </p>
+                </span>
+                <input type="checkbox" id="sync-to-taobao-toggle">
+                <span class="toggle-switch-slider"></span>
+            </label>
+        </div>
+
+        <hr style="opacity: 0.2; margin: 20px 0;">
+
+        <!-- 3. 导出设置 (新增) -->
+        <div class="form-group">
+            <label>数据导出</label>
+            <button id="export-tukey-report-btn" class="form-button form-button-secondary">导出账单为 Excel</button>
+        </div>
+
+        <button class="form-button" id="save-tukey-settings-btn">保存所有设置</button>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
+    </div>
+
+    <!-- 3. 底部导航栏 (保持不变) -->
+    <div id="tukey-bottom-nav">
+<!-- ▼▼▼ 找到并用【新代码】替换掉这整块旧代码 ▼▼▼ -->
+<div class="tukey-nav-item" data-view="tukey-wallet-view">
+    <svg width="24" height="24" viewBox="0 0 1024 1024">
+        <path d="M517.7 660c-4 26.6-19.2 46.3-37.3 46.3H290.1c-21.2 0-38.4-27-38.4-60.3V435.3c0-33.3 17.2-60.3 38.4-60.3h190.3c17.6 0 32.5 18.7 37 44.1" fill="#BAF4EA"></path>
+        <path d="M668.7 761.8H321.6c-54 0-97.9-43.9-97.9-97.9V419.6c0-54 43.9-97.9 97.9-97.9h347.1c43.8 0 82.6 29.5 94.4 71.6 4.1 14.9-4.6 30.3-19.5 34.5-14.9 4.1-30.3-4.6-34.5-19.5-5-18-21.6-30.6-40.4-30.6H321.6c-23.1 0-41.9 18.8-41.9 41.9v244.3c0 23.1 18.8 41.9 41.9 41.9h347.1c19.5 0 36.3-13.2 40.8-32.2 3.6-15 18.7-24.3 33.7-20.8 15 3.6 24.3 18.7 20.8 33.7-5 21.1-17.1 40.2-34.1 53.8-17.3 13.9-39 21.5-61.2 21.5z" fill="#2D5B56"></path>
+        <path d="M719.9 614.4H641c-39.9 0-72.6-32.7-72.6-72.6 0-39.9 32.7-72.6 72.6-72.6h78.9c39.9 0 72.6 32.7 72.6 72.6 0 39.9-32.7 72.6-72.6 72.6z" fill="#BAF4EA"></path>
+        <path d="M719.9 642.4H641c-55.5 0-100.6-45.1-100.6-100.6 0-55.5 45.1-100.6 100.6-100.6h78.9c55.5 0 100.6 45.1 100.6 100.6 0 55.4-45.2 100.6-100.6 100.6zM641 497.1c-24.6 0-44.6 20-44.6 44.6s20 44.6 44.6 44.6h78.9c24.6 0 44.6-20 44.6-44.6s-20-44.6-44.6-44.6H641z" fill="#2D5B56"></path>
+        <path d="M650.1 542.4m-0.4 0a0.4 0.4 0 1 0 0.8 0 0.4 0.4 0 1 0-0.8 0Z" fill="#FFFFFF"></path>
+        <path d="M650.1 570.8c-15.7 0-28.4-12.7-28.4-28.4s12.7-28.4 28.4-28.4 28.4 12.7 28.4 28.4-12.7 28.4-28.4 28.4z m0-56c-15.2 0-27.6 12.4-27.6 27.6s12.4 27.6 27.6 27.6 27.6-12.4 27.6-27.6-12.4-27.6-27.6-27.6z" fill="#2D5B56"></path>
+        <path d="M155.2 152.2c12 0 21.7 9.7 21.7 21.7s-9.7 21.7-21.7-21.7-21.7-9.7-21.7-21.7 9.7-21.7 21.7-21.7m0-40c-34 0-61.7 27.7-61.7 61.7s27.7 61.7 61.7 61.7 61.7-27.7 61.7-61.7-27.7-61.7-61.7-61.7zM162.7 956.8h-0.2c-8.3-0.1-14.9-6.9-14.8-15.2l1-69.5c0.1-8.2 6.8-14.8 15-14.8h0.2c8.3 0.1 14.9 6.9 14.8 15.2l-1 69.5c-0.1 8.2-6.8 14.8-15 14.8z" fill="#2D5B56"></path>
+        <path d="M212.9 907.5v0.2c-0.1 8.3-6.9 14.9-15.2 14.8l-69.5-1c-8.2-0.1-14.8-6.8-14.8-15v-0.2c0.1-8.3 6.9-14.9 15.2-14.8l69.5 1c8.3 0.2 14.8 6.9 14.8 15z" fill="#2D5B56"></path>
+        <path d="M895.4 905.5m-30.9 0a30.9 30.9 0 1 0 61.8 0 30.9 30.9 0 1 0-61.8 0Z" fill="#2D5B56"></path>
+        <path d="M121.4 613.5m-20.7 0a20.7 20.7 0 1 0 41.4 0 20.7 20.7 0 1 0-41.4 0Z" fill="#2D5B56"></path>
+        <path d="M861.5 115.5v30.8M861.5 156.3c-5.5 0-10-4.5-10-10v-30.8c0-5.5 4.5-10 10-10s10 4.5 10 10v30.8c0 5.5-4.5 10-10 10zM804.8 172.2h30.8M835.6 182.2h-30.8c-5.5 0-10-4.5-10-10s4.5-10 10-10h30.8c5.5 0 10 4.5 10 10s-4.5 10-10 10zM887.4 172.2h30.8M918.2 182.2h-30.8c-5.5 0-10-4.5-10-10s4.5-10 10-10h30.8c5.5 0 10 4.5 10 10s-4.5 10-10 10z" fill="#2D5B56"></path>
+        <path d="M821.4 212.3l21.8-21.8M821.4 222.3c-2.6 0-5.1-1-7.1-2.9-3.9-3.9-3.9-10.2 0-14.1l21.8-21.8c3.9-3.9 10.2-3.9 14.1 0 3.9 3.9 3.9 10.2 0 14.1l-21.8 21.8c-1.8 1.9-4.4 2.9-7 2.9z" fill="#2D5B56"></path>
+        <path d="M879.8 153.9l21.8-21.8M879.8 163.9c-2.6 0-5.1-1-7.1-2.9-3.9-3.9-3.9-10.2 0-14.1l21.8-21.8c3.9-3.9 10.2-3.9 14.1 0 3.9 3.9 3.9 10.2 0 14.1L886.9 161c-2 1.9-4.5 2.9-7.1 2.9z" fill="#2D5B56"></path>
+        <path d="M901.6 212.3l-21.8-21.8M901.6 222.3c-2.6 0-5.1-1-7.1-2.9l-21.8-21.8c-3.9-3.9-3.9-10.2 0-14.1 3.9-3.9 10.2-3.9 14.1 0l21.8 21.8c3.9 3.9 3.9 10.2 0 14.1-1.9 1.9-4.5 2.9-7 2.9z" fill="#2D5B56"></path>
+        <path d="M843.2 153.9l-21.8-21.8M843.2 163.9c-2.6 0-5.1-1-7.1-2.9l-21.8-21.8c-3.9-3.9-3.9-10.2 0-14.1 3.9-3.9 10.2-3.9 14.1 0l21.8 21.8c3.9 3.9 3.9 10.2 0 14.1-1.9 1.9-4.4 2.9-7 2.9z" fill="#2D5B56"></path>
+    </svg>
+    <span>钱包</span>
+</div>
+<div class="tukey-nav-item" data-view="tukey-reports-view">
+    <svg width="24" height="24" viewBox="0 0 1024 1024">
+        <path d="M692.24 787.29h-175.3a24.65 24.65 0 0 1 0-49.3h175.3a24.65 24.65 0 0 1 0 49.3z" fill="#303030" p-id="13093"></path><path d="M692.24 186.92v89.18H336.29v463.27h-89.34V186.92h445.29z" fill="#279ACC" p-id="13094"></path><path d="M810.83 869.58H322.21V660.12a24.65 24.65 0 0 1 49.3 0v160.16h390V318.74h-390v148.19a24.65 24.65 0 1 1-49.3 0V269.44h488.62z" fill="#303030" p-id="13095"></path><path d="M346.86 767H225.28V166.87H713.9v127.22a24.65 24.65 0 1 1-49.29 0v-77.93h-390v501.55h72.28a24.65 24.65 0 1 1 0 49.29z" fill="#303030" p-id="13096"></path><path d="M751.63 395.07m-78.65 0a78.65 78.65 0 1 0 157.3 0 78.65 78.65 0 1 0-157.3 0Z" fill="#279ACC" p-id="13097"></path><path d="M317.28 626.59a24.65 24.65 0 0 1-17.42-42.07l89.58-89.59c10.84-10.85 25-16.36 40.58-16.34a55.34 55.34 0 0 1 39.89 18l64.43 69.85 150.17-148a24.65 24.65 0 0 1 34.63 35.08l-150 148.05a49.43 49.43 0 0 1-71-1.66L433.68 530a6.42 6.42 0 0 0-4.65-2.1 5.84 5.84 0 0 0-4.73 1.91l-89.59 89.59a24.58 24.58 0 0 1-17.43 7.19z" fill="#303030" p-id="13098"></path><path d="M751.63 481.75a86.67 86.67 0 1 1 86.67-86.67 86.77 86.77 0 0 1-86.67 86.67z m0-124A37.38 37.38 0 1 0 789 395.08a37.42 37.42 0 0 0-37.37-37.38z" fill="#303030" p-id="13099"></path>
+    </svg>
+    <span>报表</span>
+</div>
+        <div class="tukey-nav-item active" data-view="tukey-group-chat-view">
+                <svg width="24" height="24" viewBox="0 0 1024 1024">
+      <path d="M134.588 151C118.247 151 105 164.247 105 180.584v557.964c0 16.339 13.255 29.584 29.599 29.584h155.746l31.872 99.6c2.489 7.777 8.981 9.197 14.504 3.169l94.146-102.769h457.72c16.341 0 29.59-13.247 29.59-29.584V180.584c0-16.339-13.248-29.584-29.588-29.584H134.588z" fill="#0FC8B2" p-id="32320"></path><path d="M511.213 422c19.045 0 34.484 15.44 34.484 34.486s-15.44 34.483-34.484 34.483c-19.046 0-34.485-15.438-34.485-34.483 0-19.046 15.439-34.486 34.485-34.486z m-199.727 0c19.046 0 34.483 15.44 34.483 34.486s-15.437 34.483-34.483 34.483S277 475.531 277 456.486C277 437.44 292.44 422 311.486 422z m399.454 0c19.045 0 34.485 15.439 34.485 34.484 0 19.046-15.439 34.483-34.485 34.483-19.045 0-34.485-15.438-34.485-34.483 0-19.045 15.44-34.484 34.485-34.484z" fill="#FFFFFF" p-id="32321"></path>
+    </svg>
+            <span>记账群聊</span>
+        </div>
+        <div class="tukey-nav-item" data-view="tukey-settings-view">
+                <svg width="24" height="24" viewBox="0 0 1024 1024">
+        <path d="M785.749333 564.770133a231.150933 231.150933 0 0 0 47.035734-258.730666l-145.476267 145.442133a41.5744 41.5744 0 0 1-58.811733 0l-55.876267-55.876267a41.5744 41.5744 0 0 1 0-58.811733l145.476267-145.476267a230.843733 230.843733 0 0 0-305.834667 305.664l-263.509333 263.406934a41.5744 41.5744 0 0 0 0 58.811733l55.842133 55.842133a41.5744 41.5744 0 0 0 58.811733 0l263.406934-263.3728a230.638933 230.638933 0 0 0 258.730666-47.069866l0.170667 0.170666z" fill="#FFFFFF" p-id="33627"></path><path d="M435.2 214.084267a264.977067 264.977067 0 0 1 297.028267-53.828267 34.133333 34.133333 0 0 1 10.001066 55.227733l-145.476266 145.442134a7.441067 7.441067 0 0 0 0 10.581333l55.876266 55.842133a7.441067 7.441067 0 0 0 10.5472 0l145.476267-145.476266a34.133333 34.133333 0 0 1 55.227733 10.069333 265.216 265.216 0 0 1-54.033066 296.96 34.474667 34.474667 0 0 1-3.208534 2.833067l-0.238933 0.170666-3.925333 3.822934a264.704 264.704 0 0 1-262.144 57.7536l-5.290667-1.8432-247.5008 247.534933a75.707733 75.707733 0 0 1-102.741333 4.027733l-4.334934-4.027733-55.876266-55.842133a75.707733 75.707733 0 0 1 0-107.1104l247.7056-247.569067-1.809067-5.2224a265.216 265.216 0 0 1 57.719467-262.075733l6.997333-7.2704z m211.285333-7.850667a196.539733 196.539733 0 0 0-163.0208 56.1152 196.983467 196.983467 0 0 0-40.072533 220.535467 34.133333 34.133333 0 0 1-6.9632 38.229333l-263.5776 263.406933a7.441067 7.441067 0 0 0 0 10.513067l55.876267 55.876267a7.441067 7.441067 0 0 0 10.5472 0l263.406933-263.406934a34.133333 34.133333 0 0 1 38.229333-6.929066 196.5056 196.5056 0 0 0 220.501334-40.072534l1.9456-1.7408 4.334933-4.5056a196.8128 196.8128 0 0 0 50.107733-156.672l-1.058133-7.304533-105.301333 105.335467a75.707733 75.707733 0 0 1-102.741334 4.027733l-4.334933-4.027733-55.876267-55.876267a75.707733 75.707733 0 0 1 0-107.076267l105.3696-105.3696-7.3728-1.058133z" fill="#222222" p-id="33628"></path><path d="M284.8768 690.858667a34.133333 34.133333 0 0 1 48.298667 48.264533l-61.781334 61.7472a34.133333 34.133333 0 1 1-48.264533-48.264533l61.781333-61.781334z" fill="#009898" p-id="33629"></path>
+    </svg>
+            <span>设置</span>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+<!-- ... </div> 标签来自 id="tukey-accounting-screen" -->
+
+<!-- ▼▼▼ 【全新】兔k记账导出选项模态框 ▼▼▼ -->
+<div id="tukey-export-modal" class="modal">
+    <div class="modal-content" style="height: auto; max-height: 70%;">
+        <div class="modal-header">
+            <span>选择要导出的账户</span>
+        </div>
+        <div class="modal-body">
+            <div id="tukey-export-account-list" class="contact-picker-list">
+                <!-- 账户列表将由JS动态生成 -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="cancel-tukey-export-btn">取消</button>
+            <button class="save" id="confirm-tukey-export-btn">确认导出</button>
+        </div>
+    </div>
+</div>
 <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
-<!-- ▼▼▼ 把这一整块全新的代码，粘贴到 </body> 标签的正上方 ▼▼▼ -->
+<!-- ▼▼▼ 【全新】“kk查岗”功能的所有HTML界面 ▼▼▼ -->
+
+<!-- 1. 查岗 - 角色选择屏幕 -->
+<div id="kk-char-selection-screen" class="screen">
+    <div class="header">
+        <span class="back-btn" onclick="showScreen('home-screen')">‹</span>
+        <span>要查谁的岗？</span>
+        <span style="width: 30px;"></span>
+    </div>
+    <div id="kk-char-selection-list" class="list-container">
+        <!-- 角色列表将由JS动态生成 -->
+    </div>
+</div>
+
+<!-- 2. 查岗 - 房屋总览屏幕 -->
+<div id="kk-house-view-screen" class="screen">
+    <div id="kk-house-background"></div>
+<div class="header" style="background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent); border-bottom: none;">
+    <!-- 1. 返回按钮保持在最左边 -->
+    <span class="back-btn" id="kk-back-from-house-view">‹</span>
+    
+    <!-- 2. 标题放在中间，这样它就能完美居中了 -->
+    <span id="kk-house-owner-name"></span>
+    
+    <!-- 3. 把所有的操作按钮都放进右边的 header-actions 容器里 -->
+    <div class="header-actions">
+    
+        <!-- ★★★ 核心修改：我们把“监控”图标移到了这里，并换成了你提供的SVG ★★★ -->
+        <span class="action-btn" id="kk-surveillance-icon" title="查看监控">
+            <!-- 替换了图标，调整了大小和颜色，使其与其他图标协调 -->
+            <svg viewBox="0 0 1024 1024" width="22" height="22">
+                <path d="M554.666667 768v85.333333h170.666666v42.666667H341.333333v-42.666667h170.666667v-85.333333c-166.4-12.8-298.666667-149.333333-298.666667-320S345.6 140.8 512 128h42.666667c166.4 12.8 298.666667 149.333333 298.666666 320s-132.266667 307.2-298.666666 320z m-21.333334-42.666667c153.6 0 277.333333-123.733333 277.333334-277.333333S686.933333 170.666667 533.333333 170.666667 256 294.4 256 448 379.733333 725.333333 533.333333 725.333333z m0-213.333333c-34.133333 0-64-29.866667-64-64S499.2 384 533.333333 384s64 29.866667 64 64-29.866667 64-64 64z" fill="white"></path>
+            </svg>
+        </span>
+        
+        <!-- 保持你原来的其他按钮不变 -->
+        <span class="action-btn" id="kk-continue-search-btn" title="继续翻找">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </span>
+        <span class="action-btn" id="kk-reset-search-btn" title="重新翻找">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        </span>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+    <div id="kk-house-info-panel">
+        <h2 id="kk-house-location"></h2>
+        <p id="kk-house-description"></p>
+        <div id="kk-house-areas">
+            <!-- 房屋区域按钮将由JS动态生成 -->
+        </div>
+    </div>
+</div>
+
+<!-- 3. 查岗 - 区域探索屏幕 -->
+<div id="kk-area-view-screen" class="screen">
+    <div id="kk-area-background"></div>
+    <div class="header" style="background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent); border-bottom: none;">
+        <span class="back-btn" id="kk-back-from-area-view">‹</span>
+        <span id="kk-area-name"></span>
+        <span style="width: 30px;"></span>
+    </div>
+    <div class="kk-item-list-container">
+        <h3 id="kk-area-description"></h3>
+        <p class="kk-instruction-text">点击下方物品进行翻找：</p>
+        <div id="kk-area-items-grid">
+            <!-- 可翻找物品将由JS动态生成 -->
+        </div>
+    </div>
+</div>
+<!-- ▼▼▼ 【全新】kk查岗-监控屏幕 ▼▼▼ -->
+<div id="kk-monitor-screen" class="screen">
+    <div class="header">
+        <span class="back-btn" id="kk-back-from-monitor">‹</span>
+        <span id="kk-monitor-title">监控中心</span>
+        <div class="header-actions">
+            <span class="action-btn" id="kk-refresh-monitor-btn" title="刷新监控画面">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+            </span>
+        </div>
+    </div>
+    <div id="kk-monitor-grid" class="list-container">
+        <!-- 监控画面将由JS动态生成在这里 -->
+    </div>
+</div>
+<!-- ▲▲▲ 监控屏幕结束 ▲▲▲ -->
+
+<!-- 4. 查岗 - 电脑屏幕 (模态框) -->
+<div id="kk-computer-modal" class="modal">
+    <div class="modal-content" style="width: 95%; height: 90%; max-width: 500px; background-color: #e0e0e0;">
+        <div class="modal-header" id="kk-computer-header">
+            <span>的电脑</span>
+            <span id="close-kk-computer-modal" style="cursor: pointer;">×</span>
+        </div>
+        <div class="modal-body" id="kk-computer-desktop">
+            <!-- 电脑桌面图标将由JS动态生成 -->
+        </div>
+    </div>
+</div>
+
+
+<!-- 6. 查岗 - 文件浏览器模态框 -->
+<div id="kk-file-explorer-modal" class="modal" style="z-index: 1003;">
+    <div class="modal-content" style="height: 70%;">
+        <div class="modal-header">
+            <span>私人文件</span>
+        </div>
+        <div class="modal-body" id="kk-file-list">
+            <!-- 文件列表将由JS动态生成 -->
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="close-file-explorer-modal-btn">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- ▲▲▲ “kk查岗”功能HTML结束 ▲▲▲ -->
+
+
 
 <!-- 【全新】约会历史记录界面 -->
 <div id="dating-history-screen" class="screen">
@@ -6392,6 +6805,236 @@
     </div>
 </div>
 <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+ 
+<!-- ▼▼▼ 用这整块代码替换旧的 #account-editor-modal ▼▼▼ -->
+<div id="account-editor-modal" class="modal">
+    <div class="modal-content" style="height: auto; max-height: 85%;">
+        <div class="modal-header">
+            <span id="account-editor-title">添加新账户</span>
+        </div>
+        <div class="modal-body">
+
+            <!-- 核心修改1：这是全新的账户类型选择视图，默认隐藏 -->
+            <div id="account-type-selection-view">
+                <!-- JS会在这里动态生成所有账户类型 -->
+            </div>
+
+            <!-- 核心修改2：将原有的表单包裹起来，默认隐藏 -->
+            <div id="account-editor-form" style="display: none;">
+                <div class="form-group">
+                    <label for="account-category-select">账户大类</label>
+                    <select id="account-category-select"></select>
+                </div>
+                <div class="form-group">
+                    <label for="account-type-select">账户类型</label>
+                    <select id="account-type-select"></select>
+                </div>
+                <div class="form-group">
+                    <label for="account-name-input">账户名称</label>
+                    <input type="text" id="account-name-input" placeholder="例如：工资卡, 零钱">
+                </div>
+                <div class="form-group">
+                    <label for="account-balance-input">账户余额</label>
+                    <input type="number" id="account-balance-input" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="account-remarks-input">备注 (可选)</label>
+                    <textarea id="account-remarks-input" rows="2"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="cancel-account-editor-btn">取消</button>
+            <!-- 保存按钮初始时隐藏，选择类型后显示 -->
+            <button class="save" id="save-account-btn" style="display: none;">保存</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+<!-- index.html (粘贴到 </body> 前) -->
+
+<!-- ▼▼▼ 【全新】记账群聊功能的所有弹窗 ▼▼▼ -->
+
+<!-- 1. 创建/管理群聊的弹窗 -->
+<div id="tukey-group-manager-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="tukey-group-manager-title">创建记账群聊</span>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="tukey-group-name-input">群聊名称</label>
+                <input type="text" id="tukey-group-name-input" placeholder="给你的群聊起个名吧">
+            </div>
+            <div class="form-group">
+                <label>选择群成员 (至少选择一位)</label>
+                <div id="tukey-member-picker-list" class="contact-picker-list">
+                    <!-- 角色列表将由JS动态生成 -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="tukey-cancel-group-manager-btn">取消</button>
+            <button class="save" id="tukey-save-group-btn">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 2. 群聊AI回复设置的弹窗 -->
+<div id="tukey-reply-settings-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>AI回复设置</span>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="tukey-reply-threshold-input">每记账 ____ 条后，AI进行回复：</label>
+                <input type="number" id="tukey-reply-threshold-input" min="1" value="1">
+            </div>
+            <hr style="opacity: 0.2;">
+            <div class="form-group">
+                <label>选择回复模式：</label>
+                <div class="theme-selector" style="flex-direction: column; align-items: flex-start; gap: 10px;">
+                    <label><input type="radio" name="tukey-reply-mode" value="all" checked> 所有成员都回复</label>
+                    <label><input type="radio" name="tukey-reply-mode" value="random"> 随机选择成员回复</label>
+                    <label><input type="radio" name="tukey-reply-mode" value="specific"> 指定成员回复</label>
+                </div>
+            </div>
+            <div id="tukey-specific-reply-options" style="display: none;">
+                <div class="form-group">
+                    <label for="tukey-random-count-input">随机回复人数 (当选择“随机”时):</label>
+                    <input type="number" id="tukey-random-count-input" min="1" value="2">
+                </div>
+                <div class="form-group">
+                    <label>指定回复的成员 (当选择“指定”时):</label>
+                    <div id="tukey-specific-member-picker-list" class="contact-picker-list" style="max-height: 150px;">
+                        <!-- 成员列表将由JS动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="tukey-cancel-reply-settings-btn">取消</button>
+            <button class="save" id="tukey-save-reply-settings-btn">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 3. 新建/编辑记账记录的弹窗 -->
+<div id="tukey-record-editor-modal" class="modal">
+    <div class="modal-content" style="height: auto; max-height: 90%;">
+        <div class="modal-header">
+            <span id="tukey-record-editor-title">记一笔</span>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>类型</label>
+                <div class="tukey-type-selector">
+                    <button class="type-btn active" data-type="expense">支出</button>
+                    <button class="type-btn" data-type="income">收入</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tukey-record-amount-input">金额</label>
+                <input type="number" id="tukey-record-amount-input" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label for="tukey-record-category-select">分类</label>
+                <select id="tukey-record-category-select">
+                    <!-- 分类将由JS动态生成 -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tukey-record-account-select">账户</label>
+                <select id="tukey-record-account-select">
+                    <!-- 账户将由JS动态生成 -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tukey-record-time-input">时间</label>
+                <input type="datetime-local" id="tukey-record-time-input">
+            </div>
+            <div class="form-group">
+                <label for="tukey-record-remarks-input">备注 (可选)</label>
+                <textarea id="tukey-record-remarks-input" rows="2"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="tukey-cancel-record-editor-btn">取消</button>
+            <button class="save" id="tukey-save-record-btn">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- ▲▲▲ 弹窗代码结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】“kk查岗”功能的电脑相关HTML界面 ▼▼▼ -->
+
+<!-- 4. 查岗 - 电脑屏幕 (模态框) -->
+<div id="kk-computer-modal" class="modal">
+    <div class="modal-content" style="width: 95%; height: 90%; max-width: 500px; background-color: #e0e0e0; background-image: url('https://i.postimg.cc/k495F4W5/profile-banner.jpg'); background-size: cover; background-position: center;">
+        <div class="modal-header" id="kk-computer-header" style="background-color: rgba(0,0,0,0.3); color: white; text-shadow: 0 1px 2px black;">
+            <span>的电脑</span>
+            <span id="close-kk-computer-modal" style="cursor: pointer;">×</span>
+        </div>
+        <div class="modal-body" id="kk-computer-desktop">
+            <!-- 电脑桌面图标将由JS动态生成 -->
+        </div>
+    </div>
+</div>
+
+<!-- 6. 查岗 - 文件浏览器模态框 -->
+<div id="kk-file-explorer-modal" class="modal" style="z-index: 1003;">
+    <div class="modal-content" style="height: 70%;">
+        <div class="modal-header">
+            <span>私人文件</span>
+        </div>
+        <div class="modal-body" id="kk-file-list">
+            <!-- 文件列表将由JS动态生成 -->
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="close-file-explorer-modal-btn">关闭</button>
+        </div>
+    </div>
+</div>
+<!-- ▼▼▼ 【全新】这是为“kk查岗”的文件查看器新增的弹窗 ▼▼▼ -->
+<div id="kk-file-viewer-modal" class="modal" style="z-index: 1004;">
+    <div class="modal-content" style="height: 70%;">
+        <div class="modal-header">
+            <span id="kk-file-viewer-title"></span>
+            <span id="close-kk-file-viewer-btn" style="cursor: pointer; font-size: 24px;">&times;</span>
+        </div>
+        <div class="modal-body" style="padding: 15px; background-color: #f0f2f5; overflow-y: auto;">
+            <!-- 使用 <pre> 标签可以更好地保留原文的换行和格式 -->
+            <pre id="kk-file-viewer-content" style="white-space: pre-wrap; word-wrap: break-word; font-family: inherit; font-size: 14px;"></pre>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】这是为Steam游戏库新增的弹窗 ▼▼▼ -->
+<div id="kk-steam-modal" class="modal" style="z-index: 1003;">
+    <div class="modal-content" style="height: 70%;">
+        <div class="modal-header">
+            <span>Steam 游戏库</span>
+            <div class="header-actions">
+                <span class="action-btn" id="kk-generate-more-games-btn" title="生成更多游戏">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </span>
+            </div>
+        </div>
+        <div class="modal-body" id="kk-steam-games-list">
+            <!-- 游戏列表将由JS动态生成在这里 -->
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="close-kk-steam-modal-btn">关闭</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+
+
+<!-- ▲▲▲ “kk查岗”功能HTML结束 ▲▲▲ -->
+
 
 
 
@@ -6892,7 +7535,7 @@ let currentDatingSummary = null; // 用于暂存当前结算卡片的数据
                     return [{text:`${time}[${text[obj.status]}] ${obj.status === 'paid' ? '同意' : '拒绝'}`}]
                 }else if(itemType === 'video_call_request'){
                     return [{text:`${time}[${text}]`}]
-                }}else if(itemType === 'video_call_request'){
+                } else if (itemType === 'video_call_response') {
                     return [{text:`${time}[${text[obj.decision]}] ${obj.decision === 'accept' ? '同意' : '拒绝'}`}]
                 }else if(itemType === 'qzone_post'){
                     return [{text:`${time}[${text[obj.postType]}] ${obj.postType === 'shuoshuo' ? `${obj.content}` : `图片描述是:${obj.hiddenContent} ${obj.publicText ? `文案是: ${obj.publicText}` : ''}`}`}]
@@ -6927,9 +7570,9 @@ let currentDatingSummary = null; // 用于暂存当前结算卡片的数据
         res = item.content;
     }
 
-    return [{text: res}];
+    return [{text: String(res || '')}];
 }
-
+    }
     function toGeminiRequestData(model, apiKey, systemInstruction, messagesForDecision, isGemini, temperature) {
 
 	if(!isGemini){
@@ -6988,6 +7631,8 @@ const PET_DECAY_AMOUNT = { // 每次衰减的数值
     happiness: 3
 };
 let petDecayTimer = null; // 用于管理衰减计时器的全局变量
+let pieChartInstance = null;
+let lineChartInstance = null;
 // ▲▲▲ 新代码粘贴结束 ▲▲▲
 // ▼▼▼ 【全新】这是角色手机的App列表，请粘贴到JS顶部 ▼▼▼
 const CHAR_PHONE_APPS = [
@@ -7268,21 +7913,14 @@ function generateAndLoadImage(prompt) {
     });
 }
 /* --- 约会大作战功能结束 --- */
+let isWorldBookEditMode = false;
+let selectedWorldBooks = new Set();
 
-// ▲▲▲ 新增代码结束 ▲▲▲
-
-
-// ▲▲▲ 新增代码结束 ▲▲▲
-
-// ▲▲▲ 新增代码结束 ▲▲▲
-
-// ▲▲▲ 代码粘贴结束 ▲▲▲
 const db = new Dexie('GeminiChatDB');
-// ▼▼▼ 在这里粘贴下面这一整块新代码 ▼▼▼
 
-// ▲▲▲ 新增代码结束 ▲▲▲
 
-        // ▼▼▼ 把下面这一整块全新的微博功能代码，粘贴到这里 ▼▼▼
+
+
 
 /**
  * 【微博】总入口：根据当前激活的视图，渲染对应的微博Feed
@@ -8466,7 +9104,9 @@ const DEFAULT_APP_ICONS = {
     'game-hall': 'https://i.postimg.cc/P5gL5z2g/game-controller-icon.png',
     'x-social': 'https://i.postimg.cc/8P1H0vQ8/x-logo.png',
     'taobao': 'https://i.postimg.cc/k47tXg1j/taologo.png',
-    'date-a-live': 'https://i.postimg.cc/Kjdss1j9/1761142686734.png' 
+    'date-a-live': 'https://i.postimg.cc/Kjdss1j9/1761142686734.png' ,
+    'tukey-accounting': 'https://image.uglycat.cc/28nx3q.png',
+    'kk-checkin': 'https://image.uglycat.cc/wqo2yd.png'
 };
 // ▼▼▼ 在这里粘贴下面的新代码 ▼▼▼
 const DEFAULT_APP_LABELS = {
@@ -8482,7 +9122,9 @@ const DEFAULT_APP_LABELS = {
     'game-hall': '游戏大厅',
     'x-social': 'X社交',
     'taobao': '桃宝',
-    'date-a-live': '约会大作战'
+    'date-a-live': '约会大作战',
+    'tukey-accounting': '兔兔记账',
+    'kk-checkin': 'kk查岗'
 };
 // ▲▲▲ 新代码粘贴结束 ▲▲▲
 
@@ -8639,10 +9281,8 @@ function getRandomItem(arr) {
         // 2. 数据库结构定义
         // ===================================================================
 
-// main-app.js
-
-db.version(52).stores({ // 版本号从 51 升级到 52
-    chats: '&id, isGroup, groupId, ownerId, isPinned, characterPhoneData, latestInnerVoice, innerVoiceHistory, loversSpaceData.emotionDiaries, settings.summary, settings.weiboNickname, settings.innerVoiceHideHeaderBorder, settings.innerVoiceAdopterLabelFormat, interactionStats, unlockedSymbols, settings.selectedIntimacyBadge', 
+db.version(53).stores({ // 版本号从 52 升级到 53
+    chats: '&id, isGroup, groupId, ownerId, isPinned, characterPhoneData, latestInnerVoice, innerVoiceHistory, loversSpaceData.emotionDiaries, settings.summary, settings.weiboNickname, settings.innerVoiceHideHeaderBorder, settings.innerVoiceAdopterLabelFormat, interactionStats, unlockedSymbols, settings.selectedIntimacyBadge, houseData', 
     apiConfig: '&id',
     globalSettings: '&id, activeThemeId', 
     userStickers: '&id, url, name, categoryId',
@@ -8687,10 +9327,16 @@ db.version(52).stores({ // 版本号从 51 升级到 52
     datingSprites: '++id, groupId, description, url',
     datingHistory: '++id, characterId, timestamp',
     offlinePresets: '++id, name',
-    // ▼▼▼ 在这里添加下面这两行新代码 ▼▼▼
     elemeFoods: '++id, name, category',
-    elemeOrders: '++id, recipientId, timestamp'
-    // ▲▲▲ 新增代码结束 ▲▲▲
+    elemeOrders: '++id, recipientId, timestamp',
+    
+    // ▼▼▼ 以下是本次新增的数据库表 ▼▼▼
+    tukeyAccounts: '++id, category, type', // 这是你已有的，保持不变
+    tukeyAccountingGroups: '&id', // 记账群聊设置 (id, name, members, replySettings)
+    tukeyAccountingRecords: '++id, groupId, timestamp, isRepliedTo, accountId',
+    tukeyAccountingReplies: '++id, recordId, charId', // AI的回复记录
+    tukeyUserSettings: '&id'
+    // ▲▲▲ 新增结束 ▲▲▲
 });
 
 
@@ -22967,7 +23613,9 @@ const appLabels = {
     'game-hall': '游戏大厅',
     'x-social': 'X社交',
     'taobao': '桃宝',
-    'date-a-live':'约会大作战'
+    'date-a-live':'约会大作战',
+    'tukey-accounting': '兔兔记账',
+    'kk-checkin': 'kk查岗'
 };
 // ▲▲▲ 替换结束 ▲▲▲
 
@@ -25753,7 +26401,7 @@ async function generateCharacterPhoneDataSegment(dataType) {
     }
     // ★★★★★ 修改结束 ★★★★★
 
-    document.getElementById('generation-overlay').classList.add('visible');
+    showGenerationOverlay('正在同步Ta的手机数据...');
 
     try {
         const userNickname = state.qzoneSettings.nickname || '我';
@@ -26056,7 +26704,7 @@ async function generateCharacterPhoneData() {
     const chat = state.chats[activeCharacterPhoneId];
     if (!chat) return;
 
-    document.getElementById('generation-overlay').classList.add('visible');
+    showGenerationOverlay('正在同步Ta的手机数据...');
 
     try {
         const userNickname = state.qzoneSettings.nickname || '我';
@@ -32336,15 +32984,18 @@ async function playMinimaxAudio(text, voiceId, bubblesToAnimate) {
     const speechModel = state.apiConfig.minimaxSpeechModel || 'speech-01-turbo';
     const baseUrl = provider === 'cn' ? 'https://api.minimaxi.com' : 'https://api.minimax.io';
     const requestUrl = `${baseUrl}/v1/t2a_v2`;
-
     // 1. 从当前角色的设置中读取语速和语言增强
     const speed = chat.settings.speed ?? 1.0;
     const langBoost = chat.settings.language_boost; // 如果是null或undefined, 就让它是null/undefined
 
+    // ▼▼▼ 在这里添加修改，过滤掉括号里的内容 ▼▼▼
+    const textForTts = text.replace(/\(.*?\)|（.*?）/g, '');
+    // ▲▲▲ 修改结束 ▲▲▲
+
     // 2. 构建包含新参数的请求体
     const requestBody = {
         model: speechModel,
-        text: text,
+        text: textForTts, // <--- 核心修改在这里！使用过滤后的文本
         voice_setting: {
             voice_id: voiceId,
             speed: speed, // ★ 在这里加入语速
@@ -32355,7 +33006,6 @@ async function playMinimaxAudio(text, voiceId, bubblesToAnimate) {
     if (langBoost) {
         requestBody.language_boost = langBoost;
     }
-    // --- ★★★ 核心修改结束 ★★★ ---
 
     console.log(`[Minimax TTS] Request to ${requestUrl}`, requestBody);
 
@@ -37954,6 +38604,1270 @@ async function clearAllQzonePosts() {
         await showCustomAlert('操作失败', `清空动态时发生错误: ${error.message}`);
     }
 }
+// ▼▼▼ 【全新】“kk查岗”功能的所有核心函数 ▼▼▼
+
+let activeKkCharId = null; // 用于追踪正在查看哪个角色的房屋
+
+/**
+ * 【总入口】打开“查岗”功能，显示角色选择列表
+ */
+async function openKkCheckin() {
+    const listEl = document.getElementById('kk-char-selection-list');
+    listEl.innerHTML = '';
+    const characters = Object.values(state.chats).filter(chat => !chat.isGroup);
+
+    if (characters.length === 0) {
+        listEl.innerHTML = '<p style="text-align:center; color: var(--text-secondary);">还没有可以查岗的角色</p>';
+    } else {
+        characters.forEach(char => {
+            const item = document.createElement('div');
+            item.className = 'character-select-item'; // 复用“查手机”的样式
+            item.dataset.chatId = char.id;
+            item.innerHTML = `
+                <img src="${char.settings.aiAvatar || defaultAvatar}" alt="${char.name}">
+                <span class="name">${char.name}</span>
+            `;
+            listEl.appendChild(item);
+        });
+    }
+    showScreen('kk-char-selection-screen');
+}
+
+/**
+ * 选择一个角色后，打开他/她的房屋视图
+ * @param {string} charId - 被选择角色的ID
+ */
+async function openKkHouseView(charId) {
+    activeKkCharId = charId;
+    const chat = state.chats[charId];
+    if (!chat) return;
+
+    // 检查是否已经生成过房屋数据
+    if (!chat.houseData) {
+        // 如果没有，就调用AI生成
+        const generatedData = await generateHouseData(charId);
+        if (!generatedData) return; // 如果生成失败，则中止
+        chat.houseData = generatedData;
+        await db.chats.put(chat); // 保存到数据库
+    }
+    
+    // 渲染房屋视图
+    renderKkHouseView(chat.houseData);
+    showScreen('kk-house-view-screen');
+}
+
+/**
+ * 【AI核心 V3】为指定角色一次性生成所有房屋、区域和物品数据
+ * @param {string} charId - 角色ID
+ * @returns {Promise<object|null>} - 返回生成的房屋数据对象，或在失败时返回null
+ */
+async function generateHouseData(charId) {
+    const chat = state.chats[charId];
+    showGenerationOverlay('正在努力寻找中...');
+
+    try {
+        const { proxyUrl, apiKey, model } = state.apiConfig;
+        if (!proxyUrl || !apiKey || !model) throw new Error('API未配置');
+
+        let worldBookContext = '';
+        if (chat.settings.linkedWorldBookIds && chat.settings.linkedWorldBookIds.length > 0) {
+            worldBookContext = '--- 世界观设定 (必须严格遵守) ---\n' +
+                chat.settings.linkedWorldBookIds.map(id => {
+                    const book = state.worldBooks.find(b => b.id === id);
+                    return book ? `[${book.name}]: ${book.content}` : '';
+                }).join('\n\n');
+        }
+
+        const recentHistory = chat.history.slice(-10).map(msg => {
+            const sender = msg.role === 'user' ? '我' : chat.name;
+            return `${sender}: ${msg.content}`;
+        }).join('\n');
+
+        const npcLibrary = chat.npcLibrary || [];
+        let npcContext = '';
+        if (npcLibrary.length > 0) {
+            npcContext = '# 你的专属NPC好友列表 (你必须从中随机选择2-3位朋友进行对话)\n' +
+                '这些人是你的好朋友，你和他们非常熟悉。请根据他们的人设，生成符合你们关系的、自然的聊天记录。\n' +
+                npcLibrary.map(npc => `- **${npc.name}**: ${npc.persona}`).join('\n');
+        } else {
+            npcContext = '# 你的专属NPC好友列表\n(你当前没有专属NPC，请虚构2-3个普通朋友并生成对话)';
+        }
+
+        const systemPrompt = `
+# 任务
+你是一个顶级的、充满想象力的场景设计师。请根据角色的人设和最近的聊天记录，为角色“${chat.name}”设计一个充满细节、符合其身份的住所。你的任务是【一次性】生成所有数据。
+
+# 角色信息
+- 角色名: ${chat.name}
+- 角色人设: ${chat.settings.aiPersona}
+${worldBookContext}
+- 最近的聊天记录 (供你参考情景):
+${recentHistory}
+${npcContext}
+
+# 核心规则 (必须严格遵守)
+1.  **情景一致性**: 住所的设计、找到的物品都必须严格符合角色的人设、世界观和最近的聊天情景。例如，一个贫穷的角色不应住在豪宅，一个刚失恋的角色可能会找到相关物品。
+2.  **区域划分**: 住所必须至少包含【客厅】和【卧室】。你可以根据人设添加其他有趣的区域（如书房、厨房、阳台、地下室等）。
+3.  **可翻找物品 (最重要!)**: 
+    -   每个区域内必须包含3-5个符合该区域特点、且可以被“翻找”的具体地点。例如：客厅可以有“沙发底下”、“茶几抽屉”、“电视柜后面”、“垃圾桶”；卧室可以有“枕头底下”、“衣柜深处”、“床头柜抽屉”。
+    -   你【必须】为【每一个】可翻找的物品预设好翻找后能找到的内容("content")。
+    -   找到的内容必须充满细节和想象力，可以是普通的物品，也可以是触发剧情的关键线索。**不要总是“什么都没找到”**。
+4.  **电脑设定**:
+    -   角色必须有一台电脑。
+    -   "browser_history": 虚构3-5条【除B站外】的普通浏览器搜索/浏览记录。
+    -   【movies】: 虚构2-3个在电脑D盘里下载的电影或剧集的文件名 (例如: 电影A.mkv)。
+    -   【secret_folder】: 虚构一个加密的隐藏文件夹。**必须**包含 "fileName" 和 "content" 两个字段。"fileName" 要看起来很可疑但又像是伪装过的（例如：“学习资料.zip”、“系统备份”）。"content" **必须**清楚地写明里面是成人影片(AV)，并虚构1-2个具体的文件名/番号。
+    -   【local_files】: 虚构2-4个符合其性格的本地文件名，并为【每一个文件】都编写一段具体内容("content")。内容可以是日记、小说片段、代码、学习笔记等。
+5.  **图片Prompt**: 你必须为住所的【整体外观】以及【每个独立区域】都生成一个用于文生图的、纯英文的、详细的【纯风景或静物】描述。**绝对不能包含人物**。图片风格必须是【唯美的动漫风格 (beautiful anime style art, cinematic lighting, masterpiece)】。
+
+# JSON输出格式 (必须严格遵守，不要添加任何额外说明)
+{
+  "location": "【例如：市中心的高级公寓顶层】",
+  "description": "【对这个住所的整体氛围和风格的简短描述】",
+  "locationImagePrompt": "【整体住所外观的英文图片prompt】",
+  "areas": {
+    "客厅": {
+      "description": "【对客厅的详细描述】",
+      "imagePrompt": "【客厅的英文图片prompt】",
+      "items": [
+        {"name": "沙发底下", "content": "找到了一些零食碎屑和一枚遗落的硬币。"},
+        {"name": "电脑", "content": "这是一台性能不错的笔记本电脑，屏幕还亮着。"}
+      ]
+    },
+    "卧室": { ... }
+  },
+  "computer": {
+    "browser_history": [ "知乎-如何看待XX事件", "学习网站-Python入门教程" ],
+    "local_files": [
+      {"fileName": "秘密日记.txt", "content": "今天又见到了那个人，心情很复杂..."},
+      {"fileName": "学习计划.docx", "content": "下周要完成的论文提纲：1. ... 2. ..."}
+    ],
+    "movies": ["电影A.mkv", "动漫剧场版B.mp4"],
+    "secret_folder": {
+        "fileName": "加密的-学习资料(请勿打开).zip",
+        "content": "解压后发现里面是几部日本成人影片(AV)，文件名分别是 [FC2-PPV-123456]和[SIV-001]，成人影片内容为"
+    }
+    "steam_games": [
+      {"name": "赛博朋克 2077", "playtime": "150 小时"},
+      {"name": "艾尔登法环", "playtime": "300 小时"},
+      {"name": "博德之门3", "playtime": "200 小时"}
+    ]
+  }
+}
+`;
+        
+        const messagesForApi = [{ role: 'user', content: systemPrompt }];
+        let isGemini = proxyUrl === GEMINI_API_URL;
+        let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi, isGemini);
+        
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({ model: model, messages: messagesForApi, temperature: 0.8, response_format: { type: "json_object" } })
+            });
+        
+        if (!response.ok) throw new Error(await response.text());
+        
+        const data = await response.json();
+        const rawContent = (isGemini ? data.candidates[0].content.parts[0].text : data.choices[0].message.content).replace(/^```json\s*|```$/g, '');
+        const houseData = JSON.parse(rawContent);
+
+        (async () => {
+            try {
+                console.log("开始在后台生成房屋图片...");
+                const locationImageUrl = await generateAndLoadImage(houseData.locationImagePrompt);
+                const areaImagePromises = Object.keys(houseData.areas).map(async (areaName) => {
+                    const area = houseData.areas[areaName];
+                    const imageUrl = await generateAndLoadImage(area.imagePrompt);
+                    return { areaName, imageUrl };
+                });
+
+                const areaImages = await Promise.all(areaImagePromises);
+
+                const chatToUpdate = await db.chats.get(charId);
+                if (chatToUpdate) {
+                    chatToUpdate.houseData.locationImageUrl = locationImageUrl;
+                    areaImages.forEach(({ areaName, imageUrl }) => {
+                        chatToUpdate.houseData.areas[areaName].imageUrl = imageUrl;
+                    });
+                    await db.chats.put(chatToUpdate);
+                    console.log("所有房屋图片已在后台生成并保存！");
+                }
+            } catch (imgError) {
+                console.error("后台图片生成失败:", imgError);
+            }
+        })();
+
+        return houseData;
+
+    } catch (error) {
+        console.error("生成房屋数据失败:", error);
+        await showCustomAlert('生成失败', `发生错误: ${error.message}`);
+        return null;
+    } finally {
+        document.getElementById('generation-overlay').classList.remove('visible');
+    }
+}
+
+
+/**
+ * 渲染房屋总览视图
+ * @param {object} houseData - 角色的房屋数据
+ */
+function renderKkHouseView(houseData) {
+    document.getElementById('kk-house-owner-name').textContent = `${state.chats[activeKkCharId].name}的家`;
+    document.getElementById('kk-house-background').style.backgroundImage = `url(${houseData.locationImageUrl})`;
+    document.getElementById('kk-house-location').textContent = houseData.location;
+    document.getElementById('kk-house-description').textContent = houseData.description;
+    
+    const areasContainer = document.getElementById('kk-house-areas');
+    areasContainer.innerHTML = '';
+    for (const areaName in houseData.areas) {
+        const areaBtn = document.createElement('button');
+        areaBtn.className = 'kk-area-button';
+        areaBtn.textContent = areaName;
+        areaBtn.onclick = () => openKkAreaView(areaName);
+        areasContainer.appendChild(areaBtn);
+    }
+}
+
+// ▼▼▼ 用这块【修复后】的代码，完整替换旧的 openKkAreaView 函数 ▼▼▼
+/**
+ * 打开并渲染指定区域的探索视图
+ * @param {string} areaName - 区域名称, e.g., "客厅"
+ */
+function openKkAreaView(areaName) {
+    const chat = state.chats[activeKkCharId];
+    const areaData = chat.houseData.areas[areaName];
+    if (!areaData) return;
+
+    document.getElementById('kk-area-name').textContent = areaName;
+    document.getElementById('kk-area-background').style.backgroundImage = `url(${areaData.imageUrl})`;
+    document.getElementById('kk-area-description').textContent = areaData.description;
+
+    const itemsGrid = document.getElementById('kk-area-items-grid');
+    itemsGrid.innerHTML = '';
+    
+    // ★★★★★ 核心修复在这里 ★★★★★
+    // 我们现在遍历的是对象数组，所以要使用 item.name
+    areaData.items.forEach(item => {
+        const itemBtn = document.createElement('button');
+        itemBtn.className = 'kk-item-button';
+        // 1. 修复：按钮上显示的文字应该是对象的 name 属性
+        itemBtn.textContent = item.name; 
+        
+        // 2. 修复：点击时传递给 handleRummage 的也应该是 name 字符串
+        itemBtn.onclick = () => handleRummage(areaName, item.name); 
+        
+        itemsGrid.appendChild(itemBtn);
+    });
+    // ★★★★★ 修复结束 ★★★★★
+
+    showScreen('kk-area-view-screen');
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+// ▼▼▼ 用这块【新代码】替换旧的 handleRummage 函数 ▼▼▼
+/**
+ * 处理“翻找”动作 (不再调用AI，直接读取已生成的数据)
+ * @param {string} areaName - 区域名
+ * @param {string} itemName - 物品名
+ */
+function handleRummage(areaName, itemName) {
+    // 核心修改：如果是电脑，就调用新函数
+    if (itemName.toLowerCase() === '电脑' || itemName.toLowerCase() === 'computer') {
+        openComputer();
+        return;
+    }
+
+    const chat = state.chats[activeKkCharId];
+    const area = chat.houseData.areas[areaName];
+    // 在物品数组中查找被点击的那一项
+    const item = area.items.find(i => i.name === itemName);
+
+    if (item && item.content) {
+        // 如果找到了，就显示预设好的内容
+        showCustomAlert(`在“${itemName}”里`, item.content.replace(/\n/g, '<br>'));
+    } else {
+        // 如果因为某些原因没找到（理论上不应该发生），给一个备用提示
+        showCustomAlert(`在“${itemName}”里`, '仔细翻了翻，但什么特别的东西都没发现...');
+    }
+}
+// ▲▲▲ 替换结束 ▲▲▲
+
+
+// ▼▼▼ 【全新】这是“kk查岗”新按钮的功能函数，请粘贴到你的JS代码中 ▼▼▼
+
+/**
+ * 【核心功能】处理“重新翻找”按钮的点击事件
+ * 这会清空旧数据，并调用AI重新生成一个全新的家。
+ */
+async function handleResetKkHouse() {
+    if (!activeKkCharId) return;
+
+    const confirmed = await showCustomConfirm(
+        '确认重新生成',
+        '你确定要重新生成这个家吗？所有现有的区域和物品都将被覆盖，此操作不可撤销。',
+        { confirmButtonClass: 'btn-danger' }
+    );
+
+    if (confirmed) {
+        const chat = state.chats[activeKkCharId];
+        // 直接调用你已有的房屋生成函数
+        const generatedData = await generateHouseData(activeKkCharId);
+        if (generatedData) {
+            chat.houseData = generatedData; // 用新数据覆盖旧数据
+            await db.chats.put(chat);     // 保存到数据库
+            renderKkHouseView(chat.houseData); // 重新渲染界面
+            alert('一个全新的家已经生成！');
+        }
+    }
+}
+
+/**
+ * 【核心功能 V2 - 已支持B站】处理“继续翻找”按钮的点击事件
+ * 这会保留现有房屋结构，只让AI为每个区域或电脑添加新的可翻找物品/发现。
+ */
+async function handleContinueKkSearch() {
+    if (!activeKkCharId) return;
+    const chat = state.chats[activeKkCharId];
+    if (!chat || !chat.houseData) {
+        alert('还没有为这个角色生成家，请先“重新翻找”一次。');
+        return;
+    }
+
+    showGenerationOverlay('正在努力寻找中...');
+
+    try {
+        const { proxyUrl, apiKey, model } = state.apiConfig;
+        if (!proxyUrl || !apiKey || !model) throw new Error('API未配置');
+
+        // 准备一个只包含现有物品名的上下文，告诉AI不要重复
+        let existingItemsContext = '# 已有物品 (请生成与之不同的新物品或发现)\n';
+        for (const areaName in chat.houseData.areas) {
+            const area = chat.houseData.areas[areaName];
+            existingItemsContext += `## ${areaName}:\n`;
+            existingItemsContext += area.items.map(item => `- ${item.name}`).join('\n') + '\n';
+        }
+
+        const systemPrompt = `
+# 任务
+你是一个场景补充设计师。用户正在对角色“${chat.name}”的住所进行【补充翻找】。
+你的任务是在【不改变现有结构】的基础上，为【指定的区域】或【电脑】添加2-3个全新的、有趣的、符合人设的可翻找物品或新发现。
+
+# 角色信息
+- 人设: ${chat.settings.aiPersona}
+- 已有房屋数据:
+${JSON.stringify(chat.houseData, null, 2)}
+${existingItemsContext}
+
+# 核心规则
+1.  **只添加，不修改**: 你只能添加新物品/发现，绝对不能修改或删除已有的数据。
+2.  **内容丰富**: 新发现的物品/文件/记录的 "content" 必须充满细节和想象力，不要总是“什么都没找到”。
+3.  **格式铁律**: 你的回复【必须且只能】是一个JSON对象，其结构与下方示例完全一致。键是区域名或"computer"，值是一个包含新物品/发现的数组或对象。
+
+# JSON输出格式示例 (只返回【新增】的物品/发现)
+{
+  "客厅": [
+    {"name": "书架顶层", "content": "发现一本被遗忘的旧相册。"}
+  ],
+  "computer": {
+    "local_files": [{"fileName": "一封未发送的邮件.eml", "content": "邮件内容..."}],
+    "browser_history": ["P站-插画欣赏"],
+    "movies": ["经典电影C.rmvb"],
+    "steam_games": [
+      {"name": "赛博朋克 2077", "playtime": "150 小时"},
+      {"name": "艾尔登法环", "playtime": "300 小时"},
+      {"name": "博德之门3", "playtime": "200 小时"}
+    ]
+  }
+}
+`;
+        const messagesForApi = [{ role: 'user', content: systemPrompt }];
+        let isGemini = proxyUrl === GEMINI_API_URL;
+        let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi, isGemini);
+        
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({ model: model, messages: messagesForApi, temperature: 0.9, response_format: { type: "json_object" } })
+            });
+
+        if (!response.ok) throw new Error(await response.text());
+        
+        const data = await response.json();
+        const rawContent = (isGemini ? data.candidates[0].content.parts[0].text : data.choices[0].message.content).replace(/^```json\s*|```$/g, '');
+        const newItemsData = JSON.parse(rawContent);
+
+        // 将AI返回的新物品/发现合并到旧数据中
+        for (const key in newItemsData) {
+            // 如果是电脑数据
+            if (key === 'computer') {
+                const computerUpdates = newItemsData.computer;
+                for (const subKey in computerUpdates) {
+                    // ★★★ 这里是核心合并逻辑 ★★★
+                    // 确保原始数据里有这个数组，如果没有就创建一个
+                    if (!chat.houseData.computer[subKey]) {
+                        chat.houseData.computer[subKey] = [];
+                    }
+                    // 确保两个都是数组再合并
+                    if (Array.isArray(chat.houseData.computer[subKey]) && Array.isArray(computerUpdates[subKey])) {
+                        chat.houseData.computer[subKey].push(...computerUpdates[subKey]);
+                    }
+                }
+            } 
+            // 如果是区域物品数据
+            else if (chat.houseData.areas[key] && Array.isArray(newItemsData[key])) {
+                chat.houseData.areas[key].items.push(...newItemsData[key]);
+            }
+        }
+        
+        await db.chats.put(chat);
+        alert('翻找出了更多新东西！现在可以进入区域或电脑查看了。');
+
+    } catch (error) {
+        console.error("继续翻找失败:", error);
+        await showCustomAlert('操作失败', `发生错误: ${error.message}`);
+    } finally {
+        document.getElementById('generation-overlay').classList.remove('visible');
+    }
+}
+
+function openComputer() {
+    const chat = state.chats[activeKkCharId];
+    document.getElementById('kk-computer-header').querySelector('span').textContent = `${chat.name}的电脑`;
+    
+    const desktop = document.getElementById('kk-computer-desktop');
+    // 使用Flexbox布局来更好地排列图标
+    desktop.style.display = 'flex';
+    desktop.style.flexWrap = 'wrap';
+    desktop.style.gap = '20px';
+    desktop.style.padding = '20px';
+    desktop.style.alignContent = 'flex-start';
+
+    // 获取电脑数据，用于动态显示文件名
+    const computerData = chat.houseData?.computer || {};
+    const secretFolderName = computerData.secret_folder?.fileName || '加密文件夹';
+
+    desktop.innerHTML = `
+        <div class="kk-desktop-icon" id="kk-browser-icon" title="浏览器">
+            <img src="https://image.uglycat.cc/o0881m.png" alt="Browser">
+            <span>浏览器</span>
+        </div>
+        
+        <div class="kk-desktop-icon" id="kk-movies-icon" title="电影">
+            <img src="https://image.uglycat.cc/j4snz7.png" alt="Movies">
+            <span>电影</span>
+        </div>
+        <div class="kk-desktop-icon" id="kk-files-icon" title="私人文件">
+            <img src="https://image.uglycat.cc/jzatyq.png" alt="Files">
+            <span>私人文件</span>
+        </div>
+        <div class="kk-desktop-icon" id="kk-secret-folder-icon" title="隐秘文件夹">
+            <img src="https://image.uglycat.cc/xcwyj5.png" alt="Secret Folder">
+            <span>${secretFolderName}</span>
+        </div>
+        <div class="kk-desktop-icon" id="kk-steam-icon" title="Steam">
+            <img src="https://image.uglycat.cc/te36se.png" alt="Steam">
+            <span>Steam</span>
+        </div>
+    `;
+    
+    document.getElementById('kk-computer-modal').classList.add('visible');
+}
+
+
+
+/**
+ * 【V3 - 最终修复版】打开文件浏览器，为每个文件项添加data-*属性以便后续点击处理。
+ */
+function openFileExplorer() {
+    const computerData = state.chats[activeKkCharId]?.houseData?.computer;
+    const files = computerData?.local_files || [];
+    const listEl = document.getElementById('kk-file-list');
+    listEl.innerHTML = '';
+    
+    if (files.length === 0) {
+        listEl.innerHTML = '<p style="text-align:center; color: var(--text-secondary);">这个文件夹是空的</p>';
+    } else {
+        files.forEach(file => {
+            const item = document.createElement('div');
+            item.className = 'kk-file-item';
+            item.textContent = file.fileName;
+            
+            // --- ▼▼▼ 这就是本次修复的核心代码 ▼▼▼ ---
+            
+            // 1. 让鼠标悬浮时显示为可点击的手指形状
+            item.style.cursor = 'pointer'; 
+            // 2. 将文件名和文件内容存储到元素的 data-* 属性中，方便之后读取
+            item.dataset.fileName = file.fileName;
+            item.dataset.fileContent = encodeURIComponent(file.content || '（文件内容为空）');
+            
+            // --- ▲▲▲ 核心代码结束 ▲▲▲ ---
+            
+            listEl.appendChild(item);
+        });
+    }
+    
+    document.getElementById('kk-file-explorer-modal').classList.add('visible');
+}
+
+/**
+ * 【全新】打开专用的文件内容查看器
+ * @param {string} fileName - 文件名，用于显示在弹窗标题
+ * @param {string} fileContent - 文件内容，用于显示在弹窗主体
+ */
+function openFileViewer(fileName, fileContent) {
+    document.getElementById('kk-file-viewer-title').textContent = fileName;
+    // 使用 decodeURIComponent 解码之前存储的内容，并显示出来
+    document.getElementById('kk-file-viewer-content').textContent = decodeURIComponent(fileContent);
+    document.getElementById('kk-file-viewer-modal').classList.add('visible');
+}
+
+/**
+ * 【全新】关闭文件内容查看器
+ */
+function closeFileViewer() {
+    document.getElementById('kk-file-viewer-modal').classList.remove('visible');
+}
+// ▼▼▼ 【全新】kk查岗-Steam功能核心函数 ▼▼▼
+
+/**
+ * 打开Steam游戏库弹窗并渲染内容
+ */
+function openSteamScreen() {
+    renderSteamScreen();
+    document.getElementById('kk-steam-modal').classList.add('visible');
+}
+
+/**
+ * 渲染Steam游戏库列表
+ */
+function renderSteamScreen() {
+    if (!activeKkCharId) return;
+    const computerData = state.chats[activeKkCharId]?.houseData?.computer;
+    const games = computerData?.steam_games || [];
+    const listEl = document.getElementById('kk-steam-games-list');
+    listEl.innerHTML = '';
+    
+    if (games.length === 0) {
+        listEl.innerHTML = '<p style="text-align:center; color: var(--text-secondary); padding: 50px 0;">游戏库是空的，试着点击右上角“+”生成一些游戏吧！</p>';
+    } else {
+        // 让游戏按时长倒序排列
+        games.sort((a, b) => {
+            const timeA = parseFloat(a.playtime) || 0;
+            const timeB = parseFloat(b.playtime) || 0;
+            return timeB - timeA;
+        });
+
+        games.forEach((game, index) => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'character-data-item'; // 复用现有样式
+            itemEl.innerHTML = `
+                <div class="title">${game.name}</div>
+                <div class="content">总游玩时长: ${game.playtime}</div>
+                <button class="item-delete-btn" data-type="computer.steam_games" data-index="${index}" title="删除这个游戏记录">×</button>
+            `;
+            listEl.appendChild(itemEl);
+        });
+    }
+}
+
+/**
+ * 【AI核心】为Steam游戏库生成更多游戏
+ */
+async function generateMoreSteamGames() {
+    if (!activeKkCharId) return;
+    const chat = state.chats[activeKkCharId];
+    if (!chat.houseData?.computer) {
+        alert("请先为角色生成一次完整的房屋数据。");
+        return;
+    }
+
+    document.getElementById('generation-overlay').classList.add('visible');
+
+    try {
+        const { proxyUrl, apiKey, model } = state.apiConfig;
+        if (!proxyUrl || !apiKey || !model) throw new Error('API未配置');
+
+        const existingGames = (chat.houseData.computer.steam_games || []).map(g => g.name).join(', ');
+        const prompt = `
+# 任务
+你是一个游戏数据生成器。请根据角色“${chat.name}”的人设，为他/她的Steam游戏库生成2-3款【全新的】PC游戏记录。
+
+# 角色人设
+${chat.settings.aiPersona}
+
+# 已有游戏 (请不要重复生成以下游戏)
+${existingGames || "无"}
+
+# JSON输出格式 (必须严格遵守)
+{
+  "steam_games": [
+    {"name": "【新游戏名1】", "playtime": "【游玩时长，例如：50 小时】"},
+    {"name": "【新游戏名2】", "playtime": "【游玩时长】"}
+  ]
+}
+`;
+        const messagesForApi = [{ role: 'user', content: prompt }];
+        let isGemini = proxyUrl === GEMINI_API_URL;
+        let geminiConfig = toGeminiRequestData(model, apiKey, prompt, messagesForApi, isGemini);
+        
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({ model: model, messages: messagesForApi, temperature: 0.9, response_format: { type: "json_object" } })
+            });
+
+        if (!response.ok) throw new Error(await response.text());
+        
+        const data = await response.json();
+        const rawContent = (isGemini ? data.candidates[0].content.parts[0].text : data.choices[0].message.content).replace(/^```json\s*|```$/g, '');
+        const newData = JSON.parse(rawContent);
+
+        if (newData.steam_games && Array.isArray(newData.steam_games)) {
+            if (!chat.houseData.computer.steam_games) {
+                chat.houseData.computer.steam_games = [];
+            }
+            chat.houseData.computer.steam_games.push(...newData.steam_games);
+            await db.chats.put(chat);
+            renderSteamScreen();
+            alert('已添加新的游戏记录！');
+        } else {
+            throw new Error("AI返回的数据格式不正确。");
+        }
+    } catch (error) {
+        console.error("生成更多游戏失败:", error);
+        await showCustomAlert('生成失败', `发生错误: ${error.message}`);
+    } finally {
+        document.getElementById('generation-overlay').classList.remove('visible');
+    }
+}
+// ▲▲▲ 新增函数结束 ▲▲▲
+/**
+ * 【全新】显示加载动画并设置指定的文字
+ * @param {string} text - 要显示的加载提示文字
+ */
+function showGenerationOverlay(text) {
+    const overlay = document.getElementById('generation-overlay');
+    const textElement = document.getElementById('generation-text');
+    if (textElement) {
+        textElement.textContent = text;
+    }
+    overlay.classList.add('visible');
+}
+/**
+ * 【总入口 V2】打开监控视图，并处理数据获取和渲染
+ * @param {string} charId - 当前查看的角色ID
+ */
+async function openSurveillanceView(charId) {
+    if (!charId) return;
+    const chat = state.chats[charId];
+    if (!chat || !chat.houseData) {
+        alert("找不到角色的房屋数据，请先生成房屋。");
+        return;
+    }
+
+    document.getElementById('kk-monitor-title').textContent = `${chat.name}的监控中心`;
+    
+    const fiveMinutes = 5 * 60 * 1000;
+    const surveillance = chat.houseData.surveillanceData;
+
+    if (!surveillance || !surveillance.feeds || (Date.now() - (surveillance.timestamp || 0) > fiveMinutes)) {
+        try {
+            const newSurveillanceData = await generateInitialSurveillanceFeeds(charId);
+            if (newSurveillanceData) {
+                // ★★★ 核心修改：保存完整的对象，包含时间戳、位置和画面数据 ★★★
+                chat.houseData.surveillanceData = {
+                    timestamp: Date.now(),
+                    characterLocation: newSurveillanceData.characterLocation,
+                    feeds: newSurveillanceData.feeds
+                };
+                await db.chats.put(chat);
+                renderSurveillanceView(chat.houseData.surveillanceData); // 渲染新数据
+            } else {
+                document.getElementById('kk-monitor-grid').innerHTML = '<p style="text-align:center; color: #8a8a8a;">无法生成监控画面。</p>';
+            }
+        } catch (error) {
+             await showCustomAlert('生成失败', `生成监控画面时出错: ${error.message}`);
+             return;
+        }
+    } else {
+        console.log("从缓存加载监控画面。");
+        // ★★★ 核心修改：直接将保存的完整对象传给渲染函数 ★★★
+        renderSurveillanceView(surveillance);
+    }
+    
+    showScreen('kk-monitor-screen');
+}
+
+/**
+ * 【AI核心 V2 - 结构化数据】调用AI为指定角色生成所有区域的初次监控画面
+ * @param {string} charId - 角色ID
+ * @returns {Promise<object|null>} - 包含角色位置和各区域画面的对象，或在失败时返回null
+ */
+async function generateInitialSurveillanceFeeds(charId) {
+    const chat = state.chats[charId];
+    showGenerationOverlay('正在接入监控信号...');
+
+    try {
+        const { proxyUrl, apiKey, model } = state.apiConfig;
+        if (!proxyUrl || !apiKey || !model) throw new Error('API未配置');
+
+        // 提取世界书、聊天记录和用户人设作为上下文
+        const worldBookContext = (await Promise.all(
+            (chat.settings.linkedWorldBookIds || []).map(async id => {
+                const book = await db.worldBooks.get(id);
+                return book ? `\n## 世界书: ${book.name}\n${book.content}` : '';
+            })
+        )).join('');
+
+        const recentHistory = chat.history.slice(-10).map(msg => {
+            const sender = msg.role === 'user' ? (chat.settings.myNickname || '我') : chat.name;
+            return `${sender}: ${msg.content}`;
+        }).join('\n');
+
+        const userPersona = state.chats[charId]?.settings?.myPersona || '一个普通的观察者。';
+        
+        const areaNames = Object.keys(chat.houseData.areas);
+
+        const systemPrompt = `
+# 任务
+你是一个全知的监控系统AI。你的任务是根据角色的人设和近期活动，为他家中的【每一个区域】生成实时监控画面描述，并明确指出角色【当前所在】的区域。
+
+# 角色与观察者信息
+- 角色名: ${chat.name}
+- 角色人设: ${chat.settings.aiPersona}
+- 观察者(用户)人设: ${userPersona}
+${worldBookContext || ''}
+- 最近的聊天记录 (供你参考情景):
+${recentHistory}
+
+# 住所布局
+角色当前的住所包含以下区域: ${areaNames.join('、 ')}
+
+# 核心规则
+1.  **视角**: 你的描述必须是【客观、冷静的第三人称视角】，就像一个真正的监控摄像头记录的画面。
+2.  **内容**: 描述【此时此刻】角色可能正在每个区域做什么。如果角色不在某个区域，就描述该区域的静态环境。
+3.  **实时性**: 描述必须体现“现在正在发生”的感觉。
+4.  **【【【格式铁律】】】**: 你的回复【必须且只能】是一个严格的JSON对象。
+    -   该JSON对象必须包含一个顶级键 \`characterLocation\`，其值必须是角色当前所在的区域名字符串 (例如: "卧室")。
+    -   该JSON对象还必须包含一个顶级键 \`feeds\`，其值是一个JSON对象，其中每个键是区域名，每个值是**另一个**JSON对象，包含以下两个字段:
+        -   \`"description"\`: (字符串) 该区域的监控画面描述。
+        -   \`"isCharacterPresent"\`: (布尔值) 角色当前是否在该区域内（true 或 false）。
+
+# JSON输出格式示例 (必须严格遵守):
+{
+  "characterLocation": "卧室",
+  "feeds": {
+    "客厅": {
+      "description": "客厅里很安静，角色并不在这里。电视屏幕是黑的，沙发上随意搭着一件外套。",
+      "isCharacterPresent": false
+    },
+    "卧室": {
+      "description": "角色正坐在床边，低头看着手机，手指快速地在屏幕上滑动，嘴角似乎带着一丝微笑。",
+      "isCharacterPresent": true
+    }
+  }
+}
+`;
+        
+        const messagesForApi = [{ role: 'user', content: systemPrompt }];
+        let isGemini = proxyUrl === GEMINI_API_URL;
+        let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi, isGemini);
+        
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({ model: model, messages: messagesForApi, temperature: 0.8, response_format: { type: "json_object" } })
+            });
+
+        if (!response.ok) throw new Error(`API请求失败: ${await response.text()}`);
+        
+        const data = await response.json();
+        const rawContent = (isGemini ? data.candidates[0].content.parts[0].text : data.choices[0].message.content).replace(/^```json\s*|```$/g, '');
+        const surveillanceData = JSON.parse(rawContent);
+
+        return surveillanceData;
+
+    } catch (error) {
+        console.error("生成监控画面失败:", error);
+        throw error;
+    } finally {
+        document.getElementById('generation-overlay').classList.remove('visible');
+    }
+}
+
+/**
+ * 【渲染函数 V2 - 全功能交互版】将监控数据渲染到屏幕上
+ * @param {object} surveillanceData - 包含角色位置和画面的完整对象
+ */
+function renderSurveillanceView(surveillanceData) {
+    const gridEl = document.getElementById('kk-monitor-grid');
+    gridEl.innerHTML = '';
+    const chat = state.chats[activeKkCharId];
+    if (!chat) return;
+
+    const { characterLocation, feeds } = surveillanceData;
+
+    if (!feeds || Object.keys(feeds).length === 0) {
+        gridEl.innerHTML = '<p style="text-align:center; color: #8a8a8a;">无法加载监控画面。</p>';
+        return;
+    }
+
+    for (const areaName in feeds) {
+        const feedData = feeds[areaName];
+        const area = chat.houseData.areas[areaName];
+        const isCharacterPresent = feedData.isCharacterPresent;
+
+        const feedEl = document.createElement('div');
+        feedEl.className = 'kk-monitor-item';
+        // 将区域名存到 data-* 属性中，方便事件委托时获取
+        feedEl.dataset.areaName = areaName;
+
+        if (area && area.imageUrl) {
+            feedEl.style.backgroundImage = `url(${area.imageUrl})`;
+        } else {
+            feedEl.style.backgroundColor = '#333';
+        }
+        
+        if (areaName === characterLocation) {
+            feedEl.classList.add('active-character-location');
+        }
+
+        // 只有当角色在该区域时，才显示互动按钮
+        const interactionControlsHtml = isCharacterPresent ? `
+            <div class="monitor-interaction-controls">
+                <button class="monitor-btn" data-action="reroll" title="重Roll">🔄</button>
+                <button class="monitor-btn" data-action="continue" title="继续监控">➡️</button>
+                <button class="monitor-btn" data-action="speak" title="对话">🎤</button>
+            </div>` : '';
+
+        feedEl.innerHTML = `
+            <div class="monitor-header">
+                <span>${areaName}</span>
+                <div class="rec-dot"></div>
+            </div>
+            <div class="frosted-glass-panel">
+                <div class="monitor-content-text">${feedData.description}</div>
+                ${interactionControlsHtml}
+            </div>
+        `;
+        
+        gridEl.appendChild(feedEl);
+    }
+}
+
+/**
+ * 【全新】处理监控画面中所有互动按钮点击的事件委托
+ * @param {string} areaName - 发生互动的区域名称
+ * @param {string} action - 'reroll', 'continue', 或 'speak'
+ * @param {HTMLElement} feedElement - 被点击的那个监控画面的DOM元素
+ */
+async function handleMonitorInteraction(areaName, action, feedElement) {
+    const contentTextElement = feedElement.querySelector('.monitor-content-text');
+    const currentContent = contentTextElement.textContent;
+
+    if (action === 'speak') {
+        const userInput = await showCustomPrompt(`对【${areaName}】喊话`, "请输入你想说的话：");
+        if (userInput && userInput.trim()) {
+            await generateMonitorDialogue(areaName, userInput, contentTextElement);
+        }
+    } else { // Reroll 和 Continue 都调用同一个更新函数
+        const newContent = await generateMonitorUpdate(areaName, action === 'continue' ? currentContent : null, contentTextElement);
+        if (newContent) {
+            contentTextElement.innerHTML = newContent;
+        }
+    }
+}
+
+/**
+ * 【AI核心】生成监控画面的“下一帧”或“重Roll”
+ * @param {string} areaName - 区域名
+ * @param {string|null} context - 上一帧的内容（如果是重Roll则为null）
+ * @param {HTMLElement} textElement - 用于显示加载状态的文本元素
+ * @returns {Promise<string|null>} - 新的画面描述
+ */
+async function generateMonitorUpdate(areaName, context, textElement) {
+    const chat = state.chats[activeKkCharId];
+    if (!chat) return null;
+    
+    textElement.innerHTML = '<i>正在刷新信号...</i>';
+
+    const { proxyUrl, apiKey, model } = state.apiConfig;
+    if (!proxyUrl || !apiKey || !model) {
+        textElement.innerHTML = '<i style="color: #ff8a80;">API未配置</i>';
+        return null;
+    }
+
+    const prompt = `
+你是一个监控系统AI，正在观察角色“${chat.name}”在【${areaName}】区域的活动。
+${context ? `上一帧画面是：“${context}”` : '请重新生成一个全新的、与之前无关的随机事件。'}
+
+请根据角色人设【${chat.settings.aiPersona}】，生成下一秒发生的【动作或语言】。
+你的描述必须是客观的第三人称视角，就像摄像头记录的一样。
+如果角色说话，请用引号包裹。
+你的回复只能是纯文本，不要包含任何JSON或额外说明。
+`;
+    
+    try {
+        let isGemini = proxyUrl === GEMINI_API_URL;
+        let messagesForApi = [{ role: 'user', content: prompt }];
+        let geminiConfig = toGeminiRequestData(model, apiKey, prompt, messagesForApi, isGemini);
+        
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({ model: model, messages: messagesForApi, temperature: 0.9 })
+            });
+
+        if (!response.ok) throw new Error(await response.text());
+        const data = await response.json();
+        return (isGemini ? data.candidates[0].content.parts[0].text : data.choices[0].message.content).trim();
+    } catch (error) {
+        textElement.innerHTML = `<i style="color: #ff8a80;">信号中断: ${error.message}</i>`;
+        return null;
+    }
+}
+
+/**
+ * 【AI核心】处理通过监控进行的对话
+ * @param {string} areaName - 区域名
+ * @param {string} userInput - 用户说的话
+ * @param {HTMLElement} textElement - 用于显示加载状态的文本元素
+ */
+async function generateMonitorDialogue(areaName, userInput, textElement) {
+    const chat = state.chats[activeKkCharId];
+    if (!chat) return;
+    
+    textElement.innerHTML = '<i>等待对方回应...</i>';
+
+    const { proxyUrl, apiKey, model } = state.apiConfig;
+    if (!proxyUrl || !apiKey || !model) {
+        textElement.innerHTML = '<i style="color: #ff8a80;">麦克风故障: API未配置</i>';
+        return;
+    }
+    
+    const prompt = `
+# 角色扮演任务
+你现在是角色“${chat.name}”，你正在【${areaName}】里。
+突然，一个声音从房间里一个隐藏的扬声器（监控）中传来，对你说了以下的话。你现在【清楚地知道】自己正在被监视。
+
+# 你的角色人设
+${chat.settings.aiPersona}
+
+# 监控里传来的声音 (用户说的话):
+"${userInput}"
+
+# 你的任务
+请以【第一人称】，结合你的人设和当前所处的情景，对这句突如其来的话做出【反应】。
+你的回复应该包含你的【心理活动、动作、以及说出的话】。
+你的回复只能是纯文本，不要包含任何JSON或额外说明。
+`;
+    
+    try {
+        let isGemini = proxyUrl === GEMINI_API_URL;
+        let messagesForApi = [{ role: 'user', content: prompt }];
+        let geminiConfig = toGeminiRequestData(model, apiKey, prompt, messagesForApi, isGemini);
+        
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({ model: model, messages: messagesForApi, temperature: 0.8 })
+            });
+
+        if (!response.ok) throw new Error(await response.text());
+        const data = await response.json();
+        const aiResponse = (isGemini ? data.candidates[0].content.parts[0].text : data.choices[0].message.content).trim();
+        
+        // 将AI的回复更新到监控画面
+        textElement.innerHTML = `“${userInput}” <i>(你通过监控说)</i><br><br>${aiResponse}`;
+    } catch (error) {
+        textElement.innerHTML = `<i style="color: #ff8a80;">通讯失败: ${error.message}</i>`;
+    }
+}
+
+/**
+ * 【AI核心 V2 - 智能移动版】当用户点击“刷新”时，生成所有区域的新状态
+ * @param {string} charId - 角色ID
+ * @returns {Promise<object|null>} - 新的完整监控数据
+ */
+async function generateSurveillanceUpdate(charId) {
+    const chat = state.chats[charId];
+    if (!chat || !chat.houseData) return null;
+    
+    showGenerationOverlay('正在刷新所有监控...');
+
+    const lastSurveillance = chat.houseData.surveillanceData;
+    
+    try {
+        const { proxyUrl, apiKey, model } = state.apiConfig;
+        if (!proxyUrl || !apiKey || !model) throw new Error('API未配置');
+
+        const systemPrompt = `
+# 任务
+你是一个全知的监控系统AI。你的任务是基于角色“${chat.name}”的【上一个状态】，推断出【下一秒钟】他可能做的行动，并更新所有监控区域的画面。他可能会从一个房间移动到另一个房间。
+
+# 角色信息
+- 人设: ${chat.settings.aiPersona}
+
+# 上一秒的监控状态 (重要参考)
+${JSON.stringify(lastSurveillance, null, 2)}
+
+# 核心规则
+1.  **逻辑连贯**: 你的更新必须基于上一秒的状态，做出合乎逻辑的推断。例如，如果上一秒在卧室看手机，下一秒可能是继续看、放下手机准备睡觉，或是走出卧室去客厅。
+2.  **角色移动**: 角色【有可能】移动到新的区域。你【必须】在 \`characterLocation\` 字段中准确指出他的新位置。
+3.  **状态更新**: 【所有】区域的画面描述都必须更新。如果角色进入了新区域，该区域的 \`isCharacterPresent\` 必须变为 \`true\`，旧区域的必须变为 \`false\`。
+4.  **格式铁律**: 你的回复【必须】严格遵守与初始生成时完全相同的JSON格式。
+
+现在，请生成下一秒的完整监控数据。
+`;
+
+        const messagesForApi = [{ role: 'user', content: systemPrompt }];
+        let isGemini = proxyUrl === GEMINI_API_URL;
+        let geminiConfig = toGeminiRequestData(model, apiKey, systemPrompt, messagesForApi, isGemini);
+        
+        const response = isGemini 
+            ? await fetch(geminiConfig.url, geminiConfig.data) 
+            : await fetch(`${proxyUrl}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
+                body: JSON.stringify({ model: model, messages: messagesForApi, temperature: 0.8, response_format: { type: "json_object" } })
+            });
+
+        if (!response.ok) throw new Error(await response.text());
+        
+        const data = await response.json();
+        const rawContent = (isGemini ? data.candidates[0].content.parts[0].text : data.choices[0].message.content).replace(/^```json\s*|```$/g, '');
+        return JSON.parse(rawContent);
+
+    } catch (error) {
+        console.error("刷新监控画面失败:", error);
+        await showCustomAlert('刷新失败', `发生错误: ${error.message}`);
+        return null;
+    } finally {
+        document.getElementById('generation-overlay').classList.remove('visible');
+    }
+}
+/**
+ * 【全新】切换世界书的编辑模式
+ */
+async function toggleWorldBookEditMode() {
+    isWorldBookEditMode = !isWorldBookEditMode;
+    
+    const screen = document.getElementById('world-book-screen');
+    const listEl = document.getElementById('world-book-list');
+    const editBtn = document.getElementById('toggle-world-book-edit-mode-btn');
+    const manageBtn = document.getElementById('manage-categories-in-edit-mode-btn');
+    const addBtn = document.getElementById('add-world-book-btn');
+    const importBtn = document.getElementById('import-world-book-btn');
+    
+    // ▼▼▼ 核心修改在这里 ▼▼▼
+    const deleteBtn = document.getElementById('world-book-delete-selected-btn');
+    // ▲▲▲ 修改结束 ▲▲▲
+    
+    screen.classList.toggle('selection-mode', isWorldBookEditMode);
+    listEl.classList.toggle('selection-mode', isWorldBookEditMode);
+    
+    if (isWorldBookEditMode) {
+        editBtn.textContent = '完成';
+        manageBtn.style.display = 'inline-block';
+        deleteBtn.style.display = 'inline-flex'; // 让删除按钮显示
+        addBtn.style.display = 'none';
+        importBtn.style.display = 'none';
+    } else {
+        editBtn.textContent = '编辑模式';
+        manageBtn.style.display = 'none';
+        deleteBtn.style.display = 'none'; // 让删除按钮隐藏
+        addBtn.style.display = 'inline-block';
+        importBtn.style.display = 'inline-block';
+        selectedWorldBooks.clear();
+        updateWorldBookDeleteButton();
+    }
+    
+    await renderWorldBookScreen();
+}
+
+/**
+ * 【全新】处理世界书列表项的点击事件（兼容普通模式和编辑模式）
+ */
+function handleWorldBookListClick(e) {
+    const item = e.target.closest('.list-item');
+    if (!item) return;
+
+    const bookId = item.dataset.bookId;
+    if (!bookId) return;
+
+    if (isWorldBookEditMode) {
+        // 编辑模式：处理选择/取消选择
+        item.classList.toggle('selected');
+        if (selectedWorldBooks.has(bookId)) {
+            selectedWorldBooks.delete(bookId);
+        } else {
+            selectedWorldBooks.add(bookId);
+        }
+        updateWorldBookDeleteButton();
+    } else {
+        // 普通模式：打开编辑器
+        openWorldBookEditor(bookId);
+    }
+}
+
+/**
+ * 【全新】更新头部删除按钮的状态和计数
+ */
+function updateWorldBookDeleteButton() {
+    const deleteBtn = document.getElementById('world-book-delete-selected-btn');
+    const countSpan = document.getElementById('world-book-delete-count');
+    const count = selectedWorldBooks.size;
+    
+    // 更新按钮旁边的数字
+    if (count > 0) {
+        countSpan.textContent = `(${count})`;
+    } else {
+        countSpan.textContent = '';
+    }
+    
+    // 切换按钮的禁用状态
+    deleteBtn.disabled = count === 0;
+}
+
+/**
+ * 【全新】处理批量删除世界书的逻辑
+ */
+async function handleBulkDeleteWorldBooks() {
+    if (selectedWorldBooks.size === 0) return;
+
+    const confirmed = await showCustomConfirm(
+        '确认删除',
+        `确定要永久删除选中的 ${selectedWorldBooks.size} 本世界书吗？此操作不可恢复。`,
+        { confirmButtonClass: 'btn-danger' }
+    );
+
+    if (confirmed) {
+        const idsToDelete = Array.from(selectedWorldBooks);
+        await db.worldBooks.bulkDelete(idsToDelete);
+        
+        state.worldBooks = state.worldBooks.filter(wb => !idsToDelete.includes(wb.id));
+        
+        // 退出编辑模式
+        await toggleWorldBookEditMode(); 
+        
+        await showCustomAlert('删除成功', `${idsToDelete.length} 本世界书已删除。`);
+    }
+}
+
+/**
+ * 【修改后】删除一个世界书分类（现在会弹出选项）
+ */
+async function deleteCategory(categoryId) {
+    const category = await db.worldBookCategories.get(categoryId);
+    if (!category) return;
+
+    const choice = await showChoiceModal(
+        `删除分类 "${category.name}"`,
+        [
+            { text: '删除分类及其所有世界书', value: 'delete_all' },
+            { text: '仅删除分类 (书变为未分类)', value: 'delete_category_only' }
+        ]
+    );
+
+    if (!choice) return;
+
+    if (choice === 'delete_all') {
+        const confirmed = await showCustomConfirm(
+            '危险操作', 
+            `你确定要永久删除分类 "${category.name}" 以及其中的【所有】世界书吗？此操作无法恢复！`,
+            { confirmButtonClass: 'btn-danger' }
+        );
+        if (!confirmed) return;
+
+        const booksToDelete = await db.worldBooks.where('categoryId').equals(categoryId).toArray();
+        const bookIdsToDelete = booksToDelete.map(book => book.id);
+        if (bookIdsToDelete.length > 0) {
+            await db.worldBooks.bulkDelete(bookIdsToDelete);
+            state.worldBooks = state.worldBooks.filter(wb => !bookIdsToDelete.includes(wb.id));
+        }
+        await db.worldBookCategories.delete(categoryId);
+        await showCustomAlert('删除成功', `分类 "${category.name}" 及其下的所有世界书已被删除。`);
+
+    } else if (choice === 'delete_category_only') {
+        const booksToUpdate = await db.worldBooks.where('categoryId').equals(categoryId).toArray();
+        if (booksToUpdate.length > 0) {
+            for (const book of booksToUpdate) { book.categoryId = null; }
+            await db.worldBooks.bulkPut(booksToUpdate);
+            booksToUpdate.forEach(updatedBook => {
+                const bookInState = state.worldBooks.find(wb => wb.id === updatedBook.id);
+                if (bookInState) bookInState.categoryId = null;
+            });
+        }
+        await db.worldBookCategories.delete(categoryId);
+        await showCustomAlert('删除成功', `分类 "${category.name}" 已被删除。`);
+    }
+
+    await renderCategoryListInManager();
+    await renderWorldBookScreen();
+}
+
+/**
+ * 【修改后】渲染世界书列表的辅助函数（移除了旧的点击事件绑定）
+ */
+function createWorldBookGroup(groupName, books) {
+    const groupContainer = document.createElement('div');
+    groupContainer.className = 'world-book-group-container';
+    
+    groupContainer.innerHTML = `
+        <div class="world-book-group-header">
+            <span class="arrow">▼</span>
+            <span class="group-name">${groupName}</span>
+        </div>
+        <div class="world-book-group-content"></div>
+    `;
+
+    const headerEl = groupContainer.querySelector('.world-book-group-header');
+    const contentEl = groupContainer.querySelector('.world-book-group-content');
+    
+    headerEl.classList.add('collapsed');
+    contentEl.classList.add('collapsed');
+
+    books.sort((a,b) => a.name.localeCompare(b.name, 'zh-CN'));
+    books.forEach(book => {
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.dataset.bookId = book.id;
+        item.innerHTML = `<div class="item-title">${book.name}</div><div class="item-content">${(book.content || '暂无内容...').substring(0, 50)}</div>`;
+        
+        // 旧的 item.addEventListener('click', ...) 已被移除，由事件委托统一处理
+
+        addLongPressListener(item, async () => { 
+            const confirmed = await showCustomConfirm('删除世界书', `确定要删除《${book.name}》吗？此操作不可撤销。`, { confirmButtonClass: 'btn-danger' }); 
+            if (confirmed) { 
+                await db.worldBooks.delete(book.id); 
+                state.worldBooks = state.worldBooks.filter(wb => wb.id !== book.id); 
+                renderWorldBookScreen(); 
+            } 
+        });
+        contentEl.appendChild(item); 
+    });
+
+    return groupContainer;
+}
+
+// ▲▲▲ 粘贴到这里结束 ▲▲▲
+
+
 
         // ===================================================================
         // 4. 初始化函数 init()
@@ -38481,7 +40395,8 @@ document.getElementById('char-heart-btn').style.display = 'none';
                         lastGenerated: null, chats: {}, shoppingCart: [], memos: [],
                         browserHistory: [], photoAlbum: [], bank: { balance: 0, transactions: [] },
                         trajectory: [], appUsage: [], diary: []
-                    }
+                    },
+                    houseData: null 
                 };
 // ▲▲▲ 替换到这里结束 ▲▲▲
 
@@ -39033,6 +40948,22 @@ document.getElementById('world-book-import-input').addEventListener('change', (e
     e.target.value = null; 
 });
 // ▲▲▲ 新增事件绑定结束 ▲▲▲
+// ▼▼▼ 在 init() 的事件监听器区域，粘贴这几行新代码 ▼▼▼
+
+// 【全新】绑定“编辑模式”按钮
+document.getElementById('toggle-world-book-edit-mode-btn').addEventListener('click', toggleWorldBookEditMode);
+
+// 【全新】将“管理分类”的功能绑定到新按钮上
+// 原来的 manage-world-book-categories-btn 按钮现在是编辑模式的切换按钮了
+document.getElementById('manage-categories-in-edit-mode-btn').addEventListener('click', openCategoryManager);
+
+// 【全新】为世界书列表添加统一的点击事件处理器
+document.getElementById('world-book-list').addEventListener('click', handleWorldBookListClick);
+
+// 【全新】为底部的“删除已选”按钮绑定事件
+document.getElementById('world-book-delete-selected-btn').addEventListener('click', handleBulkDeleteWorldBooks);
+
+// ▲▲▲ 新代码粘贴结束 ▲▲▲
 
             document.getElementById('add-world-book-btn').addEventListener('click', async () => { const name = await showCustomPrompt('创建世界书', '请输入书名'); if (name && name.trim()) { const newBook = { id: 'wb_' + Date.now(), name: name.trim(), content: '' }; await db.worldBooks.add(newBook); state.worldBooks.push(newBook); renderWorldBookScreen(); openWorldBookEditor(newBook.id); } });
             document.getElementById('save-world-book-btn').addEventListener('click', async () => { if (!editingWorldBookId) return; const book = state.worldBooks.find(wb => wb.id === editingWorldBookId); if (book) { const newName = document.getElementById('world-book-name-input').value.trim(); if (!newName) { alert('书名不能为空！'); return; } book.name = newName; book.content = document.getElementById('world-book-content-input').value; 
@@ -41974,7 +43905,6 @@ document.getElementById('chat-messages').addEventListener('click', (e) => {
 // ▲▲▲ 新代码粘贴结束 ▲▲▲
 
 // ▼▼▼ 在 init() 的事件监听器区域，粘贴这段新代码 ▼▼▼
-document.getElementById('manage-world-book-categories-btn').addEventListener('click', openCategoryManager);
 document.getElementById('close-category-manager-btn').addEventListener('click', () => {
     document.getElementById('world-book-category-manager-modal').classList.remove('visible');
     renderWorldBookScreen(); // 关闭后刷新主列表
@@ -44466,11 +46396,223 @@ document.getElementById('open-intimacy-panel-btn').addEventListener('click', () 
     });
 
     // ▲▲▲ 新代码粘贴结束 ▲▲▲
+// ▼▼▼ 在 init() 的事件监听器区域末尾，粘贴下面这块【兔k记账】的代码 ▼▼▼
+
+// 1. 绑定主屏幕上的“兔k记账”图标点击事件
+document.getElementById('tukey-accounting-app-icon').addEventListener('click', () => {
+    // 打开时，确保默认显示记账群聊
+    switchTukeyView('tukey-group-chat-view'); 
+    showScreen('tukey-accounting-screen');
+});
+
+// 2. 为“兔k记账”的底部导航栏绑定事件委托
+document.getElementById('tukey-bottom-nav').addEventListener('click', (e) => {
+    const navItem = e.target.closest('.tukey-nav-item');
+    if (navItem && navItem.dataset.view) {
+        switchTukeyView(navItem.dataset.view);
+    }
+});
+
+// ▲▲▲ 新增事件监听结束 ▲▲▲
+// 在你的 init() 函数的事件监听器区域...
+
+// ▼▼▼ 添加这段新的报表功能事件监听器 ▼▼▼
+document.getElementById('tukey-reports-view').addEventListener('change', (e) => {
+    if (e.target.matches('#report-account-filter, #report-month-filter, #report-type-filter')) {
+        handleReportFilterChange();
+    }
+});
+// ▲▲▲ 添加结束 ▲▲▲
+// ▼▼▼ 【全新】“kk查岗”功能事件监听器 ▼▼▼
+document.getElementById('kk-checkin-app-icon').addEventListener('click', openKkCheckin);
+
+document.getElementById('kk-char-selection-list').addEventListener('click', (e) => {
+    const item = e.target.closest('.character-select-item');
+    if (item && item.dataset.chatId) {
+        openKkHouseView(item.dataset.chatId);
+    }
+});
+
+document.getElementById('kk-back-from-house-view').addEventListener('click', () => showScreen('kk-char-selection-screen'));
+document.getElementById('kk-back-from-area-view').addEventListener('click', () => showScreen('kk-house-view-screen'));
+document.getElementById('close-kk-computer-modal').addEventListener('click', () => document.getElementById('kk-computer-modal').classList.remove('visible'));
+
+
+
+
+document.getElementById('close-file-explorer-modal-btn').addEventListener('click', () => document.getElementById('kk-file-explorer-modal').classList.remove('visible'));
+document.getElementById('kk-reset-search-btn').addEventListener('click', handleResetKkHouse);
+document.getElementById('kk-continue-search-btn').addEventListener('click', handleContinueKkSearch);
+// ▲▲▲ 粘贴结束 ▲▲▲
+// ▼▼▼ 【全新】“kk查岗”电脑功能事件监听器 ▼▼▼
+document.getElementById('close-kk-computer-modal').addEventListener('click', () => document.getElementById('kk-computer-modal').classList.remove('visible'));
+
+// 在 init() 函数的事件监听器区域...
+
+// 使用事件委托处理电脑桌面所有图标的点击
+document.getElementById('kk-computer-desktop').addEventListener('click', (e) => {
+    const icon = e.target.closest('.kk-desktop-icon');
+    if (!icon) return;
+
+    const computerData = state.chats[activeKkCharId]?.houseData?.computer;
+    if (!computerData) {
+        showCustomAlert("错误", "找不到电脑数据。");
+        return;
+    }
+
+    switch (icon.id) {
+        case 'kk-browser-icon':
+            const history = computerData.browser_history || [];
+            const historyHtml = history.length > 0 ? `<ul style="text-align: left; padding-left: 20px;">${history.map(item => `<li>${item}</li>`).join('')}</ul>` : '<p>浏览器历史记录是空的。</p>';
+            showCustomAlert('浏览器历史记录', historyHtml);
+            break;
+        case 'kk-movies-icon':
+            const movies = computerData.movies || [];
+            const moviesHtml = movies.length > 0 ? `<ul style="text-align: left; padding-left: 20px;">${movies.map(item => `<li>${item}</li>`).join('')}</ul>` : '<p>没有下载任何电影。</p>';
+            showCustomAlert('下载的电影', moviesHtml);
+            break;
+        case 'kk-files-icon':
+            // 我们不再使用 showCustomAlert，而是直接调用你之前已经添加的、正确的 openFileExplorer 函数！
+            openFileExplorer(); 
+            break;
+        case 'kk-secret-folder-icon':
+            const secretFolder = computerData.secret_folder;
+            if (secretFolder) {
+                showCustomConfirm(
+                    '加密访问', 
+                    `你尝试打开文件 "${secretFolder.fileName}"。<br><br>这是一个加密文件夹，是否继续访问？`
+                ).then(confirmed => {
+                    if (confirmed) {
+                        showCustomAlert('已解密', secretFolder.content.replace(/\n/g, '<br>'));
+                    }
+                });
+            } else {
+                showCustomAlert('未发现', '没有找到隐秘文件夹。');
+            }
+            break;
+            case 'kk-steam-icon':
+            openSteamScreen();
+            break;
+    }
+});
+// 在 init() 的事件监听器区域添加
+document.getElementById('close-kk-file-viewer-btn').addEventListener('click', closeFileViewer);
+document.getElementById('kk-file-viewer-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'kk-file-viewer-modal') {
+        closeFileViewer();
+    }
+});
+
+document.getElementById('close-file-explorer-modal-btn').addEventListener('click', () => document.getElementById('kk-file-explorer-modal').classList.remove('visible'));
+// 在 init() 的事件监听器区域末尾添加
+
+// 1. 使用事件委托处理文件列表的点击事件
+document.getElementById('kk-file-list').addEventListener('click', (e) => {
+    // 检查被点击的是否是一个文件项
+    const fileItem = e.target.closest('.kk-file-item');
+    if (fileItem) {
+        // 从data-*属性中安全地读取数据
+        const fileName = fileItem.dataset.fileName;
+        const fileContent = fileItem.dataset.fileContent;
+        if (fileName && fileContent) {
+            openFileViewer(fileName, fileContent); // 调用我们新加的函数来显示内容
+        }
+    }
+});
+
+// 2. 绑定新弹窗的关闭按钮
+document.getElementById('close-kk-file-viewer-btn').addEventListener('click', closeFileViewer);
+document.getElementById('kk-file-viewer-modal').addEventListener('click', (e) => {
+    // 点击遮罩层也可以关闭
+    if (e.target.id === 'kk-file-viewer-modal') {
+        closeFileViewer();
+    }
+});
+/* --- 文件查看器事件监听结束 --- */
+// Steam游戏库弹窗的事件
+document.getElementById('close-kk-steam-modal-btn').addEventListener('click', () => {
+    document.getElementById('kk-steam-modal').classList.remove('visible');
+});
+document.getElementById('kk-generate-more-games-btn').addEventListener('click', generateMoreSteamGames);
+
+// 为Steam游戏列表添加删除按钮的事件委托
+document.getElementById('kk-steam-games-list').addEventListener('click', async (e) => {
+    const deleteBtn = e.target.closest('.item-delete-btn');
+    if (deleteBtn) {
+        const index = parseInt(deleteBtn.dataset.index);
+        const confirmed = await showCustomConfirm('删除记录', '确定要删除这条游戏记录吗？', { confirmButtonClass: 'btn-danger' });
+        if (confirmed) {
+            const chat = state.chats[activeKkCharId];
+            chat.houseData.computer.steam_games.splice(index, 1);
+            await db.chats.put(chat);
+            renderSteamScreen();
+        }
+    }
+});
+// ▲▲▲ 新代码粘贴结束 ▲▲▲
+/* --- 【全新 V2】kk查岗-监控功能事件监听器 --- */
+document.getElementById('kk-house-view-screen').addEventListener('click', (e) => {
+    // 点击“查看监控”图标
+    if (e.target.closest('#kk-surveillance-icon')) {
+        openSurveillanceView(activeKkCharId);
+    }
+});
+
+document.getElementById('kk-back-from-monitor').addEventListener('click', () => {
+    // 从监控界面返回到房屋总览界面
+    showScreen('kk-house-view-screen');
+});
+
+// 点击监控中心的“刷新”按钮
+document.getElementById('kk-refresh-monitor-btn').addEventListener('click', async () => {
+    if (!activeKkCharId) return;
+    const chat = state.chats[activeKkCharId];
+    if (chat && chat.houseData) {
+        // 调用新的“更新”函数
+        const newSurveillanceData = await generateSurveillanceUpdate(activeKkCharId);
+        if (newSurveillanceData) {
+            chat.houseData.surveillanceData = {
+                timestamp: Date.now(),
+                characterLocation: newSurveillanceData.characterLocation,
+                feeds: newSurveillanceData.feeds
+            };
+            await db.chats.put(chat);
+            renderSurveillanceView(chat.houseData.surveillanceData);
+            alert('所有监控画面已刷新！');
+        }
+    }
+});
+
+// 使用事件委托，统一处理所有监控画面的点击事件
+document.getElementById('kk-monitor-grid').addEventListener('click', (e) => {
+    const monitorItem = e.target.closest('.kk-monitor-item');
+    if (!monitorItem) return;
+
+    const areaName = monitorItem.dataset.areaName;
+    const interactionButton = e.target.closest('.monitor-btn');
+
+    // 如果点击的是互动按钮
+    if (interactionButton) {
+        e.stopPropagation(); // 阻止事件冒泡到卡片本身
+        const action = interactionButton.dataset.action;
+        handleMonitorInteraction(areaName, action, monitorItem);
+    } 
+    // 否则，点击的是卡片的其他区域
+    else {
+        openKkAreaView(areaName);
+    }
+});
+
+
+
+
+
+// ▲▲▲ “kk查岗”事件监听结束 ▲▲▲
 
 
 initLoversSpace();
 initTaobao();
-
+initTukeyAccounting();
 
 
 
