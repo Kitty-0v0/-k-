@@ -1203,7 +1203,7 @@ ${formattedLog}
     const alivePlayers = werewolfGameState.players.filter(p => p.isAlive);
     const aliveWolves = alivePlayers.filter(p => p.role === 'wolf').length;
     const aliveGods = alivePlayers.filter(p => ['seer', 'witch', 'hunter', 'guard', 'demon_hunter'].includes(p.role)).length;
-    const aliveVillagers = alivePlayers.filter(p => p.role === ['villager', 'idiot', 'gravekeeper', 'butterfly']).length;
+    const aliveVillagers = alivePlayers.filter(p => ['villager', 'idiot', 'gravekeeper', 'butterfly'].includes(p.role)).length;
 
     let winner = null;
 
@@ -1439,8 +1439,36 @@ ${formattedLog}
             werewolfGameState.players.find(p => p.id === werewolfGameState.guardLastNightProtected).name
           }。`;
         break;
+
+      // --- 守护类逻辑 (守卫 & 花蝴蝶) ---
+      case 'guard_protect':
+        // 情况A：如果你是花蝴蝶
+        if (player.role === 'butterfly') {
+            actionPrompt = '你是花蝴蝶。请选择一名玩家进行“庇护”。注意：如果该玩家出局，你也会殉情；如果你出局，该玩家也会殉情。这是一把双刃剑，请根据局势谨慎选择你需要保护或绑定的对象。';
+        } 
+        // 情况B：如果你是守卫
+        else {
+            actionPrompt = '你是守卫，请选择一名玩家进行守护，防止他被狼人杀害。你不能连续两晚守护同一个人。';
+            
+            // ★这里保留了你原本的逻辑：提醒守卫昨晚守了谁★
+            if (werewolfGameState.guardLastNightProtected) {
+                // 找到昨晚被守玩家的名字
+                const lastTarget = werewolfGameState.players.find(p => p.id === werewolfGameState.guardLastNightProtected);
+                if (lastTarget) {
+                    extraContext += `\n- **规则提示**: 你昨晚守护了 ${lastTarget.name}，今晚不能再守护他。`;
+                }
+            }
+        }
+        jsonFormat = '{"action": "vote", "targetId": "你选择的目标ID"}';
+        break;
+
+      // --- 攻击类逻辑 (狼人 & 猎魔人) ---
       case 'wolf_kill':
-        const wolfTeammates = werewolfGameState.players
+      if (player.role === 'demon_hunter') {
+            actionPrompt = '你是猎魔人。今晚你可以选择一名玩家进行“狩猎”。如果你狩猎的是狼人，狼人死亡；如果你狩猎的是好人，你会因滥杀无辜而死。请根据场上局势，判断谁最像狼人。如果不确定，可以选择不行动（很少见，通常会赌一把）。';
+        } else {
+            // 普通狼人逻辑
+            const wolfTeammates = werewolfGameState.players
           .filter(p => p.role === 'wolf' && p.id !== player.id)
           .map(w => w.name)
           .join('、');
@@ -1472,7 +1500,7 @@ ${formattedLog}
         break;
       case 'speak':
         actionPrompt =
-          '现在轮到你发言。请根据你的角色身份、人设和当前局势，发表你的看法，可以撒谎或引导。你的发言应该围绕游戏本身，而不是只和用户聊天。';
+          '现在轮到你发言。请根据你的角色身份、人设和当前局势，发表你的看法，可以撒谎或引导。如果你是守夜人、花蝴蝶等特殊身份，请根据局势决定是否跳身份。你的发言应该围绕游戏本身，而不是只和用户聊天。';
         jsonFormat = '{"action": "speak", "speech": "你的发言内容..."}';
         break;
       case 'vote':
@@ -7718,3 +7746,4 @@ ${jsonFormat}
   }
   // --- 事件监听结束 ---
 });
+
