@@ -7636,6 +7636,32 @@ ${jsonFormat}
       e.target.value = null; // 清空，以便下次能选择同一个文件
     });
   }
+  
+  // ▼▼▼ 【补全】游戏大厅卡片点击跳转 ▼▼▼
+  // 狼人杀
+  const wolfCard = document.getElementById('game-card-werewolf');
+  if (wolfCard) wolfCard.addEventListener('click', () => openWerewolfSetup());
+
+  // 海龟汤
+  const turtleCard = document.getElementById('game-card-turtle-soup');
+  if (turtleCard) turtleCard.addEventListener('click', () => openSeaTurtleSoupSetup());
+
+  // 剧本杀
+  const scriptCard = document.getElementById('game-card-script-kill');
+  if (scriptCard) scriptCard.addEventListener('click', () => openScriptKillSetup());
+
+  // 你说我猜
+  const guessCard = document.getElementById('game-card-guess-what');
+  if (guessCard) guessCard.addEventListener('click', () => openGuessWhatSetup());
+
+  // 飞行棋
+  const ludoCard = document.getElementById('game-card-ludo');
+  if (ludoCard) ludoCard.addEventListener('click', () => openLudoSetup());
+
+  // 谁是卧底
+  const undercoverCard = document.getElementById('game-card-undercover');
+  if (undercoverCard) undercoverCard.addEventListener('click', () => openUndercoverSetup());
+  // ▲▲▲ 补全结束 ▲▲▲
+
   // --- 事件监听结束 ---
 });
-
