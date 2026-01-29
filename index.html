@@ -379,51 +379,6 @@
                 </div>
                 <span class="label">X社交</span>
               </div>
-
-              <!-- 第二页中间的组合组件 -->
-              <!-- 给最外层 Wrapper 加个 class "draggable-group" 方便我们识别 -->
-              <div id="center-avatar-wrapper" class="draggable-group">
-                <!-- 原来的头像容器 -->
-                <div
-                  id="second-page-center-avatar"
-                  class="custom-widget-container"
-                >
-                  <div class="widget-circle-uploader">
-                    <img
-                      id="widget-image-4"
-                      src="..."
-                      class="editable-image"
-                      title="点击更换图片"
-                    />
-                  </div>
-                </div>
-
-                <!-- 头像下方的文字 -->
-                <div id="avatar-subtitle" class="editable-text">
-                  点击编辑文字
-                </div>
-
-                <!-- 四个角的气泡 -->
-                <div class="corner-bubble editable-text" id="bubble-top-left">
-                  左上角
-                </div>
-                <div class="corner-bubble editable-text" id="bubble-top-right">
-                  右上角
-                </div>
-                <div
-                  class="corner-bubble editable-text"
-                  id="bubble-bottom-left"
-                >
-                  左下角
-                </div>
-                <div
-                  class="corner-bubble editable-text"
-                  id="bubble-bottom-right"
-                >
-                  右下角
-                </div>
-              </div>
-
               <div style="position: absolute; top: 100px; right: 85px">
                 <div
                   class="desktop-app-icon"
@@ -437,6 +392,54 @@
                     />
                   </div>
                   <span class="label">游戏大厅</span>
+                </div>
+              </div>
+            </div>
+            <!-- === 新版响应式透明音乐组件 === -->
+            <div class="middle-layout-container">
+              <div id="glass-music-widget">
+                <div class="widget-main-row">
+                  <!-- 左侧：长方形圆角图片 -->
+                  <div class="rect-cover-wrapper">
+                    <img
+                      id="music-rect-img"
+                      src="https://i.postimg.cc/k495F4W5/profile-banner.jpg"
+                      class="editable-image cover-img"
+                      title="点击更换封面"
+                    />
+                  </div>
+
+                  <!-- 右侧：透明水晶唱片 (重叠) -->
+                  <div class="glass-record-wrapper">
+                    <div class="glass-disc">
+                      <!-- 唱片中间的图片 -->
+                      <img
+                        id="music-record-img"
+                        src="https://i.postimg.cc/qRqpK5kP/anime-avatar.jpg"
+                        class="editable-image disc-center-img"
+                        title="点击更换唱片图片"
+                      />
+                      <!-- 唱片的高光纹理 -->
+                      <div class="disc-highlight"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 下方：文字和音浪 -->
+                <div class="widget-footer-row">
+                  <div
+                    id="music-text-line"
+                    class="music-title-text editable-text"
+                    contenteditable="true"
+                  >
+                    点击编辑歌名
+                  </div>
+                  <!-- 律动音浪 (已增加条数以变宽) -->
+                  <div class="music-wave-bars" id="custom-wide-wave">
+                    <i></i><i></i><i></i><i></i><i></i> <i></i><i></i><i></i
+                    ><i></i><i></i> <i></i><i></i><i></i><i></i><i></i> <i></i
+                    ><i></i><i></i><i></i><i></i>
+                  </div>
                 </div>
               </div>
             </div>
@@ -43867,6 +43870,10 @@ ${libraryList}
             "widget-month-display": document.getElementById(
               "widget-month-display",
             ).textContent,
+            "music-rect-img": document.getElementById("music-rect-img").src,
+            "music-record-img": document.getElementById("music-record-img").src,
+            "music-text-line":
+              document.getElementById("music-text-line").textContent,
 
             // --- App图标和壁纸 ---
             appIcons: { ...state.globalSettings.appIcons },
@@ -43958,6 +43965,11 @@ ${libraryList}
               "widget-month-display": document.getElementById(
                 "widget-month-display",
               ).textContent,
+              "music-rect-img": document.getElementById("music-rect-img").src,
+              "music-record-img":
+                document.getElementById("music-record-img").src,
+              "music-text-line":
+                document.getElementById("music-text-line").textContent,
               appIcons: { ...state.globalSettings.appIcons },
               appLabels: { ...state.globalSettings.appLabels },
               wallpaper: state.globalSettings.wallpaper,
@@ -53341,7 +53353,7 @@ ${libraryList}
 
           // 定义所有可拖拽的目标
           const selector =
-            ".home-page .desktop-app-icon, .home-page .custom-widget-container, #new-custom-widget, #profile-widget, #desktop-widget-column, #center-avatar-wrapper, .draggable-group";
+            ".home-page .desktop-app-icon, .home-page .custom-widget-container, #new-custom-widget, #profile-widget, #desktop-widget-column, #center-avatar-wrapper, .draggable-group, #glass-music-widget";
 
           let isEditMode = false;
           let dragItem = null;

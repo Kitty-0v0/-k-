@@ -28777,3 +28777,345 @@ input:checked + .slider::after {
 .close-float-btn {
   display: none !important;
 }
+/* === 新版响应式组件样式 === */
+
+/* 修改 CSS (style 标签或 style.css 中) */
+
+.middle-layout-container {
+  position: absolute;
+  top: 53%;
+
+  /* ▼▼▼ 修改这里 ▼▼▼ */
+  left: 53%; /* 原来是 50%，改成 53% 或 54% 就会整体往右移动一点点 */
+  /* ▲▲▲ 修改这里 ▲▲▲ */
+
+  transform: translate(-50%, -50%);
+  width: 92%;
+  max-width: 400px;
+  z-index: 4;
+}
+
+/* 2. 组件本体 */
+#glass-music-widget {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* 不需要背景色，保持通透 */
+}
+
+/* 3. 上半部分：封面 + 唱片 */
+.widget-main-row {
+  position: relative;
+  width: 100%;
+  height: 140px; /* 增加高度 */
+  display: flex;
+  align-items: center;
+}
+
+/* 左侧长方形封面 */
+.rect-cover-wrapper {
+  width: 65%; /* 占据宽度的 65% */
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  z-index: 2; /* 在唱片下方，或者上方，根据需求。这里设为2盖住唱片左边，这是常见设计 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  background: #eee;
+}
+
+.rect-cover-wrapper img.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 右侧透明唱片容器 */
+.glass-record-wrapper {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 45%; /* 唱片区域宽度 */
+  z-index: 3; /* 让唱片浮在长方形上面 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 向左偏移一点，压住长方形的边缘 */
+  transform: translateX(-10%);
+}
+
+/* 透明水晶唱片本体 */
+.glass-disc {
+  width: 130px; /* 唱片直径，调大 */
+  height: 130px;
+  border-radius: 50%;
+
+  /* 关键：透明水晶质感 */
+  background: rgba(255, 255, 255, 0.15); /* 淡淡的白色半透明 */
+  backdrop-filter: blur(4px); /* 毛玻璃模糊效果 */
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.4); /* 亮白色细边框 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* 柔和阴影 */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  animation: smooth-spin 10s linear infinite;
+}
+
+/* 唱片中间的图片 */
+.disc-center-img {
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.2); /* 图片周围一圈淡光 */
+}
+
+/* 唱片上的高光反光 (装饰) */
+.disc-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  pointer-events: none;
+}
+
+/* 4. 下方：文字和音浪 */
+.widget-footer-row {
+  margin-top: 12px;
+  padding-left: 5px;
+  width: 65%; /* 对齐上面的长方形 */
+  display: flex;
+  flex-direction: column;
+}
+
+.music-title-text {
+  /* ▼ 字体改小，原来是18px ▼ */
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--home-icon-widget-text-color, #ffffff);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2px; /* 减小间距 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.9;
+}
+
+.music-wave-bars {
+  display: flex;
+  align-items: flex-end;
+  height: 16px;
+  gap: 4px;
+}
+
+.music-wave-bars i {
+  width: 4px;
+  background-color: var(--home-icon-widget-text-color, #ffffff);
+  border-radius: 4px;
+  animation: bar-dance 1s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+/* 让音浪动感一点 */
+.music-wave-bars i:nth-child(1) {
+  height: 30%;
+  animation-delay: 0s;
+}
+.music-wave-bars i:nth-child(2) {
+  height: 60%;
+  animation-delay: 0.2s;
+}
+.music-wave-bars i:nth-child(3) {
+  height: 100%;
+  animation-delay: 0.4s;
+}
+.music-wave-bars i:nth-child(4) {
+  height: 50%;
+  animation-delay: 0.1s;
+}
+.music-wave-bars i:nth-child(5) {
+  height: 80%;
+  animation-delay: 0.3s;
+}
+.music-wave-bars i:nth-child(6) {
+  height: 40%;
+  animation-delay: 0.5s;
+}
+.music-wave-bars i:nth-child(7) {
+  height: 90%;
+  animation-delay: 0.2s;
+}
+
+/* 旋转动画 */
+@keyframes smooth-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bar-dance {
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scaleY(1.5);
+    opacity: 1;
+  }
+}
+/* --- 修复音乐组件音浪变宽 --- */
+
+/* 1. 调整底部行布局，确保它足够宽 */
+#glass-music-widget .widget-footer-row {
+  /* 根据你的布局，这里可能需要调整宽度 */
+  width: 100%;
+  padding: 0 10px; /* 两侧稍微留点空隙 */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+/* 2. 歌名文字样式微调 */
+#glass-music-widget .music-title-text {
+  width: 100%;
+  text-align: left; /* 或者 center */
+  margin-bottom: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 3. 音浪容器：设置宽度匹配上方圆角矩形 */
+#custom-wide-wave {
+  display: flex;
+  align-items: flex-end; /* 底部对齐 */
+  justify-content: space-between; /* 条纹均匀分布 */
+  width: 140px; /* ★ 这里设置宽度！改成和上方图片差不多的宽度 */
+  height: 20px; /* 音浪最大高度 */
+  margin-left: 0; /* 靠左对齐，如果想居中改为 auto */
+  opacity: 0.8;
+}
+
+/* 4. 单个音浪条的样式 */
+#custom-wide-wave i {
+  display: inline-block;
+  width: 3px; /* 条纹变细一点，看起来更像线 */
+  border-radius: 2px;
+  /* 使用 CSS 变量引用主屏幕字体颜色，如果没有则默认白色 */
+  background-color: var(--home-icon-widget-text-color, #fff);
+  animation: wideWaveAnim 1.2s infinite ease-in-out;
+}
+
+/* 5. 设置不同的动画延迟，制造波浪感 */
+#custom-wide-wave i:nth-child(1) {
+  animation-delay: 0s;
+  height: 30%;
+}
+#custom-wide-wave i:nth-child(2) {
+  animation-delay: 0.1s;
+  height: 40%;
+}
+#custom-wide-wave i:nth-child(3) {
+  animation-delay: 0.2s;
+  height: 50%;
+}
+#custom-wide-wave i:nth-child(4) {
+  animation-delay: 0.3s;
+  height: 40%;
+}
+#custom-wide-wave i:nth-child(5) {
+  animation-delay: 0.4s;
+  height: 30%;
+}
+#custom-wide-wave i:nth-child(6) {
+  animation-delay: 0.5s;
+  height: 40%;
+}
+#custom-wide-wave i:nth-child(7) {
+  animation-delay: 0.6s;
+  height: 60%;
+}
+#custom-wide-wave i:nth-child(8) {
+  animation-delay: 0.5s;
+  height: 80%;
+}
+#custom-wide-wave i:nth-child(9) {
+  animation-delay: 0.4s;
+  height: 60%;
+}
+#custom-wide-wave i:nth-child(10) {
+  animation-delay: 0.3s;
+  height: 40%;
+}
+#custom-wide-wave i:nth-child(11) {
+  animation-delay: 0.2s;
+  height: 30%;
+}
+#custom-wide-wave i:nth-child(12) {
+  animation-delay: 0.1s;
+  height: 50%;
+}
+#custom-wide-wave i:nth-child(13) {
+  animation-delay: 0s;
+  height: 70%;
+}
+#custom-wide-wave i:nth-child(14) {
+  animation-delay: 0.1s;
+  height: 50%;
+}
+#custom-wide-wave i:nth-child(15) {
+  animation-delay: 0.2s;
+  height: 30%;
+}
+#custom-wide-wave i:nth-child(16) {
+  animation-delay: 0.3s;
+  height: 40%;
+}
+#custom-wide-wave i:nth-child(17) {
+  animation-delay: 0.4s;
+  height: 50%;
+}
+#custom-wide-wave i:nth-child(18) {
+  animation-delay: 0.5s;
+  height: 40%;
+}
+#custom-wide-wave i:nth-child(19) {
+  animation-delay: 0.6s;
+  height: 30%;
+}
+#custom-wide-wave i:nth-child(20) {
+  animation-delay: 0.7s;
+  height: 20%;
+}
+
+/* 6. 定义动画关键帧 */
+@keyframes wideWaveAnim {
+  0%,
+  100% {
+    height: 20%;
+  }
+  50% {
+    height: 90%;
+  }
+}
